@@ -4,6 +4,9 @@ package main;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_x_y;
@@ -14,6 +17,8 @@ import formulation.TildeParam;
 import formulation.XYParam;
 import ilog.concert.IloException;
 import results.ComputeResults;
+import results.StandardExperimentResults;
+import results.StandardResult;
 //Protocole :
 //
 //On utilise les formulations :
@@ -47,8 +52,9 @@ import results.ComputeResults;
 //- d6 : instance de 0 à 10
 //
 //Les meilleures solutions entières seront stockées dans une table de dimension 3 (n, K, gap).
+import results.StandardResult.FormulationType;
 
-public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
+public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 
 	double[][][][][][] resultats;
 	double[][][][][][] resultats_old;
@@ -63,7 +69,7 @@ public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
 	String saveFile= "./results/expe_num_special_inoc_v2/resultats_general_clique_node_cluster.ser";
 	String saveFile_old = "./results/expe_num_special_inoc_v2/resultats.ser";
 	
-	public Execution_inoc_numero_special_v2_10_min_tmax(int nm, int nM2, int km, int kM2,
+	public Execution_inoc_numero_special_v3_10_min_tmax2(int nm, int nM2, int km, int kM2,
 			int im, int iM2) {
 		super(nm, nM2, km, kM2, im, iM2);
 
@@ -913,6 +919,32 @@ public String displayTableTimeGapNodes(int minN, int maxN, int data_set){
 		String content = "\\draw[line width=" + j + "pt,color=" + color + "] (" + (centerX - i) + "," + (centerY - i) + ") -- (" + (centerX + i) + "," + (centerY + i) + ");\n";
 		return content + "\\draw[line width=" + j + "pt,color=" + color + "] (" + (centerX - i) + "," + (centerY + i) + ") -- (" + (centerX + i) + "," + (centerY - i) + ");\n";
 	
+	}
+	
+	
+	public static void main(String[] args){
+		
+		StandardResult sr1 = new StandardResult();
+
+		sr1.resolutionTime = 10;
+		sr1.nodes = 10;
+		sr1.bestInteger = 10;
+		sr1.bestRelaxation = 10;
+		sr1.n = 10;
+		sr1.K = 10;
+		sr1.dissimilarityGap = 10;
+		sr1.i = 10;
+		sr1.tilim = 10;
+		sr1.type = FormulationType.REPRESENTATIVE;
+		
+		StandardExperimentResults lsr = new StandardExperimentResults();
+		lsr.results.add(sr1);
+		
+		StandardExperimentResults.saveResults(lsr, "test.xml");
+		lsr = StandardExperimentResults.getResults("test.xml");
+		
+		System.out.println(lsr.results.get(0).dissimilarityGap);
+		
 	}
 	
 
