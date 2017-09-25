@@ -1,6 +1,7 @@
 package main;
 
-import formulation.CplexParam;
+import java.util.ArrayList;
+
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_x_y;
 import formulation.Partition_x_y_2;
@@ -8,8 +9,6 @@ import formulation.RepParam;
 import formulation.TildeParam;
 import formulation.XYParam;
 import ilog.concert.IloException;
-
-import java.util.ArrayList;
 
 public class Execution_test_formulations extends Execution{
 
@@ -30,27 +29,27 @@ public class Execution_test_formulations extends Execution{
 		
 		for(int i = 0 ; i < gapValues.size() ; ++i){
 
-			RepParam rep_p = new RepParam(true, false);
+			RepParam rep_p = new RepParam(null, -1, false);
 			rep_p.gapDiss = gapValues.get(i);
 
-			TildeParam tp = new TildeParam(true, false, false);
+			TildeParam tp = new TildeParam(null, -1, false, false);
 			tp.gapDiss = gapValues.get(i);
 			
-			XYParam rp = new XYParam(true);
+			XYParam rp = new XYParam(null, -1);
 			rp.gapDiss = gapValues.get(i);
 			
 
 
-			PartitionWithRepresentative rep0 = ((PartitionWithRepresentative)createPartition(new CplexParam(false), rep_p));
+			PartitionWithRepresentative rep0 = ((PartitionWithRepresentative)createPartition(rep_p));
 			rep0.solve();
 			double v0 = rep0.getObjValue2();
 
-			PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false), tp));
+			PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(tp));
 			rep.solve();
 			double v1 = rep.getObjValue2();
 			
 			tp.useUpper = true;
-			PartitionWithRepresentative rep_tilde_with_upper = ((PartitionWithRepresentative)createPartition(new CplexParam(false), tp));
+			PartitionWithRepresentative rep_tilde_with_upper = ((PartitionWithRepresentative)createPartition(tp));
 			rep_tilde_with_upper.solve();
 			double v2 = rep_tilde_with_upper.getObjValue2();
 			
@@ -60,7 +59,7 @@ public class Execution_test_formulations extends Execution{
 //			rep_tilde_with_upper.displayEdgeVariables(5);
 //			rep_tilde_with_upper.displayRepresentativeVariables(5);
 			
-			Partition_x_y rep_x_y = ((Partition_x_y)createPartition(new CplexParam(false), rp));
+			Partition_x_y rep_x_y = ((Partition_x_y)createPartition(rp));
 			rep_x_y.solve();
 			double v3 = rep_x_y.getObjValue2();
 
@@ -71,7 +70,7 @@ public class Execution_test_formulations extends Execution{
 //			
 			
 			rp.isSecondXYFormulation = true;
-			Partition_x_y_2 rep_x_y2 = ((Partition_x_y_2)createPartition(new CplexParam(false), rp));
+			Partition_x_y_2 rep_x_y2 = ((Partition_x_y_2)createPartition(rp));
 			rep_x_y2.solve();
 
 //			System.out.println("--");

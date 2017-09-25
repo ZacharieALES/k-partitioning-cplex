@@ -23,8 +23,8 @@ public class Execution_nn_1 extends Execution{
 	@Override
 	public void execution() throws IloException {
 			
-			results[c_n][c_k][c_i][0] = this.getRootRelaxation(new TildeParam(false, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true));
-			results[c_n][c_k][c_i][1] = this.getRootRelaxation(new TildeParam(false, false, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true));
+			results[c_n][c_k][c_i][0] = this.getRootRelaxation(new TildeParam(null, -1, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true));
+			results[c_n][c_k][c_i][1] = this.getRootRelaxation(new TildeParam(null, -1, false, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true));
 			
 			System.out.println(results[c_n][c_k][c_i][0] + " " + results[c_n][c_k][c_i][1]);
 			printResult();

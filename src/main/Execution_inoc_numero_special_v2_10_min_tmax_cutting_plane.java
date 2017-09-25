@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cutting_plane.CP_Rep;
-import formulation.CplexParam;
 import formulation.Partition_with_tildes;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
@@ -113,16 +112,14 @@ int tilim = 600;
 	
 		// TODO créer la partition directement dans CP_Rep pour éviter de lui donner une formulation à resoudre en nombres entiers
 		
-		CplexParam cp = new CplexParam(false, true, true, tilim);
-		TildeParam tp2  = new TildeParam(false, true, Triangle.USE_IN_BC_ONLY, true, false, false);
-
+		TildeParam tp2  = new TildeParam(null, c_k, true, Triangle.USE_IN_BC_ONLY, true, false, false);
+		tp2.tilim = tilim;
 		tp2.gapDiss = gapValue;
 
 		if(resultats[id_n][id_k][gap][0][id_i] == -Double.MAX_VALUE)
 		{
-			Partition_with_tildes p  = ((Partition_with_tildes)createPartition(cp, tp2));
 
-			CP_Rep cprep = new CP_Rep(p, 500, -1,  1, 5, true, tilim);
+			CP_Rep cprep = new CP_Rep(tp2, 500, -1,  1, 5, true, tilim);
 
 			resultats[id_n][id_k][gap][1][id_i] = cprep.solve();
 			resultats[id_n][id_k][gap][2][id_i] = cprep.cpresult.node;

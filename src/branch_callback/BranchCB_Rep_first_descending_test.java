@@ -107,7 +107,7 @@ public class BranchCB_Rep_first_descending_test extends BranchCallback{
 				 * - x_i = 0 ( 1 < i < nextNode, i != 3)  -> nextNode - 4 (we don't set x2 since x12 will be set, we don't set x3 since x3 is determined by x12 and the other xi which will all be set)
 				 * - x_i_j = 1 (1 <= i < j <= nextNode - 1) -> (nextNode - 1) * (nextNode - 2) / 2 constraints 
 				 */
-				if(ni.nbRepTo1 == rep.K-1){
+				if(ni.nbRepTo1 == rep.K()-1){
 			
 					c_range = new IloRange[2*nextNode - 4 + (nextNode - 1) * (nextNode - 2) / 2];
 //					IloNumVar[] vars = new IloNumVar[2*nextNode - 4 + (nextNode - 1) * (nextNode - 2) / 2];
@@ -223,7 +223,7 @@ public class BranchCB_Rep_first_descending_test extends BranchCallback{
 				/* If setting x_nextNode to 0 is possible (i.e. : if it will still be possible to have K clusters) and if in that case at least one rep will be set to zero
 				 * nextNode - 2 : number of remaining representative which are not set (from 2 to nextNode - 1)
 				 * rep.K - ni.nbRepTo1 : number of remaining representative that have to be set to 1 */
-				int value = (nextNode - 2)  - (rep.K - ni.nbRepTo1);
+				int value = (nextNode - 2)  - (rep.K() - ni.nbRepTo1);
 				
 				if(value > 0 ){
 					

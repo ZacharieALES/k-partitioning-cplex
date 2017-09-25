@@ -1,15 +1,11 @@
 package main;
 
-import formulation.CplexParam;
 import formulation.Param;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_with_tildes;
-import formulation.Partition_x_y;
-import formulation.Partition_x_y_2;
 import formulation.RepParam;
 import formulation.TildeParam;
-import formulation.XYParam;
 import ilog.concert.IloException;
 
 public abstract class Execution {
@@ -33,6 +29,10 @@ public abstract class Execution {
 	public int c_i;
 	public String c_input_file;
 	
+	private String getInputFile(int n, int i){
+		return "data/input_root_relaxation_100/n_" + n + "_id_" + i + ".txt";
+	}
+	
 	public void execute(){
 		
 		try {
@@ -43,7 +43,7 @@ public abstract class Execution {
 					if(c_k < c_n)
 						{
 							System.out.println("(n,k,i): (" + c_n + "," + c_k + "," +c_i + ")"); 
-							c_input_file = "data/input_root_relaxation_100/n_" + c_n + "_id_" + c_i + ".txt";
+							c_input_file = getInputFile(c_n, c_i);
 							execution();
 							
 						}
@@ -53,12 +53,19 @@ public abstract class Execution {
 		}
 	}
 	
+	public Partition createPartition(Param param){
+		param.maxNumberOfNodes = c_n;
+		param.inputFile = getInputFile(c_n, c_i);
+		param.K = c_k;
+		return Partition.createPartition(param);
+	}
 	
-	public Partition getRootRelaxationThenCreatePartition(CplexParam rc, RepParam rp){
+	
+	public Partition getRootRelaxationThenCreatePartition(RepParam rp){
 
 		double relaxation = getRootRelaxation(rp);
 		
-		Partition p = createPartition(rc, rp);
+		Partition p = createPartition(rp);
 		p.rootRelaxation = relaxation;
 		
 		return p;
@@ -68,16 +75,13 @@ public abstract class Execution {
 	public double getRootRelaxation(RepParam rp){
 		
 		Partition p = null;
+		rp.maxNumberOfNodes = c_n;
 		
 		boolean temp = rp.isInt;
 		rp.isInt = false;
-
-		if(rp instanceof TildeParam){
-			TildeParam tp = (TildeParam) rp;
-			p = new Partition_with_tildes(c_k, c_input_file, c_n, new CplexParam(false), tp);
-		}
-		else
-			p = new PartitionWithRepresentative(c_k, c_input_file, c_n, new CplexParam(false), rp);
+		rp.inputFile = c_input_file;
+		
+		p = createPartition(rp);
 		
 		p.turnOffCPOutput();
 		p.removeAutomaticCuts();
@@ -94,14 +98,10 @@ public abstract class Execution {
 	public boolean isRelaxationInteger(RepParam rp){
 		
 		Partition p = null;
-
-
-		if(rp instanceof TildeParam){
-			TildeParam tp = (TildeParam) rp;
-			p = new Partition_with_tildes(c_k, c_input_file, c_n, new CplexParam(false), tp);
-		}
-		else
-			p = new PartitionWithRepresentative(c_k, c_input_file, c_n, new CplexParam(false), rp);
+		rp.maxNumberOfNodes = c_n;
+		rp.inputFile = c_input_file;
+		
+		p = createPartition(rp);
 		
 		p.turnOffCPOutput();
 		p.removeAutomaticCuts();
@@ -140,45 +140,6 @@ public abstract class Execution {
 		
 		return result;
 		
-	}
-
-	public Partition createPartition(boolean isTilde, boolean isInt){
-	
-		CplexParam cp = new CplexParam(false, true, true, -1);
-		
-		if(isTilde){
-			TildeParam tp = new TildeParam(isInt);
-			return createPartition(cp, tp);
-		}
-		else{
-			RepParam rp = new RepParam(isInt);
-			return createPartition(cp, rp);
-		}
-		
-	}
-	
-	public Partition createPartition(CplexParam rc, Param param){
-
-		Partition p = null;
-
-		if(param instanceof TildeParam){
-			TildeParam tp = (TildeParam) param;
-			p = new Partition_with_tildes(c_k, c_input_file, c_n, rc, tp);
-		}
-		else if(param instanceof RepParam){
-			RepParam rp = (RepParam) param;
-			p = new PartitionWithRepresentative(c_k, c_input_file, c_n, rc, rp);
-		}
-		else{
-			XYParam xyp = (XYParam) param;
-			if(xyp.isSecondXYFormulation){
-				p = new Partition_x_y_2(c_k, c_input_file, c_n, rc, xyp);
-			}
-			else
-				p = new Partition_x_y(c_k, c_input_file, c_n, rc, xyp);
-		}
-		
-		return p;
 	}
 	
 	public abstract void execution() throws IloException;

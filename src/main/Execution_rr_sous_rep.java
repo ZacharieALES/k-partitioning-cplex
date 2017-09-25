@@ -3,18 +3,14 @@ package main;
 import java.io.File;
 import java.util.ArrayList;
 
-import formulation.CplexParam;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
-import formulation.RepParam;
 import formulation.TildeParam;
 import ilog.concert.IloException;
 import inequality_family.Abstract_Inequality;
 import results.ComputeResults;
 import separation.Abstract_Separation;
-import separation.Separation_Paw_Inequalities_exhaustive;
 import separation.Separation_SubRepresentative_exhaustive;
-import separation.Separation_UpperRep;
 
 /**
  * Calcul de la relaxation linéaire obtenue avec la formulation tilde lorsque l'ensemble des coupes de type sous-ensembles représentant sont ajoutées
@@ -57,7 +53,8 @@ public class Execution_rr_sous_rep extends Execution{
 	@Override
 	public void execution() throws IloException {
 		
-		TildeParam param = new TildeParam(false, false, false);
+		TildeParam param = new TildeParam(null, -1, false, false);
+		param.isInt = false;
 		
 		ArrayList<Double> gapValues = new ArrayList<Double>();
 		gapValues.add(0.0);
@@ -71,8 +68,11 @@ public class Execution_rr_sous_rep extends Execution{
 //			if(relaxationWithSubRep[c_n][c_k][c_i][i] == -Double.MAX_VALUE){
 			
 				PartitionWithRepresentative rep;
-	
-				rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, false, false, -1), param));
+
+				param.cplexPrimalDual = false;
+				param.cplexAutoCuts = false;
+				
+				rep = ((PartitionWithRepresentative)createPartition(param));
 				relaxationWithSubRep[c_n][c_k][c_i][i] = rr_improved(rep, new Separation_SubRepresentative_exhaustive(rep));
 				
 				

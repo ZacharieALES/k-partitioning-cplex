@@ -1,18 +1,16 @@
 package main;
 
-import formulation.CplexParam;
+import java.io.File;
+import java.util.ArrayList;
+
+import branch_callback.Branch_EmptyCB;
+import cut_callback.CB_AddSubRep_inequalities;
 import formulation.PartitionWithRepresentative;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
 import ilog.concert.IloException;
-
-import java.io.File;
-import java.util.ArrayList;
-
 import results.ComputeResults;
 import separation.Separation_SubRepresentative_sans_doublon;
-import branch_callback.Branch_EmptyCB;
-import cut_callback.CB_AddSubRep_inequalities;
 
 /**
  * Calcul de la relaxation linéaire obtenue avec la formulation tilde lorsque l'ensemble des coupes de type sous-ensembles représentant sont ajoutées
@@ -71,7 +69,7 @@ public class Execution_sub_rep_added_when_branching extends Execution{
 			
 			int id_n = c_n/10 - nm/10;
 			
-			TildeParam param = new TildeParam(true, false, Triangle.USE, true, true, true);
+			TildeParam param = new TildeParam(null, -1, false, Triangle.USE, true, true, true);
 			ArrayList<Double> gapValues = new ArrayList<Double>();
 			gapValues.add(0.0);
 			gapValues.add(-250.0);
@@ -80,14 +78,16 @@ public class Execution_sub_rep_added_when_branching extends Execution{
 			for(int i = 0 ; i < gapValues.size() ; ++i){
 			
 				param.gapDiss = gapValues.get(i);
-				
+				param.cplexPrimalDual = false;
+				param.cplexAutoCuts = false;
+				param.tilim = maximalTime;
 				
 				try {
 					
 					if(resultsWithoutSubRep[id_n][c_k][c_i][i][0] == -Double.MAX_VALUE
 							|| (id_n == 3 && i == 1) || (id_n == 1 && i == 5)
 							){
-						PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, false, false, maximalTime), param));
+						PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(param));
 						PartitionWithRepresentative.cplex.use(new Branch_EmptyCB());
 						resultsWithoutSubRep[id_n][c_k][c_i][i][0] = rep.solve();
 						resultsWithoutSubRep[id_n][c_k][c_i][i][1] = rep.getBestObjValue2();
@@ -101,7 +101,7 @@ public class Execution_sub_rep_added_when_branching extends Execution{
 					if(resultsWithSubRep[id_n][c_k][c_i][i][0] == -Double.MAX_VALUE
 							|| (id_n == 3 && i == 1) || (id_n == 1 && i == 5)
 							){
-						PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, false, false, maximalTime), param));
+						PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(param));
 		//					rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, false, false, maximalTime), param));
 //						PartitionWithRepresentative.cplex.use(new Branch_DisplayInformations());
 //						PartitionWithRepresentative.cplex.use(new CB_AddSubRep_inequalities(rep));

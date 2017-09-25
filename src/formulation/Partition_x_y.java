@@ -6,7 +6,6 @@ import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.concert.IloNumVarType;
 import ilog.cplex.IloCplex;
-import ilog.cplex.IloCplex.IntParam;
 import ilog.cplex.IloCplex.UnknownObjectException;
 import inequality_family.Range;
 import inequality_family.Triangle_Inequality_x_y1;
@@ -37,14 +36,11 @@ import solution.Solution_Representative;
  */
 public class Partition_x_y extends Partition implements Solution_Representative {
 
-	public String dissimilarity_file = "empty_file";
-
 	/**
 	 * If true, we search integer points; otherwise search for fractional points
 	 */
 	public boolean isInt;
 
-	public CplexParam cp;
 	public Param xyp;
 
 	/**
@@ -52,46 +48,29 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 	 */
 	public IloNumVar[][] v_nodeCluster;
 
-	public Partition_x_y(int K, String dissimilarity_file, CplexParam cp,
-			Param xyp) {
-
-		this(K, dissimilarity_file, -1, cp, xyp);
-			
-	}
-	
-
-
-	public Partition_x_y(int K, String dissimilarity_file,
-			int max_number_of_nodes, CplexParam cp, Param xyp) {
-
-		this(K, readDissimilarityInputFile(dissimilarity_file,
-				max_number_of_nodes,xyp.gapDiss), cp, xyp);
-		this.dissimilarity_file = dissimilarity_file;
-
+	public Partition_x_y(XYParam xyp) {
+		this(readDissimilarityInputFile(xyp), xyp);
 	}
 
-	public Partition_x_y(int K, double objectif[][], CplexParam cp, Param xyp) {
+	public Partition_x_y(double objectif[][], XYParam xyp) {
 
 		this.d = objectif;
 		this.n = d.length;
 
 		this.isInt = xyp.isInt;
 
-		this.cp = cp;
-		this.xyp = xyp;
+		this.xyp = new XYParam(xyp);
 
-		if (!cp.output)
+		if (!xyp.cplexOutput)
 			turnOffCPOutput();
 
-		if (cp.autoCuts)
+		if (xyp.cplexAutoCuts)
 			removeAutomaticCuts();
 
-		if (cp.primalDual)
+		if (xyp.cplexPrimalDual)
 			turnOffPrimalDualReduction();
 
 		try {
-
-			this.K = K;
 
 			/* Create the model */
 			cplex.clearModel();
@@ -100,9 +79,9 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 			/* Reinitialize the parameters to their default value */
 			cplex.setDefaults();
 
-			if (cp.tilim != -1)
+			if (xyp.tilim != -1)
 				cplex.setParam(IloCplex.DoubleParam.TiLim,
-						Math.max(10, cp.tilim));
+						Math.max(10, xyp.tilim));
 
 			// cplex.setParam(DoubleParam.WorkMem, 2000);
 			// cplex.setParam(DoubleParam.TreLim, 500);
@@ -140,11 +119,11 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 	public void createNN_1Constraints(){
 
 		try {
-			int d = (int) Math.floor((n-1)/K);
-			int mo = (n-1)%K;
+			int d = (int) Math.floor((n-1)/p.K);
+			int mo = (n-1)%p.K;
 			int n1 = (d+1) * d / 2;
 			int n2 = d * (d-1) / 2;
-			int righthand = n1 * mo + n2 * (K-mo);
+			int righthand = n1 * mo + n2 * (p.K-mo);
 			
 			for(int j = 0 ; j < n ; ++j){
 				IloLinearNumExpr expr;
@@ -161,11 +140,11 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 	
 			}
 	
-			d = (int) Math.floor((n)/K);
-			mo = (n)%K;
+			d = (int) Math.floor((n)/p.K);
+			mo = (n)%p.K;
 			n1 = (d+1) * d / 2;
 			n2 = d * (d-1) / 2;
-			righthand = n1 * mo + n2 * (K-mo);
+			righthand = n1 * mo + n2 * (p.K-mo);
 			
 			IloLinearNumExpr expr = cplex.linearNumExpr();
 			for(int l = 0 ; l < n ; ++l)
@@ -406,12 +385,7 @@ System.out.print("cluster " + j + ": " + i + "(" + value + ")\t\t");
 	public int n() {
 		return n();
 	}
-
-	@Override
-	public int K() {
-		return this.K;
-	}
-
+	
 	@Override
 	public double xt(int i, int j) {
 		return 0;
@@ -583,7 +557,7 @@ System.out.print("y" + i + "-" + j + "(" + value + ")\t\t");
 			
 			double value = 0.0;
 			for (int m = 0; m < n ; ++m){
-				for(int o = 0 ; o < K ; ++o){
+				for(int o = 0 ; o < p.K ; ++o){
 					
 					value = cplex.getValue(this.v_nodeCluster[m][o]);
 					if(value > 0.0 + epsilon){

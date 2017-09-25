@@ -35,7 +35,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import cutting_plane.CP_Rep;
-import formulation.CplexParam;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_with_tildes;
@@ -225,13 +224,16 @@ public class Execution_inoc_numero_special_new_graphs extends Execution{
 
 	public void performFormulation(int id_k, int formulation, int instance, String formulation_name){
 
-		TildeParam tp = new TildeParam(true, true, Triangle.USE, true, true, true);
-		TildeParam tp_for_cutting_plane = new TildeParam(false, true, Triangle.USE_IN_BC_ONLY, true, false, false);
+		TildeParam tp = new TildeParam(fileName[instance].getPath(), -1, true, Triangle.USE, true, true, true);
+		TildeParam tp_for_cutting_plane = new TildeParam(fileName[instance].getPath(), -1, true, Triangle.USE_IN_BC_ONLY, true, false, false);
 		
-		RepParam rp = new RepParam(true, Triangle.USE, true, true, true);
-		XYParam xy1p = new XYParam(true, false, true);
-		XYParam xy2p = new XYParam(true, true, true);
-		CplexParam cp = new CplexParam(false, true, true, tilim);
+		RepParam rp = new RepParam(fileName[instance].getPath(), -1, Triangle.USE, true, true, true);
+		XYParam xy1p = new XYParam(fileName[instance].getPath(), -1, false, true);
+		XYParam xy2p = new XYParam(fileName[instance].getPath(), -1, true, true);
+		rp.tilim = tilim;
+		tp.tilim = tilim;
+		xy1p.tilim = tilim;
+		xy2p.tilim = tilim;
 		
 		if( (formulation <= 4 && resultats[id_k][formulation][instance][0] == -Double.MAX_VALUE
 			|| formulation == 5 && resultats_cp_sans_tildes_dans_bc[id_k][instance][0] == -Double.MAX_VALUE)
@@ -245,16 +247,20 @@ public class Execution_inoc_numero_special_new_graphs extends Execution{
 			if( formulation < 4 ){
 				switch(formulation){
 				case 0 :
-					p = new PartitionWithRepresentative(k, fileName[instance].getPath(), cp, rp);
+					rp.K = k;
+					p = new PartitionWithRepresentative(rp);
 					break;
 				case 1 : 
-					p = new Partition_x_y(k, fileName[instance].getPath(), cp, xy1p);
+					xy1p.K = k;
+					p = new Partition_x_y(xy1p);
 					break;
 				case 2 : 
-					p = new Partition_x_y_2(k, fileName[instance].getPath(), cp, xy2p);
+					xy2p.K = k;
+					p = new Partition_x_y_2(xy2p);
 					break;
 				case 3 : 
-					p = new Partition_with_tildes(k, fileName[instance].getPath(), cp, tp);
+					tp.K = k;
+					p = new Partition_with_tildes(tp);
 					break;
 				}
 				
@@ -275,8 +281,7 @@ public class Execution_inoc_numero_special_new_graphs extends Execution{
 					CP_Rep.useTildeInBC = false;
 				}
 				
-				p = new Partition_with_tildes(k, fileName[instance].getPath(), cp, tp_for_cutting_plane);
-				CP_Rep cprep = new CP_Rep((Partition_with_tildes)p, 500, -1,  1, 4, true, tilim);
+				CP_Rep cprep = new CP_Rep(tp_for_cutting_plane, 500, -1,  1, 4, true, tilim);
 
 				if(formulation == 4){
 					resultats[id_k][formulation][instance][1] = cprep.solve();

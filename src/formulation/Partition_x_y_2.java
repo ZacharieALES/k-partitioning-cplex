@@ -36,61 +36,42 @@ import solution.Solution_Representative;
  */
 public class Partition_x_y_2 extends Partition implements Solution_Representative {
 
-	public String dissimilarity_file = "empty_file";
-
 	/**
 	 * If true, we search integer points; otherwise search for fractional points
 	 */
 	public boolean isInt;
 
-	public CplexParam cp;
 	public Param xyp;
 
 	/**
 	 * Node/Cluster variables.
 	 */
-	public IloNumVar[][] v_nodeCluster;
-
-	public Partition_x_y_2(int K, String dissimilarity_file, CplexParam cp,
-			Param xyp) {
-
-		this(K, dissimilarity_file, -1, cp, xyp);
-			
-	}
-	
+	public IloNumVar[][] v_nodeCluster;	
 
 
-	public Partition_x_y_2(int K, String dissimilarity_file,
-			int max_number_of_nodes, CplexParam cp, Param xyp) {
-
-		this(K, readDissimilarityInputFile(dissimilarity_file,
-				max_number_of_nodes,xyp.gapDiss), cp, xyp);
-		this.dissimilarity_file = dissimilarity_file;
-
+	public Partition_x_y_2(XYParam xyp) {
+		this(readDissimilarityInputFile(xyp), xyp);
 	}
 
-	public Partition_x_y_2(int K, double objectif[][], CplexParam cp, Param xyp) {
+	public Partition_x_y_2(double objectif[][], XYParam xyp) {
 
 		this.d = objectif;
 		this.n = d.length;
 
 		this.isInt = xyp.isInt;
 
-		this.cp = cp;
-		this.xyp = xyp;
+		this.xyp = new XYParam(xyp);
 
-		if (!cp.output)
+		if (!xyp.cplexOutput)
 			turnOffCPOutput();
 
-		if (cp.autoCuts)
+		if (xyp.cplexAutoCuts)
 			removeAutomaticCuts();
 
-		if (cp.primalDual)
+		if (xyp.cplexPrimalDual)
 			turnOffPrimalDualReduction();
 
 		try {
-
-			this.K = K;
 
 			/* Create the model */
 			cplex.clearModel();
@@ -99,9 +80,9 @@ public class Partition_x_y_2 extends Partition implements Solution_Representativ
 			/* Reinitialize the parameters to their default value */
 			cplex.setDefaults();
 
-			if (cp.tilim != -1)
+			if (xyp.tilim != -1)
 				cplex.setParam(IloCplex.DoubleParam.TiLim,
-						Math.max(10, cp.tilim));
+						Math.max(10, xyp.tilim));
 
 			// cplex.setParam(DoubleParam.WorkMem, 2000);
 			// cplex.setParam(DoubleParam.TreLim, 500);
@@ -139,11 +120,11 @@ public class Partition_x_y_2 extends Partition implements Solution_Representativ
 	public void createNN_1Constraints(){
 
 		try {
-			int d = (int) Math.floor((n-1)/K);
-			int mo = (n-1)%K;
+			int d = (int) Math.floor((n-1)/p.K);
+			int mo = (n-1)%p.K;
 			int n1 = (d+1) * d / 2;
 			int n2 = d * (d-1) / 2;
-			int righthand = n1 * mo + n2 * (K-mo);
+			int righthand = n1 * mo + n2 * (p.K-mo);
 			
 			for(int j = 0 ; j < n ; ++j){
 				IloLinearNumExpr expr;
@@ -160,11 +141,11 @@ public class Partition_x_y_2 extends Partition implements Solution_Representativ
 	
 			}
 	
-			d = (int) Math.floor((n)/K);
-			mo = (n)%K;
+			d = (int) Math.floor((n)/p.K);
+			mo = (n)%p.K;
 			n1 = (d+1) * d / 2;
 			n2 = d * (d-1) / 2;
-			righthand = n1 * mo + n2 * (K-mo);
+			righthand = n1 * mo + n2 * (p.K-mo);
 			
 			IloLinearNumExpr expr = cplex.linearNumExpr();
 			for(int l = 0 ; l < n ; ++l)
@@ -247,7 +228,7 @@ public class Partition_x_y_2 extends Partition implements Solution_Representativ
 			
 //			System.out.println("= " + K);
 				
-			addRange(new Range(K, expr, K));
+			addRange(new Range(p.K, expr, p.K));
 			
 		} catch (IloException e) {
 			// TODO Auto-generated catch block
@@ -417,11 +398,6 @@ System.out.print("cluster " + j + ": " + i + "(" + value + ")\t\t");
 	@Override
 	public int n() {
 		return n();
-	}
-
-	@Override
-	public int K() {
-		return this.K;
 	}
 
 	@Override

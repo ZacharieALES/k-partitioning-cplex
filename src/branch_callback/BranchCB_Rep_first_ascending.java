@@ -54,7 +54,7 @@ public class BranchCB_Rep_first_ascending extends BranchCallback{
 				IloRange[] c_range;
 				
 				/* If 3 is the last representative */
-				if(new_ni.nbRepTo1 == rep.K){
+				if(new_ni.nbRepTo1 == rep.K()){
 
 					c_range = new IloRange[rep.n];
 					
@@ -143,7 +143,7 @@ public class BranchCB_Rep_first_ascending extends BranchCallback{
 				 * - x_nextNode = 1
 				 * - x_i = 0 (i > nextNode) 
 				 * -> rep.n constraints */
-				if(ni.nbRepTo1 == rep.K-1){
+				if(ni.nbRepTo1 == rep.K()-1){
 					
 					c_range = new IloRange[rep.n];
 
@@ -196,7 +196,7 @@ public class BranchCB_Rep_first_ascending extends BranchCallback{
 				/* If setting x_nextNode to 0 is possible (i.e. : if it will still be possible to have K clusters) 
 				 * rep.n - nextNode : number of remaining representative after nextNode
 				 * rep.K - ni.nbRepTo1 : number of remaining representative that have to be set to 1 */
-				if(rep.n - nextNode >= rep.K - ni.nbRepTo1){
+				if(rep.n - nextNode >= rep.K() - ni.nbRepTo1){
 					
 					/* Branch on x_nextNode = 0 */
 					logger.log(Level.FINER, "Branching on x" + nextNode + " = 0");
@@ -225,7 +225,7 @@ public class BranchCB_Rep_first_ascending extends BranchCallback{
 				IloLinearNumExpr expr = rep.linearNumExpr();
 			
 				expr.addTerm(1.0, rep.v_edge[1][0]);
-				if(rep.K > 2){
+				if(rep.K() > 2){
 
 					this.makeBranch(rep.range(0.0, expr, 0.0), this.getObjValue(), (Object)new_ni);
 				}
@@ -289,7 +289,7 @@ public class BranchCB_Rep_first_ascending extends BranchCallback{
 	 * @throws IloException
 	 */
 	public IloRange x3Eq1() throws IloException{
-		return rep.range(3.0-rep.K, exprX3(), 3.0-rep.K);
+		return rep.range(3.0-rep.K(), exprX3(), 3.0-rep.K());
 	}
 
 	
@@ -299,7 +299,7 @@ public class BranchCB_Rep_first_ascending extends BranchCallback{
 	 * @throws IloException
 	 */
 	public IloRange x3Eq0() throws IloException{
-		return rep.range(2.0-rep.K, exprX3(), 2.0-rep.K);
+		return rep.range(2.0-rep.K(), exprX3(), 2.0-rep.K());
 	}
 	
 	/**

@@ -1,11 +1,10 @@
 package main;
 
 import cutting_plane.CP_Rep;
-import formulation.CplexParam;
 import formulation.Partition;
 import formulation.Partition_with_tildes;
-import formulation.TildeParam;
 import formulation.RepParam.Triangle;
+import formulation.TildeParam;
 import ilog.concert.IloException;
 import ilog.cplex.IloCplex;
 import results.ComputeResults;
@@ -117,8 +116,7 @@ public class Main {
 		// new Execution_grotschell_data().createDissimilarity();
 		 
 
-			Partition_with_tildes p = new Partition_with_tildes(7, "./data/input_root_relaxation/n_20_id_19.txt", new CplexParam(false), new TildeParam(false, true, Triangle.USE_LAZY, true, false, false));
-			CP_Rep cprep = new CP_Rep(p, 500, 300,  -1, 750, true, 3600);
+			CP_Rep cprep = new CP_Rep(new TildeParam("./data/input_root_relaxation/n_20_id_19.txt", 7, true, Triangle.USE_LAZY, true, false, false), 500, 300,  -1, 750, true, 3600);
 			cprep.solve();
 		 
 //		Partition_with_tildes p = new Partition_with_tildes(K, "./data/these_final/dissimilarity_final.txt", max_nb_node, new CplexParam(false),  new TildeParam(false, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false));

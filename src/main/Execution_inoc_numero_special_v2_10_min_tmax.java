@@ -4,7 +4,6 @@ package main;
 import java.io.File;
 import java.util.ArrayList;
 
-import formulation.CplexParam;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_x_y;
@@ -55,11 +54,10 @@ public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
 	double[][][][][][] resultats_old;
 
 	
-	TildeParam tp  = new TildeParam(true, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true);
-	RepParam rp = new RepParam(true, Triangle.USE, true, true, true);
-	XYParam xy1p = new XYParam(true, false, false);
-	XYParam xy2p = new XYParam(true, true, false);
-	CplexParam cp = new CplexParam(false, true, true, 600);
+	TildeParam tp  = new TildeParam(null, -1, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true);
+	RepParam rp = new RepParam(null, -1, Triangle.USE, true, true, true);
+	XYParam xy1p = new XYParam(null, -1, false, false);
+	XYParam xy2p = new XYParam(null, -1, true, false);
 	
 	String saveFile= "./results/expe_num_special_inoc_v2/resultats_general_clique_node_cluster.ser";
 	String saveFile_old = "./results/expe_num_special_inoc_v2/resultats.ser";
@@ -90,6 +88,10 @@ public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
 		gapValues.add(0.0);
 		gapValues.add(-250.0);
 		gapValues.add(-500.0);
+
+		rp.tilim = 600;
+		xy1p.tilim = 600;
+		xy2p.tilim = 600;
 		
 		if(c_n % 10 == 0 && c_k % 2 == 0)
 		{
@@ -136,16 +138,16 @@ public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
 			Partition p = null;
 			switch(formulation){
 			case 0 :
-				p = ((PartitionWithRepresentative)createPartition(cp, rp));
+				p = ((PartitionWithRepresentative)createPartition(rp));
 				break;
 			case 1 :
-				p = ((Partition_x_y)createPartition(cp, xy1p));
+				p = ((Partition_x_y)createPartition(xy1p));
 				break;
 			case 2 :
-				p = ((Partition_x_y_2)createPartition(cp, xy2p));
+				p = ((Partition_x_y_2)createPartition(xy2p));
 				break;
 			case 3 :
-				p = ((PartitionWithRepresentative)createPartition(cp, tp));
+				p = ((PartitionWithRepresentative)createPartition(tp));
 				break;
 			}
 			

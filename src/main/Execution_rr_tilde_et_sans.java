@@ -6,7 +6,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import formulation.CplexParam;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_x_y;
 import formulation.Partition_x_y_2;
@@ -55,9 +54,13 @@ public class Execution_rr_tilde_et_sans extends Execution{
 //		gapValues.add(-250.0);
 		gapValues.add(-500.0);
 		
-		TildeParam tp = new TildeParam(false, false, false);
-		RepParam rp = new RepParam(false, false);
-		XYParam xyp = new XYParam(false, true);
+		TildeParam tp = new TildeParam(null, -1, false, false);
+		RepParam rp = new RepParam(null, -1, false);
+		XYParam xyp = new XYParam(null, -1, true);
+		
+		tp.isInt = false;
+		rp.isInt = false;
+		xyp.isInt = false;
 		
 		for(int i = 0 ; i < gapValues.size() ; ++i){
 		
@@ -68,7 +71,7 @@ public class Execution_rr_tilde_et_sans extends Execution{
 
 //			if(res_tildes[c_n][c_k][c_i][i] == -Double.MAX_VALUE)
 			{
-				PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false), tp));
+				PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(tp));
 				rep.solve();
 				res_tildes[c_n][c_k][c_i][i] = rep.getObjValue2();
 //				System.out.println(res_tildes[c_n][c_k][c_i][i]);
@@ -76,7 +79,7 @@ public class Execution_rr_tilde_et_sans extends Execution{
 			
 //			if(res_ss_tildes[c_n][c_k][c_i][i] == -Double.MAX_VALUE)
 			{			
-				PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false), rp));
+				PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(rp));
 				rep.solve();
 				res_ss_tildes[c_n][c_k][c_i][i] = rep.getObjValue2();
 			}
@@ -85,7 +88,7 @@ public class Execution_rr_tilde_et_sans extends Execution{
 
 //			if(res_x_y_v1[c_n][c_k][c_i][i] == -Double.MAX_VALUE)
 			{
-				Partition_x_y rep_x_y = ((Partition_x_y)createPartition(new CplexParam(false), xyp));
+				Partition_x_y rep_x_y = ((Partition_x_y)createPartition(xyp));
 				rep_x_y.solve();
 				res_x_y_v1[c_n][c_k][c_i][i] = rep_x_y.getObjValue2();
 //				rep_x_y.displayNonNegativeCoefficientSolution();
@@ -99,7 +102,7 @@ public class Execution_rr_tilde_et_sans extends Execution{
 
 //			if(res_x_y_v2[c_n][c_k][c_i][i] == -Double.MAX_VALUE)
 			{
-				Partition_x_y_2 rep_x_y2 = ((Partition_x_y_2)createPartition(new CplexParam(false), xyp));
+				Partition_x_y_2 rep_x_y2 = ((Partition_x_y_2)createPartition(xyp));
 				rep_x_y2.solve();
 				res_x_y_v2[c_n][c_k][c_i][i] = rep_x_y2.getObjValue2();
 

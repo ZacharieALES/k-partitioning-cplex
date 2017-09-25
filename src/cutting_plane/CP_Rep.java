@@ -7,6 +7,7 @@ import cut_callback.Fast_cut_callback;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_with_tildes;
+import formulation.RepParam;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
 import ilog.concert.IloNumVar;
@@ -15,13 +16,8 @@ import inequality_family.Abstract_Inequality;
 import mipstart.Closest_rep;
 import mipstart.MIPStart;
 import separation.Separation_DependentSet_KL;
-import separation.Separation_KP1_Dense_Heuristic_Diversification;
 import separation.Separation_Linear;
-import separation.Separation_Paw_Inequalities_exhaustive;
-import separation.Separation_Paw_Inequalities_heuristic;
-import separation.Separation_ST_Grotschell;
 import separation.Separation_ST_KL;
-import separation.Separation_SubRepresentative_sans_doublon;
 import separation.Separation_TCC_KL_Fixed_size;
 import separation.Separation_Triangle;
 import separation.Separation_UpperRep;
@@ -41,7 +37,7 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 	 * @param reordering
 	 * @param tilim -1 if there is no limit on the time ; a time in seconds otherwise
 	 */
-	public CP_Rep(PartitionWithRepresentative p, int MAX_CUT, int i, int modRemove, int modFindIntSolution, boolean reordering, double tilim) {
+	public CP_Rep(RepParam p, int MAX_CUT, int i, int modRemove, int modFindIntSolution, boolean reordering, double tilim) {
 		super(p, i, modRemove, modFindIntSolution, reordering, tilim);
 		this.MAX_CUT = MAX_CUT;
 	}
@@ -68,31 +64,32 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 //		sep.add(new CP_Separation(new Separation_SubRepresentative_sans_doublon(rep), true, true));
 
 		/* Triangle inequalities */
+		RepParam rp = (RepParam)this.rep.p;
 		
 		/* If the triangle inequalities are:
 		 * - not in cutting plane model 
 		 * - not generated lazily in the cutting plane step 
 		 * - not contained in the branch and cut model */ 
-		if(this.rep.rp.triangle == Triangle.USE_LAZY_IN_BC_ONLY)
+		if(rp.triangle == Triangle.USE_LAZY_IN_BC_ONLY)
 			sep.add(new CP_Separation(new Separation_Triangle(rep, MAX_CUT), true, true));
 		
 		/* If the triangle inequalities are:
 		 * - not in cutting plane model 
 		 * - not generated lazily in the cutting plane step 
 		 * - contained in the branch and cut model */ 
-		else if(this.rep.rp.triangle == Triangle.USE_IN_BC_ONLY)
+		else if(rp.triangle == Triangle.USE_IN_BC_ONLY)
 			sep.add(new CP_Separation(new Separation_Triangle(rep, MAX_CUT), false, true));
 		
 //		if(!this.rep.rp.useLower)
 //			sep.add(new CP_Separation(new Separation_LowerRep(rep, MAX_CUT), false, true));
 				
 		/* Upper inequalities (formulation) */
-		if(!this.rep.rp.useUpper)
+		if(!rp.useUpper)
 			sep.add(new CP_Separation(new Separation_UpperRep(rep, MAX_CUT), false, true));
 		
 		/* Linear inequalities (formulation tildes) */
 		if(this.rep instanceof Partition_with_tildes)
-			if(!((TildeParam)rep.rp).useLinear)
+			if(!((TildeParam)rep.p).useLinear)
 				sep.add(new CP_Separation(new Separation_Linear(rep, MAX_CUT), false, true));
 
 		/* Kernighan-Lin ST and Dependent set inequalities */
@@ -112,22 +109,22 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 		ArrayList<Abstract_Inequality> ineq =  this.getTightConstraints();
 //		ArrayList<Abstract_Inequality> ineq = this.getAllConstraints();
 
-		rep.rp.isInt = true;
-		rep.rp.useLower = true;
-		rep.rp.useUpper = true;
+		rep.p.isInt = true;
+		((RepParam)rep.p).useLower = true;
+		((RepParam)rep.p).useUpper = true;
 		
 		if(remaining_time != -1)
-			rep.cp.tilim = remaining_time;
+			rep.p.tilim = remaining_time;
 		
 		/* Create the partition with integer variables */
 //		if(rep instanceof Partition_with_tildes){
 		if(CP_Rep.useTildeInBC){
-			TildeParam tp = (TildeParam)rep.rp;
+			TildeParam tp = (TildeParam)rep.p;
 			tp.useLinear = true;
-			rep = new Partition_with_tildes(rep.K, rep.dissimilarity_file, rep.n, rep.cp, tp);
+			rep = new Partition_with_tildes(tp);
 		}
 		else
-			rep = new PartitionWithRepresentative(rep.K, rep.dissimilarity_file, rep.n, rep.cp, rep.rp);
+			rep = new PartitionWithRepresentative((RepParam)rep.p);
 		
 	
 //		}
@@ -221,7 +218,7 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 			for(int i = 0 ; i < rep.n ; ++i){
 				
 				/* Node i is in the cluster (i%rep.K) */
-				clusters.put(i, i%rep.K);
+				clusters.put(i, i%rep.K());
 			}
 			
 			/* Set the representative variables from 3 to K-1 to 1 (i.e. the nodes are representative) */
@@ -229,7 +226,7 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 				
 				mipStart[i-3] = rep.x_var(i);
 			
-				if(i < rep.K) 
+				if(i < rep.K()) 
 					value[i-3] = 1;
 			}
 			

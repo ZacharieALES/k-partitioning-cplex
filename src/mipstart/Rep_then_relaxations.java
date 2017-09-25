@@ -1,16 +1,5 @@
 package mipstart;
 
-import formulation.CplexParam;
-import formulation.PartitionWithRepresentative;
-import formulation.Partition_with_tildes;
-import formulation.RepParam;
-import formulation.TildeParam;
-import ilog.concert.IloException;
-import ilog.concert.IloLinearNumExpr;
-import ilog.concert.IloNumVar;
-import inequality_family.Abstract_Inequality;
-import inequality_family.Range;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -18,7 +7,14 @@ import java.util.Random;
 import java.util.TreeSet;
 
 import cutting_plane.Abstract_Cutting_Plane.CP_Separation;
-
+import formulation.PartitionWithRepresentative;
+import formulation.Partition_with_tildes;
+import formulation.RepParam;
+import formulation.TildeParam;
+import ilog.concert.IloException;
+import ilog.concert.IloLinearNumExpr;
+import inequality_family.Abstract_Inequality;
+import inequality_family.Range;
 import solution.Solution_Representative;
 
 /**
@@ -255,13 +251,15 @@ System.out.println("");
 	public PartitionWithRepresentative createPartition(){
 		
 		PartitionWithRepresentative p = null;
+		param.cplexPrimalDual = false;
+		param.cplexAutoCuts = false;
+		param.tilim = 3600;
+		param.K = s.K();
 		
-		if(this.param instanceof TildeParam){
-			TildeParam tp = (TildeParam) param;
-			p = new Partition_with_tildes(s.K(), objective, new CplexParam(false, false, false, 3600), tp);
-		}
+		if(this.param instanceof TildeParam)
+			p = new Partition_with_tildes(objective, (TildeParam) param);
 		else
-			p = new PartitionWithRepresentative(s.K(), objective, new CplexParam(false, false, false, 3600), param);
+			p = new PartitionWithRepresentative(objective, param);
 		
 		/* Add the original inequalities */ 
 		for(CP_Separation sep : this.sep_algo)

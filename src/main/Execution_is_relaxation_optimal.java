@@ -29,7 +29,7 @@ public class Execution_is_relaxation_optimal extends Execution{
 	public void execution() throws IloException {
 		
 
-		RepParam param = new RepParam(false, true);
+		RepParam param = new RepParam(null, -1, true);
 		
 		ArrayList<Double> gapValues = new ArrayList<Double>();
 		gapValues.add(0.0);

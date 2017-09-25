@@ -1,13 +1,11 @@
 package main;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import cutting_plane.CP_Rep;
-import formulation.CplexParam;
 import formulation.PartitionWithRepresentative;
-import formulation.TildeParam;
 import formulation.RepParam.Triangle;
+import formulation.TildeParam;
 import ilog.concert.IloException;
 import results.ComputeResults;
 
@@ -59,11 +57,11 @@ public class Execution_exact_resolution extends Execution{
 
 //			if(objective_value_exact_solution[c_n][c_k][c_i][i] == -Double.MAX_VALUE)
 			{
-				TildeParam ti = new TildeParam(false, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false);
+				TildeParam ti = new TildeParam(c_input_file, c_k, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false);
 				ti.gapDiss = gapValues.get(i);
+				
 				/* Cutting Plane */
-				PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, true, true, -1), ti));
-				CP_Rep cprep = new CP_Rep(rep, 500, c_i, 10, 10, true, 3600);		
+				CP_Rep cprep = new CP_Rep(ti, 500, c_i, 10, 10, true, 3600);		
 				cprep.solve();
 				
 //				objective_value_exact_solution[c_n][c_k][c_i][i] = cprep.cpresult.bestInt;

@@ -1,16 +1,14 @@
 package main;
 
-import formulation.CplexParam;
+import java.util.ArrayList;
+
+import cutting_plane.CP_Rep;
 import formulation.PartitionWithRepresentative;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
 import ilog.concert.IloException;
-
-import java.util.ArrayList;
-
 import results.ComputeResults;
 import results.Result;
-import cutting_plane.CP_Rep;
 
 public class Execution_experience_ISCO extends Execution{
 
@@ -32,28 +30,28 @@ public class Execution_experience_ISCO extends Execution{
 	//	    if(c_n % 5== 0 && c_k % 2 == 0 && !(2 * c_i + 2 == c_k))
 //			if(c_n % 5== 0 && c_k % 2 == 0)
 			{
-				TildeParam ti = new TildeParam(true);
+				TildeParam ti = new TildeParam(c_input_file, c_k);
 			    System.out.println("--\nGap: " + gapValues.get(i) + "\n--");
 			    
 			    /* Cplex */
 				
 			    Result r2 = new Result();
 			    ti.gapDiss = gapValues.get(i);
+			    ti.tilim = 3600;
 			    
-			    r2.solveAndGetResults(c_i, createPartition(new CplexParam(false, true, true, 3600), ti), false);
+			    r2.solveAndGetResults(c_i, createPartition(ti), false);
 	
-			    r2.firstRelaxation = this.getRootRelaxation(new TildeParam(true));
+			    r2.firstRelaxation = this.getRootRelaxation(new TildeParam(c_input_file, c_k));
 			    r2.log();
 //				r2.serialize("./results/isco2/n_" + c_n + "_k_" + c_k + "_i_" + c_i + "_cplex");
 			    
 				{
 	 				
-				ti  = new TildeParam(false, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false);
+				ti  = new TildeParam(c_input_file, c_k, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false);
 				ti.gapDiss = gapValues.get(i);
 				
 				/* Cutting Plane */
-				PartitionWithRepresentative rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, true, true, -1), ti));
-				CP_Rep cprep = new CP_Rep(rep, 500, c_i, 10, 10, true, 3600);
+				CP_Rep cprep = new CP_Rep(ti, 500, c_i, 10, 10, true, 3600);
 				
 //				rep.setParam(IloCplex.IntParam.AdvInd, 1);
 				

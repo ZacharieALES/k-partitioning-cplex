@@ -1,19 +1,15 @@
 package main;
 
-import formulation.CplexParam;
+import java.util.ArrayList;
+
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.RepParam;
 import ilog.concert.IloException;
 import inequality_family.Abstract_Inequality;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
 import results.ComputeResults;
 import separation.Abstract_Separation;
 import separation.Separation_Paw_Inequalities_exhaustive;
-import separation.Separation_Triangle_Representative;
 
 public class remote_Execution_root_relaxation extends Execution{
 
@@ -43,7 +39,8 @@ public class remote_Execution_root_relaxation extends Execution{
 	@Override
 	public void execution() throws IloException {
 		
-		RepParam param = new RepParam(false, false);
+		RepParam param = new RepParam(null, -1, false);
+		param.isInt = false;
 		
 		ArrayList<Double> gapValues = new ArrayList<Double>();
 		gapValues.add(0.0);
@@ -56,6 +53,9 @@ public class remote_Execution_root_relaxation extends Execution{
 			
 			rootRelaxation[c_n][c_k][c_i][i] = this.getRootRelaxation(param);
 			
+			param.cplexAutoCuts = false;
+			param.cplexPrimalDual = false;
+			
 			PartitionWithRepresentative rep;
 //			
 //			rep = ((PartitionWithRepresentative)createPartition(new CplexParam(true, false, false, -1), param));
@@ -67,7 +67,7 @@ public class remote_Execution_root_relaxation extends Execution{
 //			rep = ((PartitionWithRepresentative)createPartition(new CplexParam(true, false, false, -1), param));
 //			tccRoot[c_n][c_k][c_i][i] = rr_improved(rep, new Separation_TCC_Muller_Improvement(rep));
 	
-			rep = ((PartitionWithRepresentative)createPartition(new CplexParam(false, false, false, -1), param));
+			rep = ((PartitionWithRepresentative)createPartition(param));
 			triangleRepRoot[c_n][c_k][c_i][i] = rr_improved(rep, new Separation_Paw_Inequalities_exhaustive(rep));
 
 			System.out.println(ComputeResults.improvement(rootRelaxation[c_n][c_k][c_i][i], triangleRepRoot[c_n][c_k][c_i][i]));

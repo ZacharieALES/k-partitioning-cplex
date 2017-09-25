@@ -1,11 +1,10 @@
 package main;
 
-import results.ComputeResults;
-import formulation.CplexParam;
 import formulation.PartitionWithRepresentative;
 import formulation.RepParam;
 import formulation.TildeParam;
 import ilog.concert.IloException;
+import results.ComputeResults;
 
 public class Execution_time_ac_ss_tildes extends Execution{
 
@@ -22,7 +21,7 @@ public class Execution_time_ac_ss_tildes extends Execution{
 	@Override
 	public void execution() throws IloException {
 
-		PartitionWithRepresentative repT = ((PartitionWithRepresentative)createPartition(new CplexParam(false, true, true, -1), new TildeParam(true, false, false)));
+		PartitionWithRepresentative repT = ((PartitionWithRepresentative)createPartition(new TildeParam(null, -1, false, false)));
 		tildes_temps[c_n][c_k][c_i] = repT.solve();
 		bestInt[c_n][c_k][c_i] = repT.getObjValue2();
 		
@@ -31,7 +30,7 @@ public class Execution_time_ac_ss_tildes extends Execution{
 		
 		System.out.println("tilde: " + Math.round(tildes_temps[c_n][c_k][c_i]) + "s");
 		
-		PartitionWithRepresentative repSST = ((PartitionWithRepresentative)createPartition(new CplexParam(false, true, true, -1), new RepParam(true, false)));
+		PartitionWithRepresentative repSST = ((PartitionWithRepresentative)createPartition(new RepParam(null, -1, false)));
 		norm_temps[c_n][c_k][c_i] = repSST.solve();
 
 		ComputeResults.serialize(norm_temps, "./results/isco_rr/norm_temps");

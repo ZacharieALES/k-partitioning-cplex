@@ -134,6 +134,6 @@ public abstract class Abstract_LazyCallback extends LazyConstraintCallback imple
 
 	@Override
 	public int K() {
-		return rep.K;
+		return rep.K();
 	}
 }

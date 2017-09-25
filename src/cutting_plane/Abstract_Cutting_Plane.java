@@ -1,20 +1,20 @@
 package cutting_plane;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
+import formulation.Partition;
+import formulation.PartitionWithRepresentative;
+import formulation.RepParam;
 import ilog.concert.IloException;
 import ilog.concert.IloRange;
 import ilog.cplex.IloCplex;
 import inequality_family.Abstract_Inequality;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-
 import mipstart.Closest_rep;
 import mipstart.MIPStart;
 import results.CP_Result;
 import results.ComputeResults;
 import separation.Abstract_Separation;
-import formulation.Partition;
-import formulation.PartitionWithRepresentative;
 
 public abstract class Abstract_Cutting_Plane {
 
@@ -29,8 +29,9 @@ public abstract class Abstract_Cutting_Plane {
 	boolean reordering;
 	double tilim;
 		
-	public Abstract_Cutting_Plane(PartitionWithRepresentative p, int i, double minimalTimeBeforeRemovingUntightCut, int modFindIntSolution, boolean reordering, double tilim){
-		rep = p;
+	public Abstract_Cutting_Plane(RepParam rp, int i, double minimalTimeBeforeRemovingUntightCut, int modFindIntSolution, boolean reordering, double tilim){
+		rp.isInt = false;
+		rep = (PartitionWithRepresentative)Partition.createPartition(rp);
 		cpresult = new CP_Result();
 		cpresult.i = i;
 		this.minimalTimeBeforeRemovingUntightCut = minimalTimeBeforeRemovingUntightCut;
@@ -339,7 +340,7 @@ public abstract class Abstract_Cutting_Plane {
 			cpresult.bestRelaxation = -1.0;
 			cpresult.time = 0.0;
 			cpresult.n = rep.n;
-			cpresult.K = rep.K;
+			cpresult.K = rep.K();
 			cpresult.node = 0;
 			cpresult.separationTime = -1.0;
 			cpresult.iterationNb = -1;

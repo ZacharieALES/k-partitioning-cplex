@@ -127,7 +127,7 @@ public class BranchCB_Round extends BranchCallback{
 		 * rep.n - ni.nbRepSet : number of nodes which are not set
 		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
 		 */
-		if(rep.n - ni.nbRepSet > rep.K - ni.nbRepTo1){
+		if(rep.n - ni.nbRepSet > rep.K() - ni.nbRepTo1){
 			makeBranch(rep.x2Eq0(), this.getObjValue(), new NodeInfoR(2, 0, ni));		
 		}
 		else{
@@ -139,7 +139,7 @@ public class BranchCB_Round extends BranchCallback{
 		/** Branch on x2 = 1 **/
 		
 		/* If x2 is not the last representative that will be set to 1 */
-		if(ni.nbRepTo1 < rep.K-1){
+		if(ni.nbRepTo1 < rep.K()-1){
 			makeBranch(rep.x2Eq1(), this.getObjValue(), new NodeInfoR(2, 1, ni));
 		}
 		
@@ -161,7 +161,7 @@ public class BranchCB_Round extends BranchCallback{
 		 * rep.n - ni.nbRepSet : number of nodes which are not set
 		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
 		 */
-		if(rep.n - ni.nbRepSet > rep.K - ni.nbRepTo1)
+		if(rep.n - ni.nbRepSet > rep.K() - ni.nbRepTo1)
 			makeBranch(rep.x3Eq0(), this.getObjValue(), new NodeInfoR(3, 0, ni));
 		else{
 			//TODO set all the remaining nodes to 1 and their edge variables to 0
@@ -172,7 +172,7 @@ public class BranchCB_Round extends BranchCallback{
 		/** Branch on x3 = 1 **/
 		
 		/* If x3 is not the last representative that will be set to 1 */
-		if(ni.nbRepTo1 < rep.K-1)
+		if(ni.nbRepTo1 < rep.K()-1)
 			makeBranch(rep.x3Eq1(), this.getObjValue(), new NodeInfoR(3, 1, ni));
 		
 		/* If this is the last representative to be set to 1 */
@@ -192,7 +192,7 @@ public class BranchCB_Round extends BranchCallback{
 		 * rep.n - ni.nbRepSet : number of nodes which are not set
 		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
 		 */
-		if(rep.n - ni.nbRepSet > rep.K - ni.nbRepTo1)
+		if(rep.n - ni.nbRepSet > rep.K() - ni.nbRepTo1)
 			makeBranch(rep.v_rep[i - 4], 0.0, BranchDirection.Down, this.getObjValue(), new NodeInfoR(i, 0, ni));
 		else{
 			//TODO set all the remaining nodes to 1 and their edge variables to 0
@@ -202,7 +202,7 @@ public class BranchCB_Round extends BranchCallback{
 		/** Branch on xi = 1 **/
 		
 		/* If xi is not the last representative that will be set to 1 */
-		if(ni.nbRepTo1 < rep.K-1)
+		if(ni.nbRepTo1 < rep.K()-1)
 			makeBranch(rep.v_rep[i - 4], 1.0, BranchDirection.Up, this.getObjValue(), new NodeInfoR(i, 1, ni));
 		
 		/* If this is the last representative to be set to 1 */

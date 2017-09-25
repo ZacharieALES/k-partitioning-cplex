@@ -1,13 +1,11 @@
 package heuristic_callback;
+import java.util.ArrayList;
+
+import formulation.PartitionWithRepresentative;
+import formulation.RepParam;
 import ilog.concert.IloException;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex.HeuristicCallback;
-
-import java.util.ArrayList;
-
-import formulation.CplexParam;
-import formulation.PartitionWithRepresentative;
-import formulation.RepParam;
 
 /**
  * From the root relaxation of cplex, set several variables
@@ -37,10 +35,12 @@ public class CreateHeuristicSolutionSeveralTimes{
 	
 	int nbRepEqualTo0 = 0;
 	
-	public CreateHeuristicSolutionSeveralTimes(int k, String input, int n, CplexParam cp, RepParam rp, double th){
+	public CreateHeuristicSolutionSeveralTimes(int k, int n, RepParam rp, double th){
 		
+		rp.K = k;
+		rp.maxNumberOfNodes = n;
 		
-		rep = new PartitionWithRepresentative(k, input, n, cp, rp);
+		rep = new PartitionWithRepresentative(rp);
 
 		rep.turnOffCPOutput();
 //		rep.removeAutomaticCuts();
@@ -100,7 +100,7 @@ public class CreateHeuristicSolutionSeveralTimes{
 	public class HeuristicCB extends HeuristicCallback{
 
 		int nbOfVarSet = 0;
-		PartitionWithRepresentative output = new PartitionWithRepresentative(rep.K, rep.dissimilarity_file, rep.n, rep.cp, rep.rp);
+		PartitionWithRepresentative output = new PartitionWithRepresentative((RepParam)rep.p);
 
 		@Override
 		protected void main() throws IloException {
@@ -120,7 +120,7 @@ public class CreateHeuristicSolutionSeveralTimes{
 			
 			boolean modification = true;
 			
-			while(modification && nbRepEqualTo0 < rep.n - rep.K){
+			while(modification && nbRepEqualTo0 < rep.n - rep.K()){
 				
 				modification = false;
 				
@@ -145,7 +145,7 @@ public class CreateHeuristicSolutionSeveralTimes{
 							}
 							
 							/* Else if i can be set to a non representative node */
-							else if(nbRepEqualTo0 < rep.n - rep.K){
+							else if(nbRepEqualTo0 < rep.n - rep.K()){
 
 								modification = true;
 								Integer[] t = new Integer[2];
@@ -181,7 +181,7 @@ public class CreateHeuristicSolutionSeveralTimes{
 			}
 			
 			/* If the proper number of non representative nodes have been found */
-			if(nbRepEqualTo0 == rep.n - rep.K){
+			if(nbRepEqualTo0 == rep.n - rep.K()){
 				
 				mipStart = new IloNumVar[rep.n - 3 + rep.n * (rep.n - 1) / 2];
 				value = new double[rep.n - 3 + rep.n * (rep.n - 1) / 2];

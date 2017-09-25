@@ -14,22 +14,12 @@ public class Partition_with_tildes extends PartitionWithRepresentative{
 	 * Tilde variables */
 	public IloNumVar[][] v_tilde;
 
-	public Partition_with_tildes(int K, String dissimilarity_file,
-			CplexParam cp, TildeParam tp) {
-		this(K, dissimilarity_file, -1, cp, tp);
+	public Partition_with_tildes(TildeParam tp) {
+		this(readDissimilarityInputFile(tp), tp);
 	}
 	
-	//TODO Retirer la variable xt_2_3 car : sum_i_j xt_i_j + sum_i x_1_i = n-K
-	
-
-	public Partition_with_tildes(int K, String dissimilarity_file,
-			int max_nb_nodes, CplexParam cp, TildeParam tp) {
-		super(K, dissimilarity_file, max_nb_nodes, cp, tp);
-		createLinearConstraints(tp.useLinear);
-	}
-	
-	public Partition_with_tildes(int K, double[][] objective, CplexParam cp, TildeParam tp){
-		super(K, objective, cp, tp);
+	public Partition_with_tildes(double[][] objective, TildeParam tp){
+		super(objective, tp);
 		createLinearConstraints(tp.useLinear);
 	}
 	

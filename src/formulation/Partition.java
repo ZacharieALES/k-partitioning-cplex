@@ -28,15 +28,13 @@ import cut_callback.Callback_RootRelaxation;
 
 
 public abstract class Partition {
-
 	
 	double epsilon = 0.0000001;
 
 	/* Number of points to cluster */
 	public int n;
-
-	/* Number of clusters */
-	public int K = 3;
+	
+	public Param p;
 
 	public double[][] d;
 
@@ -426,7 +424,7 @@ public abstract class Partition {
 	 * @param max_number_of_nodes Maximum number of line read in the file (i.e. maximum number of nodes considered in the problem) ; -1 if there is no limit
 	 * @throws InvalidInputFileException
 	 */
-	static double[][] readDissimilarityInputFile(String dissimilarity_file, int max_number_of_nodes, double gap)
+	static double[][] readDissimilarityInputFile(Param param)
 			{
 
 		double[][] d = null;
@@ -434,25 +432,25 @@ public abstract class Partition {
 		ArrayList<String[]> al_dissimilarity = new ArrayList<String[]>();
 		int j = 1;
 
-		File f = new File(dissimilarity_file);
+		File f = new File(param.inputFile);
 		if (!f.exists()) {
-			System.err.println("The input file '" + dissimilarity_file
+			System.err.println("The input file '" + param.inputFile
 					+ "' does not exist.");
 		}
 
 		InputStream ips;
 		try {
-			ips = new FileInputStream(dissimilarity_file);
+			ips = new FileInputStream(param.inputFile);
 			InputStreamReader ipsr = new InputStreamReader(ips);
 			BufferedReader br = new BufferedReader(ipsr);
 			String line;
 			
-			if(max_number_of_nodes == -1)
-				max_number_of_nodes = Integer.MAX_VALUE;
+			if(param.maxNumberOfNodes == -1)
+				param.maxNumberOfNodes = Integer.MAX_VALUE;
 
 			/* For each line */
 //			while ((line = br.readLine()) != null && j <= max_number_of_nodes) {
-			while ((line = br.readLine()) != null && j < max_number_of_nodes) {
+			while ((line = br.readLine()) != null && j < param.maxNumberOfNodes) {
 //System.out.println(j + " : " + line);
 				String[] temp = line.split(" ");
 
@@ -517,7 +515,7 @@ public abstract class Partition {
 //						d[j][i] = Double.parseDouble(currentLine[i]);
 						
 						//V2
-						d[j+1][i] = Double.parseDouble(currentLine[i])+ gap;
+						d[j+1][i] = Double.parseDouble(currentLine[i])+ param.gapDiss;
 						//V2
 						d[i][j+1] = d[j+1][i];
 //						System.out.println("(" + i + "," + (j+1) + "): " + d[j+1][i]);
@@ -637,7 +635,10 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 
 
 	public int K() {
-		return K;
+		if(p != null)
+			return p.K;
+		else
+			return -1;
 	}
 
 
@@ -676,7 +677,7 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 		}
 
 		/* Third node: x2 = K - 2 + x01 - sum xi */
-		value = K - 2 + cplex.getValue(v_edge[1][0]);
+		value = p.K - 2 + cplex.getValue(v_edge[1][0]);
 
 		for (int m = 0; m < n - 3; ++m)
 			value -= cplex.getValue(v_rep[m]);
@@ -729,6 +730,32 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 			System.out.println(" ");
 		}
 
+	}
+
+
+	
+	public static Partition createPartition(Param param){
+
+		Partition p = null;
+
+		if(param instanceof TildeParam){
+			TildeParam tp = (TildeParam) param;
+			p = new Partition_with_tildes(tp);
+		}
+		else if(param instanceof RepParam){
+			RepParam rp = (RepParam) param;
+			p = new PartitionWithRepresentative(rp);
+		}
+		else{
+			XYParam xyp = (XYParam) param;
+			if(xyp.isSecondXYFormulation){
+				p = new Partition_x_y_2(xyp);
+			}
+			else
+				p = new Partition_x_y(xyp);
+		}
+		
+		return p;
 	}
 	
 }

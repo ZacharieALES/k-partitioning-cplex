@@ -4,19 +4,24 @@ public class XYParam extends Param{
 	
 	public boolean isSecondXYFormulation;
 	
-	public XYParam(boolean isInt){
-		super(isInt);
+	public XYParam(String inputFile, int K){
+		super(inputFile, K);
 	}
 	
-	public XYParam(boolean isInt, boolean isSecondXYFormulation){
-		this(isInt);
+	public XYParam(String inputFile, int K, boolean isSecondXYFormulation){
+		this(inputFile, K);
 		this.isSecondXYFormulation = isSecondXYFormulation;
 	}
 
-	public XYParam(boolean isInt, boolean isSecondXYFormulation, boolean useNN_1){
-		this(isInt);
+	public XYParam(String inputFile, int K, boolean isSecondXYFormulation, boolean useNN_1){
+		this(inputFile, K);
 		this.isSecondXYFormulation = isSecondXYFormulation;
 		this.useNN_1 = useNN_1;
+	}
+	
+	public XYParam(XYParam xyp){
+		super(xyp);
+		isSecondXYFormulation = xyp.isSecondXYFormulation;
 	}
 	
 }

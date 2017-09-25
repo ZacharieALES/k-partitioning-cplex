@@ -1,9 +1,8 @@
 package heuristic_callback;
-import ilog.concert.IloException;
-import ilog.cplex.IloCplex.UserCutCallback;
-import formulation.CplexParam;
 import formulation.PartitionWithRepresentative;
 import formulation.RepParam;
+import ilog.concert.IloException;
+import ilog.cplex.IloCplex.UserCutCallback;
 
 /**
  * From the root relaxation of cplex, set several variables
@@ -29,10 +28,12 @@ public class CreateHeuristicSolution{
 	
 	int nbRepEqualTo0 = 0;
 	
-	public CreateHeuristicSolution(int k, String input, int n, CplexParam cp, RepParam rp, double th){
+	public CreateHeuristicSolution(int k, int n, RepParam rp, double th){
 		
 		
-		rep = new PartitionWithRepresentative(k, input, n, cp, rp);
+		rp.K = k;
+		rp.maxNumberOfNodes = n;
+		rep = new PartitionWithRepresentative(rp);
 
 		rep.turnOffCPOutput();
 //		rep.removeAutomaticCuts();
@@ -112,7 +113,7 @@ public class CreateHeuristicSolution{
 							}
 							
 							/* Else if i can be set to a non representative node */
-							else if(nbRepEqualTo0 < rep.n - rep.K){
+							else if(nbRepEqualTo0 < rep.n - rep.K()){
 	
 								this.add(rep.eq(1.0, rep.v_edge[i][j]));
 								

@@ -1,57 +1,17 @@
 package main;
 
 
-//Protocole :
-//
-//On utilise les formulations :
-//- rep
-//- xy1
-//- xy2 renforcé
-//- tildes renforcés
-//
-//on test pour k : 2 4 6 8
-//on test pour n : 10 15 20 25 30 35 40 45 50
-//
-//On considère les 3 gaps/types de graphes possibles (poids +, +/-, -).
-//
-//Les instances utilisées sont :
-//pour K = 2 : graphe n°0 du n correspondant
-//pour K = 4 : graphe n°1 du n correspondant
-//pour K = 6 : graphe n°2 du n correspondant
-//pour K = 8 : graphe n°3 du n correspondant
-//
-//On utilise cplex par défaut pendant 1h.
-//Pour chaque couple (n,k, type de graphe), on relève :
-//- pour chaque formulation : la meilleure relaxation obtenue : x1, x2, x3, x4
-//- pour chaque formulation : le nombre de sommets de l'arborescence
-//- la meilleure solution entière obtenue (toute formulation confondue) : x*
-//
-//Pour chaque couple (n,k,formulation, type de graphes), on calcule :
-//- le gap (entre x1 et x* - entre x2 et x* - ...)
-//
-//Les relaxations et les nombre de sommets seront stockés dans une table de dimension 5, qui correspondent à :
-//- d1 : n de 0 à 8 (0 <-> n = 10, ..., 8 <-> n = 50)
-//- d2 : K de 0 à 3 (0 <-> K = 2, ..., 3 <-> K = 8)
-//- d3 : gap de 0 à 2 (0 <-> poids +, 1 <-> poids +/-, 2 <-> poids -)
-//- d4 : formulation de 0 à 3 (0 <-> rep, 1 <-> xy1, 2 <-> xy2, 3 <-> tildes)
-//- d5 : résultat de 0 à 2 (0 <-> relaxation, 1 <-> temps, 2 <-> taille de l'arbre)
-//
-//Les meilleures solutions entières seront stockées dans une table de dimension 3 (n, K, gap).
+import java.util.ArrayList;
 
-import formulation.CplexParam;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_x_y;
 import formulation.Partition_x_y_2;
 import formulation.RepParam;
+import formulation.RepParam.Triangle;
 import formulation.TildeParam;
 import formulation.XYParam;
-import formulation.RepParam.Triangle;
 import ilog.concert.IloException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-
 import results.ComputeResults;
 
 public class Execution_inoc_numero_special extends Execution{
@@ -60,11 +20,10 @@ public class Execution_inoc_numero_special extends Execution{
 	double[][][] bestInt;
 
 	
-	TildeParam tp  = new TildeParam(true, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true);
-	RepParam rp = new RepParam(true, Triangle.USE, true, true, true);
-	XYParam xy1p = new XYParam(true, false, false);
-	XYParam xy2p = new XYParam(true, true, false);
-	CplexParam cp = new CplexParam(true, true, true, 3600);
+	TildeParam tp  = new TildeParam(null, -1, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true);
+	RepParam rp = new RepParam(null, -1, Triangle.USE, true, true, true);
+	XYParam xy1p = new XYParam(null, -1, false, false);
+	XYParam xy2p = new XYParam(null, -1, true, false);
 	
 	public Execution_inoc_numero_special(int nm, int nM2, int km, int kM2,
 			int im, int iM2) {
@@ -230,6 +189,11 @@ public class Execution_inoc_numero_special extends Execution{
 	
 	public void performFormulation(int id_n, int id_k, int gap, int formulation, String formulation_name){
 
+		rp.tilim = 3600;
+		xy1p.tilim = 3600;
+		xy2p.tilim = 3600;
+		tp.tilim = 3600;
+		
 		// REMOVE THE b CONDITION (after "||"): Added to remove false results where the optimality is not completely proved
 		boolean b = (Math.round(resultats[id_n][id_k][gap][formulation][1]) < 3600 && Math.abs(resultats[id_n][id_k][gap][formulation][0] - bestInt[id_n][id_k][gap]) > 0.999); 
 		if(resultats[id_n][id_k][gap][formulation][0] == -Double.MAX_VALUE || b ){
@@ -240,16 +204,16 @@ public class Execution_inoc_numero_special extends Execution{
 			Partition p = null;
 			switch(formulation){
 			case 0 :
-				p = ((PartitionWithRepresentative)createPartition(cp, rp));
+				p = ((PartitionWithRepresentative)createPartition(rp));
 				break;
 			case 1 :
-				p = ((Partition_x_y)createPartition(new CplexParam(false, true, true, 3600), xy1p));
+				p = ((Partition_x_y)createPartition(xy1p));
 				break;
 			case 2 :
-				p = ((Partition_x_y_2)createPartition(new CplexParam(false, true, true, 3600), xy2p));
+				p = ((Partition_x_y_2)createPartition(xy2p));
 				break;
 			case 3 :
-				p = ((PartitionWithRepresentative)createPartition(new CplexParam(false, true, true, 3600), tp));
+				p = ((PartitionWithRepresentative)createPartition(tp));
 				break;
 			}
 			

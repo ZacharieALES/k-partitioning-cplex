@@ -1,7 +1,4 @@
 package results;
-import ilog.concert.IloException;
-import ilog.cplex.IloCplex;
-
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
@@ -10,10 +7,11 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import separation.Abstract_Separation;
 import cut_callback.Abstract_CutCallback;
 import formulation.Partition;
-import formulation.PartitionWithRepresentative;
+import ilog.concert.IloException;
+import ilog.cplex.IloCplex;
+import separation.Abstract_Separation;
 
 
 /**
@@ -63,7 +61,7 @@ public class Result implements Serializable{
 		try{
 			
 			n = p.n;
-			K = p.K;
+			K = p.K();
 			this.i = i;
 			
 			node = p.getNnodes();

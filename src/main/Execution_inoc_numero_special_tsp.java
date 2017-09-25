@@ -29,18 +29,13 @@
 //- d4 : résultat de 0 à 3 (0 <-> relaxation, 1 <-> temps, 2 <-> taille de l'arbre, 3 <-> solution entière)
 package main;
 
-import ilog.concert.IloException;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import results.ComputeResults;
 import cutting_plane.CP_Rep;
-import formulation.CplexParam;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
 import formulation.Partition_with_tildes;
@@ -50,6 +45,8 @@ import formulation.RepParam;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
 import formulation.XYParam;
+import ilog.concert.IloException;
+import results.ComputeResults;
 
 public class Execution_inoc_numero_special_tsp extends Execution{
 
@@ -153,13 +150,17 @@ public class Execution_inoc_numero_special_tsp extends Execution{
 	
 
 	public void performFormulation(int id_k, int formulation, int instance, String formulation_name){
-		
-		XYParam xy1p = new XYParam(true, false, true);
-		XYParam xy2p = new XYParam(true, true, true);
-		CplexParam cp = new CplexParam(false, true, true, tilim);
-		TildeParam tp  = new TildeParam(true, true, Triangle.USE, true, true, true);
-		RepParam rp = new RepParam(true, Triangle.USE, true, true, true);
-		TildeParam tp_for_cutting_plane  = new TildeParam(false, true, Triangle.USE_IN_BC_ONLY, true, false, false);
+		 
+		XYParam xy1p = new XYParam(fileName[instance].getPath(), -1, false, true);
+		XYParam xy2p = new XYParam(fileName[instance].getPath(), -1, true, true);
+		TildeParam tp  = new TildeParam(fileName[instance].getPath(), -1, true, Triangle.USE, true, true, true);
+		RepParam rp = new RepParam(fileName[instance].getPath(), -1, Triangle.USE, true, true, true);
+		TildeParam tp_for_cutting_plane  = new TildeParam(fileName[instance].getPath(), -1, true, Triangle.USE_IN_BC_ONLY, true, false, false);
+
+		xy1p.tilim = tilim;
+		xy2p.tilim = tilim;
+		rp.tilim = tilim;
+		tp.tilim = tilim;
 		
 		if(resultats[id_k][formulation][instance][0] == -Double.MAX_VALUE
 				){
@@ -171,16 +172,20 @@ public class Execution_inoc_numero_special_tsp extends Execution{
 			if( formulation < 4 ){
 				switch(formulation){
 				case 0 :
-					p = new PartitionWithRepresentative(k, fileName[instance].getPath(), cp, rp);
+					rp.K = k;
+					p = new PartitionWithRepresentative(rp);
 					break;
 				case 1 : 
-					p = new Partition_x_y(k, fileName[instance].getPath(), cp, xy1p);
+					xy1p.K = k;
+					p = new Partition_x_y(xy1p);
 					break;
 				case 2 : 
-					p = new Partition_x_y_2(k, fileName[instance].getPath(), cp, xy2p);
+					xy2p.K = k;
+					p = new Partition_x_y_2(xy2p);
 					break;
 				case 3 : 
-					p = new Partition_with_tildes(k, fileName[instance].getPath(), cp, tp);
+					tp.K = k;
+					p = new Partition_with_tildes(tp);
 					break;
 				}
 				
@@ -193,8 +198,7 @@ public class Execution_inoc_numero_special_tsp extends Execution{
 			}
 			/* If it is a cutting plane */
 			else{
-				p = new Partition_with_tildes(k, fileName[instance].getPath(), cp, tp_for_cutting_plane);
-				CP_Rep cprep = new CP_Rep((Partition_with_tildes)p, 500, -1,  1, 10, true, tilim);
+				CP_Rep cprep = new CP_Rep(tp_for_cutting_plane, 500, -1,  1, 10, true, tilim);
 
 				resultats[id_k][formulation][instance][1] = cprep.solve();
 				resultats[id_k][formulation][instance][0] = cprep.cpresult.node;

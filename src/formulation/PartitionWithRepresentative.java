@@ -49,54 +49,30 @@ import solution.Solution_Representative;
  * 
  */
 public class PartitionWithRepresentative extends Partition implements Solution_Representative{
-
-	public String dissimilarity_file = "empty_file";
 	
-	/**
-	 * If true, we search integer points; otherwise search for fractional points
-	 */
-	public boolean isInt;
-	
-	public CplexParam cp;
-	public RepParam rp;
-	
-	public PartitionWithRepresentative (int K, String dissimilarity_file, CplexParam cp, RepParam rp){
-
-		this(K, dissimilarity_file, -1, cp, rp);
-		
-	}
-	
-	public PartitionWithRepresentative(int K, String dissimilarity_file, int max_number_of_nodes, CplexParam cp, RepParam rp){
-
-		this(K, readDissimilarityInputFile(dissimilarity_file, max_number_of_nodes, rp.gapDiss), cp, rp);
-		this.dissimilarity_file = dissimilarity_file;
-
+	public PartitionWithRepresentative(RepParam rp){
+		this(readDissimilarityInputFile(rp), rp);
 	}
 	
 public static boolean test = true;
 	
-	public PartitionWithRepresentative(int K, double objectif[][], CplexParam cp, RepParam rp){
+	public PartitionWithRepresentative(double objectif[][], RepParam rp){
 		
 		this.d = objectif;
 		this.n = d.length;
 		
-		this.isInt = rp.isInt;
+		this.p = new RepParam(rp);
 
-		this.cp = cp;
-		this.rp = rp;
-
-		if(!cp.output)
+		if(!rp.cplexOutput)
 			turnOffCPOutput();
 		
-		if(cp.autoCuts)
+		if(rp.cplexAutoCuts)
 			removeAutomaticCuts();
 		
-		if(cp.primalDual)
+		if(rp.cplexPrimalDual)
 			turnOffPrimalDualReduction();
 		
 		try {
-				
-			this.K = K;
 			
 			/* Create the model */
 			cplex.clearModel();
@@ -105,8 +81,8 @@ public static boolean test = true;
 			/* Reinitialize the parameters to their default value */
 			cplex.setDefaults();
 			
-			if(cp.tilim != -1)
-			    cplex.setParam(IloCplex.DoubleParam.TiLim, Math.max(10,cp.tilim));
+			if(rp.tilim != -1)
+			    cplex.setParam(IloCplex.DoubleParam.TiLim, Math.max(10,rp.tilim));
 			
 //			cplex.setParam(DoubleParam.WorkMem, 2000);
 //			cplex.setParam(DoubleParam.TreLim, 500);
@@ -136,12 +112,12 @@ public static boolean test = true;
 		 * - if i is with j and k, then j and k are together
 		 */
 		if(triangle == Triangle.USE 
-				|| (triangle == Triangle.USE_IN_BC_ONLY && rp.isInt == true)){
+				|| (triangle == Triangle.USE_IN_BC_ONLY && p.isInt == true)){
 			createTriangleConstraints();
 //			System.out.println("\n!!Add triangle constraints to the model");
 		}
 		else if(triangle == Triangle.USE_LAZY
-				|| (triangle == Triangle.USE_LAZY_IN_BC_ONLY && rp.isInt == true)){
+				|| (triangle == Triangle.USE_LAZY_IN_BC_ONLY && p.isInt == true)){
 			System.out.println("\n!!Add lazy CB in BC");
 				cplex.use(new Lazy_CB_Triangle(this, 500));
 		}
@@ -180,7 +156,7 @@ public static boolean test = true;
 		 */
 		createX2BoundConstraints();
 		
-		if(rp.useNN_1)
+		if(p.useNN_1)
 			createNN_1Constraints();
 		
 	}
@@ -188,11 +164,11 @@ public static boolean test = true;
 	public void createNN_1Constraints(){
 
 		try {
-			int d = (int) Math.floor((n-1)/K);
-			int mo = (n-1)%K;
+			int d = (int) Math.floor((n-1)/p.K);
+			int mo = (n-1)%p.K;
 			int n1 = (d+1) * d / 2;
 			int n2 = d * (d-1) / 2;
-			int righthand = n1 * mo + n2 * (K-mo);
+			int righthand = n1 * mo + n2 * (p.K-mo);
 			
 			for(int j = 0 ; j < n ; ++j){
 				IloLinearNumExpr expr;
@@ -209,11 +185,11 @@ public static boolean test = true;
 	
 			}
 	
-			d = (int) Math.floor((n)/K);
-			mo = (n)%K;
+			d = (int) Math.floor((n)/p.K);
+			mo = (n)%p.K;
 			n1 = (d+1) * d / 2;
 			n2 = d * (d-1) / 2;
-			righthand = n1 * mo + n2 * (K-mo);
+			righthand = n1 * mo + n2 * (p.K-mo);
 			
 			IloLinearNumExpr expr = cplex.linearNumExpr();
 			for(int l = 0 ; l < n ; ++l)
@@ -282,7 +258,7 @@ public static boolean test = true;
 	void createVariables() throws IloException {
 
 		v_rep = new IloNumVar[n - 3];
-		if(this.isInt)
+		if(p.isInt)
 			v_edge = new IloIntVar[n][];
 		else
 			v_edge = new IloNumVar[n][];
@@ -297,7 +273,7 @@ public static boolean test = true;
 		
 		/* Create the edge variables (lower triangular part of v_edge) */
 		for (int i = 0 ; i < n; ++i){
-			if(isInt)
+			if(p.isInt)
 				v_edge[i] = new IloIntVar[n];
 			else
 				v_edge[i] = new IloNumVar[n];
@@ -305,7 +281,7 @@ public static boolean test = true;
 			cplex.conversion(v_edge[i], IloNumVarType.Float);
 			
 			for(int j = 0 ; j < i ; ++j){
-				if(isInt)
+				if(p.isInt)
 					v_edge[i][j] = cplex.intVar(0, 1);
 				else
 					v_edge[i][j] = cplex.numVar(0,1);
@@ -364,7 +340,7 @@ public static boolean test = true;
 							for (int l = 3; l < n; ++l)
 								expr3.addTerm(-1.0, v_rep[l - 3]);
 							
-							cplex.addLe(expr3, 3.0-K);
+							cplex.addLe(expr3, 3.0-p.K);
 //						}
 //						else{
 //							expr3.addTerm(-1.0, v_edge[j][i]);
@@ -428,8 +404,8 @@ public static boolean test = true;
 		for (int m = 0; m < n - 3; ++m)
 			expr.addTerm(-1.0, v_rep[m]);
 
-		cplex.addLe(expr, 3.0 - K);
-		cplex.addGe(expr, 2.0 - K);
+		cplex.addLe(expr, 3.0 - p.K);
+		cplex.addGe(expr, 2.0 - p.K);
 
 	}
 	
@@ -453,7 +429,7 @@ public static boolean test = true;
 			System.out.println("1 : " + value);
 
 			/* Third node: x2 = K - 2 + x01 - sum xi */
-			value = K - 2 + cplex.getValue(v_edge[1][0]);
+			value = p.K - 2 + cplex.getValue(v_edge[1][0]);
 			for (int m = 0; m < n - 3; ++m){
 				value -= cplex.getValue(v_rep[m]);
 			}
@@ -499,7 +475,7 @@ public static boolean test = true;
 	 * @throws IloException
 	 */
 	public IloRange x3Eq1() throws IloException{
-		return cplex.range(3.0-K, exprX3(), 3.0-K);
+		return cplex.range(3.0-p.K, exprX3(), 3.0-p.K);
 	}
 
 	
@@ -509,7 +485,7 @@ public static boolean test = true;
 	 * @throws IloException
 	 */
 	public IloRange x3Eq0() throws IloException{
-		return cplex.range(2.0-K, exprX3(), 2.0-K);
+		return cplex.range(2.0-p.K, exprX3(), 2.0-p.K);
 	}
 	
 	/**
