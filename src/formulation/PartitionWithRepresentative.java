@@ -61,7 +61,10 @@ public static boolean test = true;
 		this.d = objectif;
 		this.n = d.length;
 		
-		this.p = new RepParam(rp);
+		if(rp instanceof TildeParam)
+			this.p = new TildeParam((TildeParam)rp);
+		else
+			this.p = new RepParam(rp);
 
 		if(!rp.cplexOutput)
 			turnOffCPOutput();

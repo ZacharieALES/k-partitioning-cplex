@@ -1,5 +1,6 @@
 package solution;
 
+import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 

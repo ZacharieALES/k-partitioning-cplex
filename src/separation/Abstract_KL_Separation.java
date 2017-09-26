@@ -131,7 +131,7 @@ int phaseNb = 0;
 				
 			} // End: while(!isOver){
 			
-			System.out.println("\nNbOfPhases: " + phaseNb);
+//			System.out.println("\nNbOfPhases: " + phaseNb);
 			
 			/* If a violated inequality is found */
 			if(isViolated(bestInPreviousPhase)){

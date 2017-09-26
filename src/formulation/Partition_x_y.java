@@ -41,8 +41,6 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 	 */
 	public boolean isInt;
 
-	public Param xyp;
-
 	/**
 	 * Node/Cluster variables.
 	 */
@@ -59,7 +57,7 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 
 		this.isInt = xyp.isInt;
 
-		this.xyp = new XYParam(xyp);
+		this.p = new XYParam(xyp);
 
 		if (!xyp.cplexOutput)
 			turnOffCPOutput();
@@ -110,7 +108,7 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 		createTriangleConstraints();
 		createNonSymmetricConstraints();
 		
-		if(xyp.useNN_1)
+		if(p.useNN_1)
 			createNN_1Constraints();
 
 	}

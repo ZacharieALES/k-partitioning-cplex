@@ -60,6 +60,10 @@ public abstract class Execution {
 		return Partition.createPartition(param);
 	}
 	
+	public void updateParam(Param p){
+		p.maxNumberOfNodes = c_n;
+		p.K = c_k;
+	}
 	
 	public Partition getRootRelaxationThenCreatePartition(RepParam rp){
 

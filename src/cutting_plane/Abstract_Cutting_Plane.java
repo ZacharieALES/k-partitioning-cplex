@@ -62,7 +62,7 @@ public abstract class Abstract_Cutting_Plane {
 		 */
 		double max_time_for_relaxation_improvement = tilim/20.0;
 		
-		System.out.println(max_time_for_relaxation_improvement + "s");
+//		System.out.println(max_time_for_relaxation_improvement + "s");
 		
 		int max_iteration_for_relaxation_improvement = 5;
 		double last_relaxation_improvement_time = -rep.getCplexTime();
@@ -129,7 +129,7 @@ public abstract class Abstract_Cutting_Plane {
 			
 			last_cp_relaxation = rep.getObjValue2();
 			gap = ComputeResults.improvement(last_cp_relaxation,  bestInt);
-			System.out.print(Math.round(rep.getCplexTime() + cpresult.cp_time) + "s : [" + Math.round(last_cp_relaxation) + ", " + Math.round(bestInt) + "] " + (Math.round(100*gap)/100.0) + "%");
+//			System.out.print(Math.round(rep.getCplexTime() + cpresult.cp_time) + "s : [" + Math.round(last_cp_relaxation) + ", " + Math.round(bestInt) + "] " + (Math.round(100*gap)/100.0) + "%");
 
 			/* If the solution is Integer, first test if a separation method from the formulation find a violated inequality (if the optimum is not found) */
 			if(isInteger){
@@ -159,8 +159,8 @@ public abstract class Abstract_Cutting_Plane {
 								
 								cutFound = true;
 																				
-								System.out.print(" : " + sep.get(methode).se.name);	
-								System.out.print(" (" + r.size() + ")");		
+//								System.out.print(" : " + sep.get(methode).se.name);	
+//								System.out.print(" (" + r.size() + ")");		
 			
 //								/* Swap the method to the third place */
 //								if(reordering && methode > 1)
@@ -196,21 +196,21 @@ public abstract class Abstract_Cutting_Plane {
 						bestMIP = new_mip;
 					}
 					
-					System.out.print(" : int "  + Math.round(newInt));
+//					System.out.print(" : int "  + Math.round(newInt));
 	
 				}
 			}
 
 			double gapFromLastImprovedRelaxation = ComputeResults.improvement(last_improved_relaxation, last_cp_relaxation);
 			double time_since_last_improvement = last_relaxation_improvement_time + rep.getCplexTime();
-			System.out.println("\n time/gap since last relaxation improvement: " + Math.round(time_since_last_improvement) + "s " + ComputeResults.doubleToString(gapFromLastImprovedRelaxation, 4) + "%");
+//			System.out.println("\n time/gap since last relaxation improvement: " + Math.round(time_since_last_improvement) + "s " + ComputeResults.doubleToString(gapFromLastImprovedRelaxation, 4) + "%");
 			if(gapFromLastImprovedRelaxation > 1E-2){
 				last_improved_relaxation = last_cp_relaxation;
 				last_relaxation_improvement_time = -rep.getCplexTime();
 			}
 			else if(time_since_last_improvement > max_time_for_relaxation_improvement){
 				max_time_for_relaxation_improvement_reached = true;
-				System.out.println("\n Max time for relaxation improvement reached (" + Math.round(max_time_for_relaxation_improvement) + "s)");
+//				System.out.println("\n Max time for relaxation improvement reached (" + Math.round(max_time_for_relaxation_improvement) + "s)");
 			}
 			
 //			System.out.println("\ntime: " + Math.round(rep.getCplexTime()+last_improvement_time) + " iterations: " + last_improvement_iteration + ":" + cpresult.cp_iteration);
@@ -254,12 +254,12 @@ public abstract class Abstract_Cutting_Plane {
 								toAdd.addAll(r);
 								cutFound = true;
 																				
-			System.out.print(" : " + sep.get(methode).se.name);
+//			System.out.print(" : " + sep.get(methode).se.name);
 ////			
 ////		//	if(sep.get(methode).se instanceof Separation_Kp1_KL)
 ////		//		System.out.print( " : " + ((Separation_Kp1_KL)(sep.get(methode).se)).size);
 ////			
-			System.out.print(" (" + r.size() + ")");			
+//			System.out.print(" (" + r.size() + ")");			
 ////			
 //////			/* Swap the method to the third place */
 //////			if(reordering && methode > 1)
@@ -281,8 +281,8 @@ public abstract class Abstract_Cutting_Plane {
 				
 //				System.out.print("lim: " + cptilim + " actuel: " + (rep.getCplexTime() + cpresult.cp_time));
 
-				if(!cutFound)
-					System.out.println("\n--- No cut found ---");	
+//				if(!cutFound)
+//					System.out.println("\n--- No cut found ---");	
 
 
 			}
@@ -296,12 +296,12 @@ public abstract class Abstract_Cutting_Plane {
 					rep.remove(i);
 //				ComputeResults.log(toRemove.size() + " ineq removed");
 
-				System.out.print( " : " + toRemove.size() + " ineq removed");
+//				System.out.print( " : " + toRemove.size() + " ineq removed");
 				max_time_for_cut_removing_reached = false;
 				last_removing_cuts_time = -rep.getCplexTime();
 			}
 			
-			System.out.println();
+//			System.out.println();
 
 			cpresult.cp_iteration++;
 
@@ -333,10 +333,10 @@ public abstract class Abstract_Cutting_Plane {
 			if(s.addedIneq.size() > 0)
 				cpresult.cpCutNb.add(cpresult.new Cut(s.se.name, s.addedIneq.size()));
 
-		System.out.println("\t" + Math.round(cpresult.cp_time) + "s " + Math.round(cpresult.firstRelaxation));
+//		System.out.println("\t" + Math.round(cpresult.cp_time) + "s " + Math.round(cpresult.firstRelaxation));
 		
 		if(isInteger){
-			System.out.println("\nSolution is integer after cp");
+//			System.out.println("\nSolution is integer after cp");
 			cpresult.bestRelaxation = -1.0;
 			cpresult.time = 0.0;
 			cpresult.n = rep.n;
@@ -347,10 +347,10 @@ public abstract class Abstract_Cutting_Plane {
 			cpresult.bestInt = rep.getObjValue2();
 		}
 		else{
-			System.out.println("\nSolution is not integer after cp");
+//			System.out.println("\nSolution is not integer after cp");
 			findIntSolutionAfterCP(tilim == -1 ? -1 : tilim - cpresult.cp_time, bestMIP);
 			
-			System.out.println("CP relaxation: " + last_cp_relaxation + " BC relaxation: " + cpresult.bestRelaxation);
+//			System.out.println("CP relaxation: " + last_cp_relaxation + " BC relaxation: " + cpresult.bestRelaxation);
 			if(cpresult.bestRelaxation < last_cp_relaxation || cpresult.bestRelaxation > 1E15)
 				cpresult.bestRelaxation = last_cp_relaxation;
 		}
@@ -371,7 +371,7 @@ public abstract class Abstract_Cutting_Plane {
 //			e.printStackTrace();
 //		}
 		
-		System.out.println("\tcptime: " + Math.round(cpresult.cp_time) + " : b&c time: " + Math.round(cpresult.time) + "s " + Math.round(cpresult.bestRelaxation));
+//		System.out.println("\tcptime: " + Math.round(cpresult.cp_time) + " : b&c time: " + Math.round(cpresult.time) + "s " + Math.round(cpresult.bestRelaxation));
 		return cpresult.cp_time + cpresult.time;
 			
 	}
