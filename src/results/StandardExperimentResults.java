@@ -145,6 +145,7 @@ public class StandardExperimentResults{
 			while(foundResult == null && i < list.size()){
 				if(list.get(i).i == result.i)
 					foundResult = list.get(i);
+				i++;
 			}
 		}
 		

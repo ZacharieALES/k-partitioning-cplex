@@ -1,17 +1,16 @@
 package cut_callback;
 
-import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-
 import java.util.ArrayList;
 
+import formulation.Partition;
+import formulation.Partition_with_tildes;
+import ilog.concert.IloException;
+import inequality_family.Abstract_Inequality;
 import separation.Abstract_Separation;
 import separation.Separation_KP1_Dense_Heuristic_Diversification;
 import separation.Separation_Paw_Inequalities_heuristic;
-import separation.Separation_ST_Grotschell;
+import separation.Separation_ST_Labbe;
 import separation.Separation_SubRepresentative_sans_doublon;
-import formulation.Partition;
-import formulation.Partition_with_tildes;
 
 public class Fast_cut_callback extends Abstract_CutCallback{
 	
@@ -23,7 +22,7 @@ public class Fast_cut_callback extends Abstract_CutCallback{
 		this.MAX_CUT = MAX_CUT;
 		
 		/* Grotschell ST */
-		sep_algo.add(new Separation_ST_Grotschell(this, MAX_CUT));
+//		sep_algo.add(new Separation_ST_Grotschell(this, MAX_CUT));
 		
 //		/* Labbe ST */
 //		sep_algo.add(new Separation_ST_Labbe(this));
