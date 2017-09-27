@@ -95,7 +95,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 
 	public void addRange(IloRange range, int idSep){
 		try {
-			this.add(range);
+			this.add(range, false);
 			sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -114,7 +114,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 
 	public void addRange(Range ri, int idSep) {
 		try {
-			this.add(rep.range(ri.lbound, ri.expr, ri.ubound));
+			this.add(rep.range(ri.lbound, ri.expr, ri.ubound), false);
 			if(idSep >= 0)
 				sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
@@ -124,7 +124,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 	
 	public void addLe(IloLinearNumExpr expr, double ubound, int idSep){
 		try {
-			this.add(rep.le(expr, ubound));
+			this.add(rep.le(expr, ubound), false);
 			sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -133,7 +133,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 	
 	public void addGe(IloLinearNumExpr expr, double lbound, int idSep){
 		try {
-			this.add(rep.ge(expr, lbound));
+			this.add(rep.ge(expr, lbound), false);
 			sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
 			e.printStackTrace();

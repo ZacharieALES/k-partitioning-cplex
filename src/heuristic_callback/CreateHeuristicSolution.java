@@ -107,7 +107,7 @@ public class CreateHeuristicSolution{
 							
 							/* If we already know that i is not a representative set x_ij to 1 */
 							if(repEqual0[i]){
-								this.add(rep.eq(1.0, rep.v_edge[i][j]));
+								this.add(rep.eq(1.0, rep.v_edge[i][j]), false);
 								nbOfVarSet++;
 					
 							}
@@ -115,10 +115,10 @@ public class CreateHeuristicSolution{
 							/* Else if i can be set to a non representative node */
 							else if(nbRepEqualTo0 < rep.n - rep.K()){
 	
-								this.add(rep.eq(1.0, rep.v_edge[i][j]));
+								this.add(rep.eq(1.0, rep.v_edge[i][j]), false);
 								
 								if(i > 2)
-									this.add(rep.eq(0.0, rep.v_rep[i-3]));
+									this.add(rep.eq(0.0, rep.v_rep[i-3]), false);
 								
 								
 								repEqual0[i] = true;

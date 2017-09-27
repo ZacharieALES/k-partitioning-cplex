@@ -64,7 +64,7 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 	XYParam xy1p = new XYParam(null, c_k, false, false);
 	XYParam xy2p = new XYParam(null, c_k, true, false);
 
-	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats.ser";
+	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats_big_pc.ser";
 	int tilim;
 	ArrayList<Double> gapValues;
 
