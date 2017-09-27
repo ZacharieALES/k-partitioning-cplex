@@ -1,18 +1,14 @@
 package separation;
 
-import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-import inequality_family.LowerRep_Inequality;
-
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import ilog.concert.IloException;
+import inequality_family.Abstract_Inequality;
+import inequality_family.LowerRep_Inequality;
 import solution.Solution_Representative;
-
-import cut_callback.Abstract_CutCallback;
-import formulation.PartitionWithRepresentative;
 
 
 public class Separation_LowerRep extends Abstract_Separation {
@@ -38,7 +34,7 @@ public class Separation_LowerRep extends Abstract_Separation {
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate() {
 		
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 		
@@ -47,7 +43,11 @@ public class Separation_LowerRep extends Abstract_Separation {
 		
 		while(l < s.n() && foundIneq.size() < MAXFOUND){
 
-			addIfGapNegative(l);
+			try {
+				addIfGapNegative(l);
+			} catch (IloException e) {
+				e.printStackTrace();
+			}
 			++l;
 			
 		}
@@ -64,7 +64,7 @@ public class Separation_LowerRep extends Abstract_Separation {
 	}
 
 	
-	private void addIfGapNegative(int l) {
+	private void addIfGapNegative(int l) throws IloException {
 		GapLowerRepInequality ineq = new GapLowerRepInequality(l);
 		
 		if(ineq.gap < -eps)
@@ -75,7 +75,7 @@ public class Separation_LowerRep extends Abstract_Separation {
 		
 		public int gap;
 		
-		public GapLowerRepInequality(int l) {
+		public GapLowerRepInequality(int l) throws IloException {
 			super(Separation_LowerRep.this.s, l);
 			this.gap = (int) (getSlack() * 1000);
 		}

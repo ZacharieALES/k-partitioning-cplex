@@ -8,6 +8,7 @@ import solution.Solution_Representative;
 
 import cut_callback.Abstract_CutCallback;
 import formulation.PartitionWithRepresentative;
+import ilog.concert.IloException;
 
 public class Separation_DependentSet_KL extends Abstract_KL_Separation{
 
@@ -147,7 +148,7 @@ public class Separation_DependentSet_KL extends Abstract_KL_Separation{
 		
 	}
 	
-	public void displaySet(){
+	public void displaySet() throws IloException{
 		
 		double d = 0.0;
 		
@@ -167,7 +168,7 @@ public class Separation_DependentSet_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void initializeSubSlacks() {
+	public void initializeSubSlacks()  throws IloException {
 
 		/* Initialize the transformations 
 		 * Let y,z be any vertices respectively in Y and Z.
@@ -220,7 +221,7 @@ public class Separation_DependentSet_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void computeTransformationSlacks() {
+	public void computeTransformationSlacks() throws IloException {
 
 		bestNextTransformation = new Exchange();
 		double lowest_frac = Double.MAX_VALUE;
@@ -286,7 +287,7 @@ public class Separation_DependentSet_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void updateSubSlacks(Transformation t) {
+	public void updateSubSlacks(Transformation t) throws IloException {
 		
 		/* If the transformation is an exchange */
 		if(t instanceof Exchange){

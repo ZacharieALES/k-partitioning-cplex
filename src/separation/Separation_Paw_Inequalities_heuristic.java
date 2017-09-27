@@ -24,13 +24,14 @@ public class Separation_Paw_Inequalities_heuristic extends Abstract_Separation{
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 		// TODO Auto-generated method stub
 
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 		
 			for(int b = 3 ;  b < s.n(); ++b){
 				
+				try{
 				double v = s.x(b);
 				
 				int bestC = -1;
@@ -56,12 +57,18 @@ public class Separation_Paw_Inequalities_heuristic extends Abstract_Separation{
 					
 					for(int a = 0 ; a < b ; ++a){
 						
-						double currentAValue = s.x(a,b) - s.x(a,c);
-						
-						if(currentAValue > bestAValue){
-							bestAValue = currentAValue;
-							bestA = a;
+						double currentAValue;
+						try {
+							currentAValue = s.x(a,b) - s.x(a,c);
+
+							if(currentAValue > bestAValue){
+								bestAValue = currentAValue;
+								bestA = a;
+							}
+						} catch (IloException e) {
+							e.printStackTrace();
 						}
+						
 					}
 					
 					v += bestAValue;
@@ -74,18 +81,26 @@ public class Separation_Paw_Inequalities_heuristic extends Abstract_Separation{
 						
 						for(int d = 0 ; d < a ; ++d){
 							
-							if(s.x(c,d) > bestDValue){
-								bestDValue = s.x(c,d);
-								bestD = d;
+							try {
+								if(s.x(c,d) > bestDValue){
+									bestDValue = s.x(c,d);
+									bestD = d;
+								}
+							} catch (IloException e) {
+								e.printStackTrace();
 							}
 						}
 						
 						for(int d = a+1 ; d < b ; ++d){
 							
-							if(s.x(c,d) > bestDValue){
-								bestDValue = s.x(c,d);
-								bestD = d;
-								
+							try {
+								if(s.x(c,d) > bestDValue){
+									bestDValue = s.x(c,d);
+									bestD = d;
+									
+								}
+							} catch (IloException e) {
+								e.printStackTrace();
 							}
 						}
 						
@@ -95,6 +110,7 @@ public class Separation_Paw_Inequalities_heuristic extends Abstract_Separation{
 						}
 					}
 				}
+				}catch(IloException e){e.printStackTrace();}
 			}
 				
 		

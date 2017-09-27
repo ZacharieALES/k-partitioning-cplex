@@ -44,7 +44,7 @@ public class Paw_Inequality extends Abstract_Inequality{
 	}
 
 	@Override
-	public double evaluate() {
+	public double evaluate() throws IloException  {
 
 		double result = this.s.x(a, b);
 
@@ -57,7 +57,7 @@ public class Paw_Inequality extends Abstract_Inequality{
 	}
 
 	@Override
-	public double getSlack() {
+	public double getSlack() throws IloException  {
 		return 2.0 - this.evaluate();
 	}
 

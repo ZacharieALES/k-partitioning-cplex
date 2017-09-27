@@ -1,15 +1,11 @@
 package separation;
-import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-import inequality_family.TCC_Inequality;
-
 import java.util.ArrayList;
 import java.util.Random;
 
+import ilog.concert.IloException;
+import inequality_family.Abstract_Inequality;
+import inequality_family.TCC_Inequality;
 import solution.Solution_Representative;
-
-import cut_callback.Abstract_CutCallback;
-import formulation.PartitionWithRepresentative;
 
 
 /**
@@ -61,7 +57,7 @@ public class Separation_TCC_KL_Fixed_size extends Abstract_KL_Separation{
 	int p;
 	
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 		
 		/* If sizesCycle == null search cycle of all possible odd sizes >= 5 */
 		if(sizesCycle == null){
@@ -162,7 +158,7 @@ public class Separation_TCC_KL_Fixed_size extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void initializeSubSlacks() {
+	public void initializeSubSlacks() throws IloException {
 		
 		/* Let c and u be any vertices respectively in C and U.
 		 * Let a,b,d and e be the neighbor of c in the cycle (i.e.: a,b,c,d,e is a part of the cycle)
@@ -259,7 +255,7 @@ public class Separation_TCC_KL_Fixed_size extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void updateSubSlacks(Transformation t) {
+	public void updateSubSlacks(Transformation t) throws IloException {
 
 		Exchange e = (Exchange)t;
 		int c1 = e.id[0];
@@ -294,8 +290,9 @@ public class Separation_TCC_KL_Fixed_size extends Abstract_KL_Separation{
 	 * @param positionInC Position of the node in C which has been changed
 	 * @param previousNode Node at the position prior to the transformation
 	 * @param newNode Node at the position after the transformation
+	 * @throws IloException 
 	 */
-	public void updateScore(int positionInC, int previousNode, int newNode, int sizeC){
+	public void updateScore(int positionInC, int previousNode, int newNode, int sizeC) throws IloException{
 		
 		/* For each node */
 		for(int i = 0 ; i < s.n() ; ++i){

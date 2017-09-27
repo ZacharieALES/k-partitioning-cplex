@@ -74,7 +74,7 @@ public class Linear_Second_Inequality extends Abstract_Inequality{
 	}
 
 	@Override
-	public double evaluate() {
+	public double evaluate() throws IloException {
 		
 		double result = 0.0;
 		
@@ -105,7 +105,7 @@ public class Linear_Second_Inequality extends Abstract_Inequality{
 	}
 
 	@Override
-	public double getSlack() {
+	public double getSlack() throws IloException{
 		
 		double bound = 0.0;
 		

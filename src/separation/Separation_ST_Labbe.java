@@ -9,6 +9,7 @@ import solution.Solution_Representative;
 
 import cut_callback.Abstract_CutCallback;
 import formulation.PartitionWithRepresentative;
+import ilog.concert.IloException;
 
 
 public class Separation_ST_Labbe extends Abstract_Separation{
@@ -25,8 +26,9 @@ public class Separation_ST_Labbe extends Abstract_Separation{
 	 * S is restricted to one node picked randomly.
 	 * T is iteratively constructed until an violated inequality is found.
 	 * If not another node is chosen for S.
+	 * @throws IloException 
 	 */
-	public ArrayList<Abstract_Inequality> separate(){
+	public ArrayList<Abstract_Inequality> separate() {
 
 		rgen = new Random();
 		
@@ -67,8 +69,12 @@ public class Separation_ST_Labbe extends Abstract_Separation{
 			/* Find all the potential nodes to put in T */
 			for(int i = 0 ; i < this.s.n() ; ++i){
 //				System.out.println("i: " + i + " s: " + s);
-				if(i != s && this.s.x(s,i) > 0 + eps)
-					w.add(i);
+				try {
+					if(i != s && this.s.x(s,i) > 0 + eps)
+						w.add(i);
+				} catch (IloException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			int candidate_id = 0; 
@@ -77,16 +83,21 @@ public class Separation_ST_Labbe extends Abstract_Separation{
 			while(!cutFound && candidate_id < w.size()){
 				
 				int candidate = w.get(candidate_id);
-				double scoreGap = scoreGap(s, t, candidate);
-				
-				if(scoreGap > 0 + eps){
-					t.add(candidate);
-					score += scoreGap;
+				double scoreGap;
+				try {
+					scoreGap = scoreGap(s, t, candidate);
 					
-					/* If the inequality is a violated one (i.e. if it's score is greater than 1 (since a 2-partition corresponds to : x(S,T) - x(S) - x(T) <= |S| and here |S| = 1) 
-					 * and if |T| > 2 (since otherwise it corresponds to a triangle inequality) */
-					if(t.size() > 2 && score > 1 + eps)
-						cutFound = true;
+					if(scoreGap > 0 + eps){
+						t.add(candidate);
+						score += scoreGap;
+						
+						/* If the inequality is a violated one (i.e. if it's score is greater than 1 (since a 2-partition corresponds to : x(S,T) - x(S) - x(T) <= |S| and here |S| = 1) 
+						 * and if |T| > 2 (since otherwise it corresponds to a triangle inequality) */
+						if(t.size() > 2 && score > 1 + eps)
+							cutFound = true;
+					}
+				} catch (IloException e) {
+					e.printStackTrace();
 				}
 					
 				candidate_id++;
@@ -110,8 +121,9 @@ public class Separation_ST_Labbe extends Abstract_Separation{
 	 * @param t The nodes in T
 	 * @param candidate The node that we try to add in T
 	 * @return
+	 * @throws IloException 
 	 */
-	private double scoreGap(int s, ArrayList<Integer> t, int candidate) {
+	private double scoreGap(int s, ArrayList<Integer> t, int candidate) throws IloException {
 		
 		double result = this.s.x(s,candidate);
 		

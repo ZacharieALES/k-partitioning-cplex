@@ -1,13 +1,10 @@
 package separation;
-import inequality_family.Abstract_Inequality;
-import inequality_family.DependentSet_Inequality;
-
 import java.util.Random;
 
+import ilog.concert.IloException;
+import inequality_family.Abstract_Inequality;
+import inequality_family.DependentSet_Inequality;
 import solution.Solution_Representative;
-
-import cut_callback.Abstract_CutCallback;
-import formulation.PartitionWithRepresentative;
 
 public class Separation_Kp1_KL extends Abstract_KL_Separation{
 
@@ -89,7 +86,7 @@ public class Separation_Kp1_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void initializeSubSlacks() {
+	public void initializeSubSlacks() throws IloException {
 
 		/* Initialize the transformations 
 		 * Let y,z be any vertices respectively in Y and Z.
@@ -126,7 +123,7 @@ public class Separation_Kp1_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void computeTransformationSlacks() {
+	public void computeTransformationSlacks() throws IloException {
 
 		bestNextTransformation = new Exchange();
 		/* For each z in Z */
@@ -154,7 +151,7 @@ public class Separation_Kp1_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void updateSubSlacks(Transformation t) {
+	public void updateSubSlacks(Transformation t) throws IloException {
 		
 		Exchange e = (Exchange)t;
 		

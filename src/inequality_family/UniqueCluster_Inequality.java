@@ -42,7 +42,7 @@ public class UniqueCluster_Inequality extends Abstract_Inequality {
 	}
 
 	@Override
-	public double evaluate() {
+	public double evaluate() throws IloException  {
 		double result = 0.0;
 		
 		for(int j = 0 ; j < s.K() ; ++j)
@@ -52,7 +52,7 @@ public class UniqueCluster_Inequality extends Abstract_Inequality {
 	}
 
 	@Override
-	public double getSlack() {
+	public double getSlack() throws IloException  {
 		return 1.0 - this.evaluate();
 	}
 

@@ -40,7 +40,7 @@ public class Separation_ST_Grotschell extends Abstract_Separation{
 	});
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 			
 		foundIneq.clear();
 			boolean heuristic1Over = false;
@@ -53,19 +53,30 @@ public class Separation_ST_Grotschell extends Abstract_Separation{
 				ArrayList<Integer> neighborV = new ArrayList<Integer>();
 				
 				for(int j = 0 ; j < v ; ++j){
-					double value = s.x(v,j);
-					if(value != 0 && value != 1)
-						neighborV.add(j);			
+					double value;
+					try {
+						value = s.x(v,j);
+						if(value != 0 && value != 1)
+							neighborV.add(j);	
+					} catch (IloException e) {
+						e.printStackTrace();
+					}		
 				}
 				
 				for(int j = v+1 ; j < s.n() ; ++j){
-					double value = s.x(j,v);
-					if(value != 0 && value != 1)
-						neighborV.add(j);
+					double value;
+					try {
+						value = s.x(j,v);
+						if(value != 0 && value != 1)
+							neighborV.add(j);
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
 				}
 	
 				Collections.shuffle(neighborV);
 				
+				try{
 				if(neighborV.size() > 0){
 					
 					/* Add the first neighbor in a set T */
@@ -123,6 +134,9 @@ public class Separation_ST_Grotschell extends Abstract_Separation{
 						foundIneq.add(ineq);
 					}
 				}
+				}catch(IloException e){
+					e.printStackTrace();
+				}
 				
 				++v;
 				
@@ -160,7 +174,7 @@ public class Separation_ST_Grotschell extends Abstract_Separation{
 		/** Gap between the value of the inequality and it's upper bound (1) */
 		public int gap;
 		
-		public GapSTInequality(ArrayList<Integer> s, ArrayList<Integer> t){
+		public GapSTInequality(ArrayList<Integer> s, ArrayList<Integer> t) throws IloException{
 			super(Separation_ST_Grotschell.this.s);
 			S = s;
 			T = t;

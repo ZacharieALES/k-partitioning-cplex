@@ -32,7 +32,7 @@ public abstract class Abstract_Separation{
 	 * @return True if at least one cut is found; false otherwise.
 	 * @throws IloException
 	 */
-	public abstract ArrayList<Abstract_Inequality> separate() throws IloException;
+	public abstract ArrayList<Abstract_Inequality> separate();
 	
 	public Abstract_CutCallback createDefaultCallback(PartitionWithRepresentative p){
 		DefaultCallback d = new DefaultCallback(p);

@@ -1,6 +1,7 @@
 package mipstart;
 
 import formulation.PartitionWithRepresentative;
+import ilog.concert.IloException;
 import ilog.concert.IloNumVar;
 
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class MIPStart {
 	 */
 	HashMap<Edge, Integer> id = new HashMap<MIPStart.Edge, Integer>();
 	
-	public MIPStart(Solution_Representative s){
+	public MIPStart(Solution_Representative s) throws IloException{
 		
 		var = new IloNumVar[s.n() - 3 + s.n() * (s.n() - 1) / 2];
 		val = new double[s.n() - 3 + s.n() * (s.n() - 1) / 2];
@@ -47,7 +48,7 @@ public class MIPStart {
 		
 	}
 	
-	public void setVar(Solution_Representative s){
+	public void setVar(Solution_Representative s) throws IloException{
 		
 		var = new IloNumVar[s.n() - 3 + s.n() * (s.n() - 1) / 2];
 		

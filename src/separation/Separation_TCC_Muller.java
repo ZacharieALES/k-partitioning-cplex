@@ -78,10 +78,11 @@ public class Separation_TCC_Muller extends Abstract_Separation{
 	private int[][] next;
 	
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 		
+		try{
 		/* Number of nodes in the graph H */
 		int n2 = 4*s.n()*(s.n()-1);
 		
@@ -216,6 +217,7 @@ public class Separation_TCC_Muller extends Abstract_Separation{
 
 			}
 		}
+		}catch(IloException e){e.printStackTrace();}
 
 		return result;
 	

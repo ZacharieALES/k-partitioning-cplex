@@ -56,13 +56,8 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 		}
 	}
 
-	public double x(int i, int j){
-		try {
-			return this.getValue(rep.v_edge[i][j]);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -Double.MAX_VALUE;
-		}
+	public double x(int i, int j) throws IloException{
+		return this.getValue(rep.v_edge[i][j]);
 	}
 	
 	public double xt(int i, int j) {

@@ -25,7 +25,7 @@ public class Separation_Triangle extends Abstract_Separation{
 
 	int MAXCUT;
 	int MAXFOUND;
-	
+
 	boolean[][] inequalityAdded;
 
 	public TreeSet<GapTriangleInequality> foundIneq = new TreeSet<GapTriangleInequality>(new Comparator<GapTriangleInequality>(){
@@ -38,76 +38,88 @@ public class Separation_Triangle extends Abstract_Separation{
 			return value;
 		}
 	});
-	
+
 	public Separation_Triangle(Solution_Representative ucc, int MAXCUT) {
 		super("triangle iterative", ucc);
 		this.MAXCUT = MAXCUT;
 		MAXFOUND = 5*MAXCUT;
-		
+
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
-		
+	public ArrayList<Abstract_Inequality> separate() {
+
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
-		
+
 		foundIneq.clear();	
 		int i = 0;
 
-		
-Random random = new Random();
 
-int[] shuffle = new int[s.n()];
-for(int k = 0 ; k < shuffle.length ; ++k)
-	shuffle[k] = k;
+		Random random = new Random();
 
-for(int k = 0 ; k < shuffle.length ; ++k){
-	
-	int v = random.nextInt(shuffle.length);
-	int v1 = shuffle[k];
-	shuffle[k] = shuffle[v];
-	shuffle[v] = v1;
-	
-}
-	
+		int[] shuffle = new int[s.n()];
+		for(int k = 0 ; k < shuffle.length ; ++k)
+			shuffle[k] = k;
 
-		
+		for(int k = 0 ; k < shuffle.length ; ++k){
+
+			int v = random.nextInt(shuffle.length);
+			int v1 = shuffle[k];
+			shuffle[k] = shuffle[v];
+			shuffle[v] = v1;
+
+		}
+
+
+
 		while(i < s.n() && foundIneq.size() < MAXFOUND){
 			int j = i+1;
-			
+
 			while(j < s.n()){
-				
+
 				int k = j+1;
-				
+
 				while(k < s.n() && foundIneq.size() < MAXFOUND){
 
-					addIfGapNegative(shuffle[i],shuffle[j],shuffle[k]);
-					addIfGapNegative(shuffle[j],shuffle[i],shuffle[k]);
-					addIfGapNegative(shuffle[k],shuffle[i],shuffle[j]);
-					
+					try {
+						addIfGapNegative(shuffle[i],shuffle[j],shuffle[k]);
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
+					try{
+						addIfGapNegative(shuffle[j],shuffle[i],shuffle[k]);
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
+					try{
+						addIfGapNegative(shuffle[k],shuffle[i],shuffle[j]);
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
+
 					++k;
 				}
-				
+
 				++j;
 			}
-			
+
 			++i;
 		}
-		
+
 		Iterator<GapTriangleInequality> it = foundIneq.iterator();
 		int nb = 0;
-		
+
 		while(it.hasNext() && nb < MAXCUT){
 			result.add(it.next());
 			nb++;
 		}
-		
+
 		return result;
 	}
-	
-	private void addIfGapNegative(int s, int t1, int t2) {
+
+	private void addIfGapNegative(int s, int t1, int t2) throws IloException {
 		GapTriangleInequality ineq = new GapTriangleInequality(s, t1, t2);
-		
+
 		if(ineq.gap < -eps){
 			foundIneq.add(ineq);
 		}
@@ -119,15 +131,15 @@ for(int k = 0 ; k < shuffle.length ; ++k){
 	 *
 	 */
 	public class GapTriangleInequality extends Triangle_Inequality{
-		
+
 		/** Gap between the value of the inequality and it's upper bound (1) */
 		public int gap;
-		
-		public GapTriangleInequality(int s, int t1, int t2){
+
+		public GapTriangleInequality(int s, int t1, int t2) throws IloException{
 			super(Separation_Triangle.this.s, s, t1, t2);
 			gap = (int) (getSlack() * 1000);
 		}
-		
+
 	}
 
 }

@@ -10,14 +10,20 @@ import formulation.Partition_with_tildes;
 import formulation.RepParam;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
+import ilog.concert.IloException;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 import inequality_family.Abstract_Inequality;
 import mipstart.Closest_rep;
 import mipstart.MIPStart;
 import separation.Separation_DependentSet_KL;
+import separation.Separation_KP1_Dense_Heuristic_Diversification;
 import separation.Separation_Linear;
+import separation.Separation_Paw_Inequalities_exhaustive;
+import separation.Separation_Paw_Inequalities_heuristic;
+import separation.Separation_ST_Grotschell;
 import separation.Separation_ST_KL;
+import separation.Separation_SubRepresentative_sans_doublon;
 import separation.Separation_TCC_KL_Fixed_size;
 import separation.Separation_Triangle;
 import separation.Separation_UpperRep;
@@ -45,23 +51,23 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 	@Override
 	public void createSeparationAlgorithm() {
 		
-//		sep.add(new CP_Separation(new Separation_Paw_Inequalities_exhaustive(rep), true, true));
-//
-//		/* Grotschell ST */
-//		sep.add(new CP_Separation(new Separation_ST_Grotschell(rep, MAX_CUT), true, true));
-////		
-////		/* Labbe ST */
-////		sep.add(new CP_Separation(new Separation_ST_Labbe(rep), true, true));
-////		
-////		/* Dependent set heuristic */
-//		sep.add(new CP_Separation(new Separation_KP1_Dense_Heuristic_Diversification(rep), true, true));
-////
-//		/* Paw inequalities */
-//		sep.add(new CP_Separation(new Separation_Paw_Inequalities_heuristic(rep), true, true));
+		sep.add(new CP_Separation(new Separation_Paw_Inequalities_exhaustive(rep), true, true));
+
+		/* Grotschell ST */
+		sep.add(new CP_Separation(new Separation_ST_Grotschell(rep, MAX_CUT), true, true));
 //		
-////		/* Sub representative inequalities */
-////		sep.add(new CP_Separation(new Separation_SubRepresentative_exhaustive(rep), true, true));
-//		sep.add(new CP_Separation(new Separation_SubRepresentative_sans_doublon(rep), true, true));
+//		/* Labbe ST */
+//		sep.add(new CP_Separation(new Separation_ST_Labbe(rep), true, true));
+//		
+//		/* Dependent set heuristic */
+		sep.add(new CP_Separation(new Separation_KP1_Dense_Heuristic_Diversification(rep), true, true));
+//
+		/* Paw inequalities */
+		sep.add(new CP_Separation(new Separation_Paw_Inequalities_heuristic(rep), true, true));
+		
+//		/* Sub representative inequalities */
+//		sep.add(new CP_Separation(new Separation_SubRepresentative_exhaustive(rep), true, true));
+		sep.add(new CP_Separation(new Separation_SubRepresentative_sans_doublon(rep), true, true));
 
 		/* Triangle inequalities */
 		RepParam rp = (RepParam)this.rep.p;
@@ -154,10 +160,12 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 //		
 //		Partition.setParam(IloCplex.IntParam.MIPEmphasis, 1);
 		
-		mipStart.setVar(rep);
-		
-		
-		rep.addMIPStart(mipStart.var, mipStart.val);
+		try {
+			mipStart.setVar(rep);
+			rep.addMIPStart(mipStart.var, mipStart.val);
+		} catch (IloException e) {
+			e.printStackTrace();
+		}		
 		
 		/* Add the previously tight constraints to the formulation */
 		for(Abstract_Inequality i : ineq){
@@ -191,7 +199,7 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 
 	}
 	
-	public MIPStart getMIPStart(){
+	public MIPStart getMIPStart() throws IloException{
 
 //		N_minus_k_fusion mipGetter = new N_minus_k_fusion(new Solution_Rep_Partition(rep));
 		Closest_rep mipGetter = new Closest_rep(rep);

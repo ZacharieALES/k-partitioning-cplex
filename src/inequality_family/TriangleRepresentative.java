@@ -48,7 +48,7 @@ public class TriangleRepresentative extends Abstract_Inequality{
 	}
 
 	@Override
-	public double evaluate() {
+	public double evaluate() throws IloException  {
 		double result = this.s.x(s1, t1);
 
 		result += this.s.x(s1, t2);
@@ -60,7 +60,7 @@ public class TriangleRepresentative extends Abstract_Inequality{
 	}
 
 	@Override
-	public double getSlack() {
+	public double getSlack() throws IloException  {
 		return 2.0 - this.evaluate();
 	}
 	

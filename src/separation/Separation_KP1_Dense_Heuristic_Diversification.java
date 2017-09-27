@@ -1,15 +1,10 @@
 package separation;
 
-import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-import inequality_family.DependentSet_Inequality;
-
 import java.util.ArrayList;
 
+import inequality_family.Abstract_Inequality;
+import inequality_family.DependentSet_Inequality;
 import solution.Solution_Representative;
-
-import cut_callback.Abstract_CutCallback;
-import formulation.PartitionWithRepresentative;
 
 public class Separation_KP1_Dense_Heuristic_Diversification extends Separation_Kp1_Dense_heuristic{
 
@@ -21,7 +16,7 @@ public class Separation_KP1_Dense_Heuristic_Diversification extends Separation_K
 	}
 	
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 		
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 		

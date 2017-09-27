@@ -40,7 +40,7 @@ public class Triangle_Inequality extends Abstract_Inequality {
 	}
 
 	@Override
-	public double evaluate() {
+	public double evaluate() throws IloException  {
 
 		double result = this.s.x(s1, t1);
 		result += s.x(s1, t2);
@@ -50,7 +50,7 @@ public class Triangle_Inequality extends Abstract_Inequality {
 	}
 
 	@Override
-	public double getSlack() {
+	public double getSlack() throws IloException  {
 		return 1.0 - this.evaluate();
 	}
 

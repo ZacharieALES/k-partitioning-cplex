@@ -110,14 +110,10 @@ public class Execution_rr_sous_rep extends Execution{
 		
 		rep.solve();
 		
-			try {
 				ArrayList<Abstract_Inequality> al_ineq = sep.separate();
 				for(Abstract_Inequality ineq : al_ineq)
 					rep.addRange(ineq.getRange());
-				rep.solve();			
-			} catch (IloException e) {
-				e.printStackTrace();
-			}
+				rep.solve();		
 		return rep.getObjValue2();
 		
 	}

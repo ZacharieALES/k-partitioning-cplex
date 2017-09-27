@@ -28,7 +28,7 @@ public class Separation_SubRepresentative_sans_doublon extends Abstract_Separati
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 		
 		if(ineq == null){
 			ineq = new ArrayList<>();
@@ -45,10 +45,14 @@ public class Separation_SubRepresentative_sans_doublon extends Abstract_Separati
 		
 			SubRepresentative_Inequality sri = ineq.get(i);
 			
-			if(sri.evaluate() < 0.0 - 1E-5){
-				result.add(sri);
-				ineq.remove(i);
-				CB_AddSubRep_inequalities.addedInequalities++;
+			try {
+				if(sri.evaluate() < 0.0 - 1E-5){
+					result.add(sri);
+					ineq.remove(i);
+					CB_AddSubRep_inequalities.addedInequalities++;
+				}
+			} catch (IloException e) {
+				e.printStackTrace();
 			}
 		}
 				
