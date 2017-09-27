@@ -30,7 +30,7 @@ public class Separation_TCC_First_Heuristic extends Abstract_Separation{
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 			
 		boolean cutFound = false;
 		
@@ -67,13 +67,18 @@ public class Separation_TCC_First_Heuristic extends Abstract_Separation{
 				/* If the node is not already in the cycle */
 				if(id[idNext] != -1){
 					
-					double value = s.x(c1,id[idNext]);
-				
-					if(value == 1){
-						optimalSecondFound = true;
-						cycle.add(id[idNext]);
-						id[idNext] = -1;
-						cycle_value +=value;
+					double value;
+					try {
+						value = s.x(c1,id[idNext]);
+						
+						if(value == 1){
+							optimalSecondFound = true;
+							cycle.add(id[idNext]);
+							id[idNext] = -1;
+							cycle_value +=value;
+						}
+					} catch (IloException e) {
+						e.printStackTrace();
 					}
 				}
 
@@ -91,6 +96,7 @@ public class Separation_TCC_First_Heuristic extends Abstract_Separation{
 				
 				boolean processOver = false;
 
+				try{
 				/* While the process is not over.
 				 * The process is over if :
 				 * 	- a violated cycle have been found (a cycle which violate the corresponding two-chorded cycle inequality) -> cutFound == true
@@ -115,16 +121,21 @@ public class Separation_TCC_First_Heuristic extends Abstract_Separation{
 						/* If the node is not already in the cycle */
 						if(id[idNext] != -1){
 							
-							double value = s.x(cM,id[idNext]) - s.x(cM1,id[idNext]);
+							double value;
+							try {
+								value = s.x(cM,id[idNext]) - s.x(cM1,id[idNext]);
 
-							/* If a better valid value is found */
-							if(value > bestValidValue){
-								
-								bestValidIndex = idNext;
-								bestValidValue = value;
-								
-								if(value == 1)
-									optimalNodeFound = true;
+								/* If a better valid value is found */
+								if(value > bestValidValue){
+									
+									bestValidIndex = idNext;
+									bestValidValue = value;
+									
+									if(value == 1)
+										optimalNodeFound = true;
+								}
+							} catch (IloException e) {
+								e.printStackTrace();
 							}
 							
 						}
@@ -180,6 +191,7 @@ public class Separation_TCC_First_Heuristic extends Abstract_Separation{
 					}
 					
 				} /* END : while(!processOver) */
+				}catch(IloException e){e.printStackTrace();}
 				
 			} /* END : if(validSecondFound) */
 			

@@ -27,7 +27,7 @@ public class Separation_Triangle_Representative extends Abstract_Separation{
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate() {
 
 		ArrayList<Integer> set = new ArrayList<Integer>();
 		
@@ -54,11 +54,19 @@ public class Separation_Triangle_Representative extends Abstract_Separation{
 		TriangleRepresentative ineq1 = new TriangleRepresentative(s, set.get(0), set.get(1), set.get(2), set.get(3));
 		TriangleRepresentative ineq2 = new TriangleRepresentative(s, set.get(1), set.get(0), set.get(2), set.get(3));
 		
-		if(ineq1.getSlack() < -0.00001)
-			result.add(ineq1);
+		try {
+			if(ineq1.getSlack() < -0.00001)
+				result.add(ineq1);
+		} catch (IloException e) {
+			e.printStackTrace();
+		}
 		
-		if(ineq2.getSlack() < -0.00001)
-			result.add(ineq2);
+		try {
+			if(ineq2.getSlack() < -0.00001)
+				result.add(ineq2);
+		} catch (IloException e) {
+			e.printStackTrace();
+		}
 		
 		/* Valid inequalities which are not facet defining */
 		if(!onlyFacets){
@@ -66,15 +74,23 @@ public class Separation_Triangle_Representative extends Abstract_Separation{
 			if(set.get(3) >= 3 && set.get(2) >= 3){
 				TriangleRepresentative ineq3 = new TriangleRepresentative(s, set.get(0), set.get(1), set.get(3), set.get(2));
 				
-				if(ineq3.getSlack() < -0.00001)
-					result.add(ineq3);
+				try {
+					if(ineq3.getSlack() < -0.00001)
+						result.add(ineq3);
+				} catch (IloException e) {
+					e.printStackTrace();
+				}
 			}
 			
 			if(set.get(3) >= 3 && set.get(1) >= 3){
 				TriangleRepresentative ineq4 = new TriangleRepresentative(s, set.get(2), set.get(0), set.get(3), set.get(1));
 				
-				if(ineq4.getSlack() < -0.00001)
-					result.add(ineq4);
+				try {
+					if(ineq4.getSlack() < -0.00001)
+						result.add(ineq4);
+				} catch (IloException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		

@@ -37,7 +37,7 @@ public class Separation_UpperRep extends Abstract_Separation {
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate()  {
 
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 		
@@ -50,7 +50,11 @@ public class Separation_UpperRep extends Abstract_Separation {
 			int i = 0;
 			
 			while(i < j && foundIneq.size() < MAXFOUND){
-				addIfGapNegative(i, j);
+				try {
+					addIfGapNegative(i, j);
+				} catch (IloException e) {
+					e.printStackTrace();
+				}
 				++i;
 			}
 			
@@ -70,7 +74,7 @@ public class Separation_UpperRep extends Abstract_Separation {
 	}
 
 	
-	private void addIfGapNegative(int i, int j) {
+	private void addIfGapNegative(int i, int j) throws IloException {
 		GapUpperRepInequality ineq = new GapUpperRepInequality(i, j);
 		
 		if(ineq.gap < -eps)
@@ -81,7 +85,7 @@ public class Separation_UpperRep extends Abstract_Separation {
 		
 		public int gap;
 		
-		public GapUpperRepInequality(int i, int j) {
+		public GapUpperRepInequality(int i, int j) throws IloException {
 			super(Separation_UpperRep.this.s, i, j);
 			this.gap = (int) (getSlack() * 1000);
 		}

@@ -46,12 +46,12 @@ public class Linear_First_Inequality extends Abstract_Inequality{
 	}
 
 	@Override
-	public double evaluate() {
+	public double evaluate() throws IloException {
 		return s.xt(i, j) - s.x(i,j);
 	}
 
 	@Override
-	public double getSlack() {
+	public double getSlack() throws IloException {
 		return -this.evaluate();
 	}
 

@@ -150,7 +150,6 @@ public abstract class Abstract_Cutting_Plane {
 						
 						ArrayList<Abstract_Inequality> r;
 						
-						try {
 							r = cp.se.separate();
 						
 							if(r.size() > 0){
@@ -171,9 +170,6 @@ public abstract class Abstract_Cutting_Plane {
 							
 							cp.usedAtThisIteration = true;
 							
-						} catch (IloException e) {
-							e.printStackTrace();
-						}
 					}
 					
 					methode++;
@@ -189,11 +185,18 @@ public abstract class Abstract_Cutting_Plane {
 				{
 
 					Closest_rep mip_getter = new Closest_rep(rep);
-					MIPStart new_mip = mip_getter.getMIPStart();
-					double newInt = new_mip.evaluation;
-					if(newInt < bestInt){
-						bestInt = newInt;
-						bestMIP = new_mip;
+					MIPStart new_mip;
+					
+					try {
+						new_mip = mip_getter.getMIPStart();
+						double newInt = new_mip.evaluation;
+						if(newInt < bestInt){
+							bestInt = newInt;
+							bestMIP = new_mip;
+						}
+						
+					} catch (IloException e) {
+						e.printStackTrace();
 					}
 					
 //					System.out.print(" : int "  + Math.round(newInt));

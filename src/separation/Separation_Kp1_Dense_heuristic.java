@@ -1,15 +1,11 @@
 package separation;
-import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-import inequality_family.DependentSet_Inequality;
-
 import java.util.ArrayList;
 import java.util.Random;
 
+import ilog.concert.IloException;
+import inequality_family.Abstract_Inequality;
+import inequality_family.DependentSet_Inequality;
 import solution.Solution_Representative;
-
-import cut_callback.Abstract_CutCallback;
-import formulation.PartitionWithRepresentative;
 
 /**
  * Separate inequalities in the shape :
@@ -42,7 +38,7 @@ public class Separation_Kp1_Dense_heuristic extends Abstract_Separation{
 
 boolean firstTime = true;	
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate() {
 
 		density = new double[s.n()];
 		
@@ -51,6 +47,7 @@ boolean firstTime = true;
 		
 		double setDensity = 0.0;
 		
+		try{
 		for(int i = 0 ; i < s.n() ; ++i)
 			for(int j = i+1 ; j < s.n() ; ++j){
 				density[i] += s.x(i,j);
@@ -110,6 +107,7 @@ boolean firstTime = true;
 			else
 				nodeFound = false;
 		}
+		}catch(IloException e){e.printStackTrace();}
 
 		ArrayList<Abstract_Inequality> ineq = new ArrayList<Abstract_Inequality>();
 
@@ -139,7 +137,7 @@ boolean firstTime = true;
 
 	}
 
-	private void updateDensities(int id) {
+	private void updateDensities(int id) throws IloException {
 		
 		/* Remove id from the set */
 		density[id] = -1.0;

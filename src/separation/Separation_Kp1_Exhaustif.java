@@ -1,14 +1,10 @@
 package separation;
+import java.util.ArrayList;
+
 import ilog.concert.IloException;
 import inequality_family.Abstract_Inequality;
 import inequality_family.DependentSet_Inequality;
-
-import java.util.ArrayList;
-
 import solution.Solution_Representative;
-
-import cut_callback.Abstract_CutCallback;
-import formulation.PartitionWithRepresentative;
 
 
 /**
@@ -26,7 +22,7 @@ public class Separation_Kp1_Exhaustif extends Abstract_Separation{
 	}
 	
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate() {
 		
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 
@@ -38,9 +34,15 @@ public class Separation_Kp1_Exhaustif extends Abstract_Separation{
 				set.add(i);
 			
 			while(set != null){
-				Abstract_Inequality ineq = getInequality(set); 
-				if(ineq !=  null)
-					result.add(ineq);
+				Abstract_Inequality ineq;
+				try {
+					ineq = getInequality(set);
+					if(ineq !=  null)
+						result.add(ineq);
+				} catch (IloException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} 
 				
 //				System.out.println("kp1 exhaustif: " + set);
 				set = nextKp1Set(set);
@@ -51,7 +53,7 @@ public class Separation_Kp1_Exhaustif extends Abstract_Separation{
 	
 	}
 	
-	public Abstract_Inequality getInequality(ArrayList<Integer> set){
+	public Abstract_Inequality getInequality(ArrayList<Integer> set) throws IloException{
 					
 		Abstract_Inequality ineq = new DependentSet_Inequality(s, set, 1.0);
 		

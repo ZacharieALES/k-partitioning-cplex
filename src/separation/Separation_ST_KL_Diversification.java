@@ -27,7 +27,7 @@ public class Separation_ST_KL_Diversification extends Separation_ST_KL{
 	 */
 	public int cn2;
 	
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate() {
 				
 		ArrayList<Abstract_Inequality> r = new ArrayList<Abstract_Inequality>();
 		
@@ -135,7 +135,7 @@ public class Separation_ST_KL_Diversification extends Separation_ST_KL{
 	}
 	
 	@Override
-	public void initializeSubSlacks() {
+	public void initializeSubSlacks() throws IloException {
 		super.initializeSubSlacks();
 
 		ST_Inequality cs = new ST_Inequality(s);

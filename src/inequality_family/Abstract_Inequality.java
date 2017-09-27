@@ -1,5 +1,6 @@
 package inequality_family;
 
+import ilog.concert.IloException;
 import ilog.concert.IloRange;
 
 import java.io.Serializable;
@@ -27,17 +28,22 @@ public abstract class Abstract_Inequality implements Serializable{
 	
 	public abstract Range createRange();
 	public abstract Abstract_Inequality clone();
-	public abstract double evaluate();
+	public abstract double evaluate() throws IloException;
 	
 	/**
 	 * Return a value which represent the difference between the value of the inequality expression and it's bound.
 	 *  
 	 * @return A positive value if the inequality is not violated; a negative value otherwise.
 	 */
-	public abstract double getSlack();
+	public abstract double getSlack() throws IloException;
 	
 	public boolean isTight(){
-		return Math.abs(getSlack()) < eps;
+		try {
+			return Math.abs(getSlack()) < eps;
+		} catch (IloException e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
 	/**

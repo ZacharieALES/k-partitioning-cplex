@@ -28,7 +28,7 @@ public class Separation_SubRepresentative_exhaustive extends Abstract_Separation
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() throws IloException {
+	public ArrayList<Abstract_Inequality> separate(){
 		
 		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
 		

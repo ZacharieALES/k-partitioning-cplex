@@ -1,10 +1,10 @@
 package separation;
-import inequality_family.Abstract_Inequality;
-import inequality_family.ST_Inequality;
-
 import java.util.ArrayList;
 import java.util.Random;
 
+import ilog.concert.IloException;
+import inequality_family.Abstract_Inequality;
+import inequality_family.ST_Inequality;
 import solution.Solution_Representative;
 
 /**
@@ -209,7 +209,7 @@ public class Separation_ST_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void initializeSubSlacks() {
+	public void initializeSubSlacks() throws IloException {
 		
 		/* Set the impossible transformations to worstValue */
 		
@@ -368,7 +368,7 @@ public class Separation_ST_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void computeTransformationSlacks() {
+	public void computeTransformationSlacks() throws IloException {
 
 		Exchange bestNextExchange = new Exchange();
 		Move bestNextMove = new Move();
@@ -594,7 +594,7 @@ public class Separation_ST_KL extends Abstract_KL_Separation{
 	}
 
 	@Override
-	public void updateSubSlacks(Transformation tr) {
+	public void updateSubSlacks(Transformation tr) throws IloException {
 		/*
 		 * idS Id of the node that left the set S during the transformation (-1 if there is none).
 		 * idT Id of the node that left the set T during the transformation (-1 if there is none).

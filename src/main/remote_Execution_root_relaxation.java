@@ -95,7 +95,6 @@ public class remote_Execution_root_relaxation extends Execution{
 			
 			found = false;
 			ArrayList<Abstract_Inequality> al_ineq;
-			try {
 				al_ineq = sep.separate();
 				if(al_ineq.size() > 0){
 					for(Abstract_Inequality ineq : al_ineq){
@@ -104,9 +103,6 @@ public class remote_Execution_root_relaxation extends Execution{
 					rep.solve();			
 					found = true;
 				}
-			} catch (IloException e) {
-				e.printStackTrace();
-			}
 		}		
 		
 		return rep.getObjValue2();
@@ -119,7 +115,6 @@ public class remote_Execution_root_relaxation extends Execution{
 		rep.solve();
 		
 		ArrayList<Abstract_Inequality> al_ineq;
-		try {
 			al_ineq = sep.separate();
 			if(al_ineq.size() > 0){
 				System.out.println(sep.name + " : " + al_ineq.size());
@@ -128,9 +123,6 @@ public class remote_Execution_root_relaxation extends Execution{
 				}
 				rep.solve();			
 			}
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
 		
 		return rep.getObjValue2();
 		
