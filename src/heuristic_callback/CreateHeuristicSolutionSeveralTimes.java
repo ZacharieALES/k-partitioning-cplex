@@ -136,9 +136,6 @@ public class CreateHeuristicSolutionSeveralTimes{
 							/* If we already know that i is not a representative set x_ij to 1 */
 							if(repEqual0[i]){
 								modification = true;
-								Integer[] t = new Integer[2];
-								t[0] = i;
-								t[1] = j;
 								nbOfVarSet++;
 								
 								isSet[i][j] = true;
@@ -148,9 +145,6 @@ public class CreateHeuristicSolutionSeveralTimes{
 							else if(nbRepEqualTo0 < rep.n - rep.K()){
 
 								modification = true;
-								Integer[] t = new Integer[2];
-								t[0] = i;
-								t[1] = j;
 								
 								repEqual0[i] = true;
 	

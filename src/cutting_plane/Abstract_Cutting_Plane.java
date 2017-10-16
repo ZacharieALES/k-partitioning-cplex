@@ -89,7 +89,6 @@ public abstract class Abstract_Cutting_Plane {
 		
 		boolean isInteger = false;
 
-//TODO Ajouter des bool��ens pour eviter d'executer plusieurs fois les facettes de la formulations ? (et mettre un indice min, indice max �� ex��cuter qui evolue)
 		while(cutFound && !optimumFound && !max_time_for_relaxation_improvement_reached){ 
 			
 			/* Compute the relaxation */
