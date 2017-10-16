@@ -1,16 +1,15 @@
 package cut_callback;
+import java.util.ArrayList;
+
 import formulation.Partition;
-import formulation.PartitionWithRepresentative;
 import formulation.Partition_with_tildes;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.concert.IloRange;
+import ilog.cplex.IloCplex.CutManagement;
 import ilog.cplex.IloCplex.UserCutCallback;
 import inequality_family.Range;
-
-import java.util.ArrayList;
-
 import separation.Abstract_Separation;
 import solution.Solution_Representative;
 
@@ -90,7 +89,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 
 	public void addRange(IloRange range, int idSep){
 		try {
-			this.add(range, false);
+			this.add(range, CutManagement.UseCutFilter);
 			sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -109,7 +108,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 
 	public void addRange(Range ri, int idSep) {
 		try {
-			this.add(rep.range(ri.lbound, ri.expr, ri.ubound), false);
+			this.add(rep.range(ri.lbound, ri.expr, ri.ubound), CutManagement.UseCutFilter);
 			if(idSep >= 0)
 				sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
@@ -119,7 +118,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 	
 	public void addLe(IloLinearNumExpr expr, double ubound, int idSep){
 		try {
-			this.add(rep.le(expr, ubound), false);
+			this.add(rep.le(expr, ubound), CutManagement.UseCutFilter);
 			sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -128,7 +127,7 @@ public abstract class Abstract_CutCallback extends UserCutCallback implements So
 	
 	public void addGe(IloLinearNumExpr expr, double lbound, int idSep){
 		try {
-			this.add(rep.ge(expr, lbound), false);
+			this.add(rep.ge(expr, lbound), CutManagement.UseCutFilter);
 			sep.get(idSep).added_cuts++;
 		} catch (IloException e) {
 			e.printStackTrace();

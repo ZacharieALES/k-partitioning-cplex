@@ -8,6 +8,7 @@ import ilog.concert.IloNumVar;
 import ilog.concert.IloNumVarType;
 import ilog.concert.IloRange;
 import ilog.cplex.IloCplex;
+import ilog.cplex.IloCplex.DoubleParam;
 import ilog.cplex.IloCplex.IntParam;
 import ilog.cplex.IloCplex.UnknownObjectException;
 import inequality_family.LowerRep_Inequality;
@@ -87,8 +88,8 @@ public static boolean test = true;
 			if(rp.tilim != -1)
 			    cplex.setParam(IloCplex.DoubleParam.TiLim, Math.max(10,rp.tilim));
 			
-//			cplex.setParam(DoubleParam.WorkMem, 2000);
-//			cplex.setParam(DoubleParam.TreLim, 500);
+			cplex.setParam(DoubleParam.WorkMem, 5000);
+			cplex.setParam(DoubleParam.TreLim, 4000);
 			cplex.setParam(IntParam.NodeFileInd, 3);
 			
 			/* Create the variables */

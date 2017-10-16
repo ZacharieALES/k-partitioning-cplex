@@ -238,7 +238,7 @@ public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
 		content += "\\end{document}\n";
 
 
-		ComputeResults.writeInFile("./schema.tex", content);
+		ComputeResults.writeInFile("./schema.tex", content, false);
 
 		System.out.println("done");
 
@@ -281,7 +281,7 @@ public class Execution_inoc_numero_special_v2_10_min_tmax extends Execution{
 		if(f.exists())
 			f.delete();
 
-		ComputeResults.writeInFile(saveFile, content);
+		ComputeResults.writeInFile(saveFile, content, false);
 
 		System.out.println("done");
 

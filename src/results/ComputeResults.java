@@ -755,11 +755,11 @@ public class ComputeResults {
 		
 	}
 	
-	public static void writeInFile(String file, String content){
+	public static void writeInFile(String file, String content, boolean append){
 		
 		 try{
 		     FileWriter fw = new
-		     FileWriter(file, true);
+		     FileWriter(file, append);
 		     BufferedWriter output = new BufferedWriter(fw);
 		     output.write(content + "\n");
 		     output.flush();
@@ -772,7 +772,7 @@ public class ComputeResults {
 	}
 	
 	public static void log(String content){
-		writeInFile("log.txt", content);
+		writeInFile("log.txt", content, true);
 		System.out.println(content);
 	}
 	

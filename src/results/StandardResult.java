@@ -82,7 +82,7 @@ public class StandardResult {
 		}
 	}
 	
-	private int gapId(){
+	public int gapId(){
 		switch((int)dissimilarityGap){
 		case 0: return 0;
 		case -250: return 1;

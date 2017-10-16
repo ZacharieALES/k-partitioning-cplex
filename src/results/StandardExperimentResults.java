@@ -7,6 +7,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -172,6 +174,60 @@ public class StandardExperimentResults{
 		srList.add(result);
 		
 	}
+	
+	
+	/**
+	 * Get the list of all the valid instances. 
+	 * An instance is valid if it has been solved for each possible combination of each parameter in the HashMap <result>
+	 * 
+	 * @return
+	 */
+	public List<Integer> getValidInstancesNumber(){
+		
+		List<Integer> exhaustiveInstancesNumber = new ArrayList<>();
+		
+		/* Get the list of all the instances solved */
+		for(Map.Entry<Integer, SRListWrapper> entry: results.entrySet()) {
+			
+			SRListWrapper value = entry.getValue();
+			
+			if(value != null && value.list != null)
+				for(StandardResult res: value.list)
+					if(!exhaustiveInstancesNumber.contains(res.i))
+						exhaustiveInstancesNumber.add(res.i);
+
+		}
+		
+		Collections.sort(exhaustiveInstancesNumber);
+		System.out.println(exhaustiveInstancesNumber.size() + " instances solved at least once (from n°" + exhaustiveInstancesNumber.get(0) + " to n°" + exhaustiveInstancesNumber.get(exhaustiveInstancesNumber.size()-1) + ")");
+		
+		List<Integer> validInstancesNumber = new ArrayList<>(exhaustiveInstancesNumber);
+			
+		for(Map.Entry<Integer, SRListWrapper> entry: results.entrySet()) {
+							
+			/* If the entry is valid */
+			if(entry.getValue() != null && entry.getValue().list != null && entry.getValue().list.size() != 0) {
+				
+//				System.out.println("Entry considered: "+ entry.getValue().list.get(0));
+				/* For each existing instance */
+				for(Integer i:exhaustiveInstancesNumber)
+					
+					/* If the instance is not solved for the current configuration */
+					if(!entry.getValue().containsInstance(i) ) { 
+						System.out.println("Instance not solved: " + entry.getValue().list.get(0));
+						validInstancesNumber.remove(Integer.valueOf(i));
+					}
+			}
+			else
+				System.out.println("Entry " + entry.getKey() + " is invalid.");
+				
+		}
+		
+		return validInstancesNumber;
+		
+	}
+	
+	
 	
 
 }

@@ -201,7 +201,7 @@ public class Execution_rr_tilde_et_sans extends Execution{
 		if(f.exists())
 			f.delete();
 
-		ComputeResults.writeInFile(save_file, content);
+		ComputeResults.writeInFile(save_file, content, false);
 		
 		System.out.println("done");
 		

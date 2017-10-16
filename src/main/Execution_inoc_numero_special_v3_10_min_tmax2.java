@@ -3,6 +3,8 @@ package main;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import cutting_plane.CP_Rep;
 import formulation.Param;
@@ -55,7 +57,7 @@ import results.StandardResult.FormulationType;
 
 public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 
-	StandardExperimentResults ser;
+	public StandardExperimentResults ser;
 
 	//	TildeParam tp  = new TildeParam(null, -1, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true);
 	TildeParam tpBc  = new TildeParam(null, c_k, true, Triangle.USE_IN_BC_ONLY, true, false, false);
@@ -63,6 +65,8 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 	RepParam rp = new RepParam(null, c_k, Triangle.USE, true, true, true);
 	XYParam xy1p = new XYParam(null, c_k, false, false);
 	XYParam xy2p = new XYParam(null, c_k, true, false);
+
+	public static boolean doXY1 = false;
 
 	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats_big_pc.ser";
 	int tilim;
@@ -90,7 +94,7 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 		gapValues.add(0.0);
 		gapValues.add(-250.0);
 		gapValues.add(-500.0);
-		
+
 	}
 
 	@Override
@@ -105,8 +109,8 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 		if(c_n % 10 == 0 && c_k % 2 == 0)
 		{
 
-			int id_n = c_n / 5 - 2;
-			int id_k = c_k / 2 - 1;
+			//			int id_n = c_n / 5 - 2;
+			//			int id_k = c_k / 2 - 1;
 
 			ComputeResults.log("(n,K): (" + c_n + "," + c_k + "," + c_i + ")");
 
@@ -120,20 +124,23 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 				xy1p.gapDiss = gapValues.get(gap);
 				xy2p.gapDiss = gapValues.get(gap);
 
-				/* Representative formulation */
-				performFormulation(FormulationType.REPRESENTATIVE, "rep", rp);
+				try {
+					/* Representative formulation */
+					performFormulation(FormulationType.REPRESENTATIVE, "rep", rp);
 
-				/* XY1 formulation */	
-				performFormulation(FormulationType.XY1, "xy1", xy1p);
+					/* XY1 formulation */
+					if(doXY1)
+						performFormulation(FormulationType.XY1, "xy1", xy1p);
 
-				/* XY2 formulation */
-				performFormulation(FormulationType.XY2, "xy2", xy2p);
+					/* XY2 formulation */
+					performFormulation(FormulationType.XY2, "xy2", xy2p);
 
-				/* Tilde formulation */
-				performFormulation(FormulationType.TILDE, "tilde", tp);
+					/* Tilde formulation */
+					performFormulation(FormulationType.TILDE, "tilde", tp);
 
-				/* Tilde formulation with cp */
-				performFormulation(FormulationType.BC, "cp", tpBc);
+					/* Tilde formulation with cp */
+					performFormulation(FormulationType.BC, "cp", tpBc);
+				}catch(Exception e) {e.printStackTrace();}
 
 			}
 		}
@@ -143,7 +150,7 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 	public void performFormulation(FormulationType formulation, String formulation_name, Param param){
 
 		StandardResult result = new StandardResult(c_n, c_i, formulation, param);
-		int code = result.hashCode();
+		//		int code = result.hashCode();
 		StandardResult previousResult = ser.get(result);
 
 		if(previousResult == null){
@@ -161,7 +168,7 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 				case XY2:
 					p = ((Partition_x_y_2)createPartition(xy2p));
 					break;
-				case TILDE:
+				default:
 					p = ((PartitionWithRepresentative)createPartition(tp));
 					break;
 				}
@@ -173,7 +180,7 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 			}
 			else{
 				tpBc.inputFile = c_input_file;
-				
+
 				CP_Rep cprep = new CP_Rep(tpBc, 500, -1,  1, 5, true, tilim);
 
 				result.resolutionTime = cprep.solve();
@@ -190,7 +197,7 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 			System.out.print("check.");
 			ser.check();
 			System.out.println(".");
-			
+
 
 		}
 		else{
@@ -214,7 +221,20 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 	double size_legende_y = 2.6;
 
 
-	public void printSchema(int minN, int maxN, double base, double height) {
+
+	/**
+	 * 
+	 * @param listN
+	 * @param listK
+	 * @param base
+	 * @param height
+	 * @param time Time in seconds
+	 */
+	public void printSchema(String outputTexFile, List<Integer> listN, List<Integer> listK, double base, double height, int time) {
+
+		Collections.sort(listN);
+		int maxN = listN.get(listN.size() - 1);
+		int minN = listN.get(0);
 
 		String content = "\\documentclass[landscape]{article}\n\n";
 
@@ -255,20 +275,104 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 		//		content += displayTableNodes(minN, maxN, valueOfN, 2);
 
 
-		content += displayTableTimeGapNodes(minN, maxN, 0);
-		content += displayTableTimeGapNodes(minN, maxN, 1);
-		content += displayTableTimeGapNodes(minN, maxN, 2);
+		content += displayTableTimeGapNodes(listN, listK, 0, time);
+		content += displayTableTimeGapNodes(listN, listK, -250, time);
+		content += displayTableTimeGapNodes(listN, listK, -500, time);
 
 		content += "\\end{document}\n";
 
 
-		ComputeResults.writeInFile("./schema.tex", content);
+		ComputeResults.writeInFile(outputTexFile, content, false);
 
 		System.out.println("done");
 
+		String s;
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec("pdflatex " + outputTexFile);
+			p.waitFor();
+			p.destroy();
+		} catch (Exception e) {}
+
 	}
 
-	public void printTablesTimeGapNodes(int minN, int maxN) {
+
+	/**
+	 * 
+	 * @param listN
+	 * @param listK
+	 * @param base
+	 * @param height
+	 * @param time Time in seconds
+	 */
+	public void printComparisonTimesOnRandomInstances(String outputTexFile, List<Integer> listN, List<Integer> listK) {
+
+		Collections.sort(listN);
+		int maxN = listN.get(listN.size() - 1);
+		int minN = listN.get(0);
+
+		String content = "\\documentclass[landscape]{article}\n\n";
+
+		String[] valueOfN = new String[(maxN/5)-(minN/5)+1];
+		for(int i = 0 ; i < valueOfN.length  ; i++){
+			valueOfN[i] = ((Integer)(i*5+10)).toString();
+		}
+
+		content += "\\usepackage[french]{babel}\n";
+		content += "\\usepackage [utf8] {inputenc} % utf-8 / latin1\n";
+		content += "\\usepackage{tikz}\n";
+		content += "\\usepackage{amssymb}\n";
+		content += "\\setlength{\\hoffset}{-18pt} \n\n";
+
+		content += "\\usepackage{array}\n\\usepackage{booktabs}\\usepackage{multirow}\n\\newcolumntype{M}[1]{>{\\centering}m{#1}}\n";
+
+		content += "\\setlength{\\oddsidemargin}{0pt} % Marge gauche sur pages impaires \n";
+		content += "\\setlength{\\evensidemargin}{0pt} % Marge gauche sur pages paires \n";
+		content += "\\setlength{\\marginparwidth}{10pt} % Largeur de note dans la marge \n";
+		content += "\\setlength{\\textwidth}{540pt} % Largeur de la zone de texte (17cm) \n";
+		content += "\\setlength{\\voffset}{-18pt} % Bon pour DOS \n";
+		content += "\\setlength{\\marginparsep}{0pt} % Séparation de la marge \n";
+		content += "\\setlength{\\topmargin}{0pt} % Pas de marge en haut \n";
+		content += "\\setlength{\\headheight}{0pt} % Haut de page \n";
+		content += "\\setlength{\\headsep}{0pt} % Entre le haut de page et le texte \n";
+		content += "\\setlength{\\footskip}{0pt} % Bas de page + séparation \n";
+		content += "\\setlength{\\textheight}{538pt} % Hauteur de la zone de texte (25cm) \n";
+		content += "\\begin{document}\n\n";
+
+
+		content += displayTableTimeGapNodes(listN, listK, 0, 600);
+		content += displayTableTimeGapNodes(listN, listK, 0, 3600);
+		content += "\\newpage"; 
+		content += displayTableTimeGapNodes(listN, listK, -250, 600);
+		content += displayTableTimeGapNodes(listN, listK, -250, 3600);
+		content += "\\newpage";
+		content += displayTableTimeGapNodes(listN, listK, -500, 600);
+		content += displayTableTimeGapNodes(listN, listK, -500, 3600);
+
+		content += "\\end{document}\n";
+
+
+		ComputeResults.writeInFile(outputTexFile, content, false);
+
+		System.out.println("done");
+
+		String s;
+		Process p;
+		try {
+			p = Runtime.getRuntime().exec("pdflatex " + outputTexFile);
+			p.waitFor();
+			p.destroy();
+		} catch (Exception e) {}
+
+	}
+
+	/**
+	 * 
+	 * @param listN
+	 * @param listK
+	 * @param time Time in seconds
+	 */
+	public void printTablesTimeGapNodes(List<Integer> listN, List<Integer> listK, int time) {
 
 		String content = "\\documentclass[landscape]{article}\n\n";
 
@@ -293,9 +397,9 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 		content += "\\setlength{\\textheight}{538pt} % Hauteur de la zone de texte (25cm) \n";
 		content += "\\begin{document}\n\n";
 
-		content += displayTableTimeGapNodes(minN, maxN, 0);
-		content += displayTableTimeGapNodes(minN, maxN, 1);
-		content += displayTableTimeGapNodes(minN, maxN, 2);
+		content += displayTableTimeGapNodes(listN, listK, 0, time);
+		content += displayTableTimeGapNodes(listN, listK, -250, time);
+		content += displayTableTimeGapNodes(listN, listK, -500, time);
 
 		content += "\\end{document}\n";
 
@@ -305,13 +409,11 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 		if(f.exists())
 			f.delete();
 
-		ComputeResults.writeInFile(saveFile, content);
+		ComputeResults.writeInFile(saveFile, content, false);
 
 		System.out.println("done");
 
 	}
-
-
 	public String printSchemaTimeGap(int minN, int maxN, double base, double height, String[] valueOfN, int data_set){
 
 
@@ -734,167 +836,118 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 
 	}
 
-	public String displayTableTimeGapNodes(int minN, int maxN, int data_set){
 
+	/**
+	 * 
+	 * @param gap Gap on the dissimilarity
+	 * @param time Maximal time in seconds
+	 * @return
+	 */
+	public String displayTableTimeGapNodes(List<Integer> listN, List<Integer> listK, int gap, int time){
 
-		double [][][][][][] resultats = null;
-		double [][][][][][] resultats_xy = null;
-		double [][][][][] resultatsCP = null;
-		double [][][][][] resultatsCP2 = null;
-		double [][][] bestInt = new double[9][4][10];
-
-
-		String saveFileAllFastSeparationHeuristicFolder = "./results/expe_num_special_inoc_v2/";
-		String saveFileAllFastSeparationHeuristicFile = "resultats_several_fast_separation_in_bc.ser";
-
-		resultatsCP = ComputeResults.unserialize("./results/expe_num_special_inoc_v2/resultats_cp.ser", double[][][][][].class);
-		resultatsCP2 = ComputeResults.unserialize(saveFileAllFastSeparationHeuristicFolder + saveFileAllFastSeparationHeuristicFile, double[][][][][].class);
-		resultats = ComputeResults.unserialize("./results/expe_num_special_inoc_v2/resultats.ser", double[][][][][][].class);
-		resultats_xy = ComputeResults.unserialize("./results/expe_num_special_inoc_v2/resultats_general_clique_node_cluster.ser", double[][][][][][].class);
-
-
-		int instanceMax = 9;
-
-		int nbFormulations = 5;
-		int []order_formulations = new int[nbFormulations];
-		order_formulations[0] = 1;
-		order_formulations[1] = 2;
-		order_formulations[2] = 0;
-		order_formulations[3] = 3;
-
-		/* Find for each of the 5 configurations (i.e., the 4 formulations and the CP) the best feasible solution */
-		for(int n = 0 ; n < 9 ; ++n)
-			for(int K = 0 ; K < 4 ; ++K)
-				for(int i = 0 ; i < instanceMax ; ++i){
-					bestInt[n][K][i] = Double.MAX_VALUE;
-
-					for(int f = 0 ; f < 4 ; ++f){
-						double c_int;
-
-						/* If it is a xy formulation */
-						if(f == 1 || f == 2)
-							c_int = resultats_xy[n][K][data_set][f][3][i];
-						else
-							c_int = resultats[n][K][data_set][f][3][i];
-
-						if(c_int != -1.0 && c_int < bestInt[n][K][i])
-							bestInt[n][K][i] = c_int;
-					}
-
-					if(resultatsCP2[n][K][data_set][3][i] != -1.0 && resultatsCP2[n][K][data_set][3][i] < bestInt[n][K][i])
-						bestInt[n][K][i] = resultatsCP2[n][K][data_set][3][i];
-
-				}
+		StandardResult res = new StandardResult();
+		res.dissimilarityGap = gap;
+		res.tilim = time;
 
 		String content = "\\begin{center}\\begin{table}\\renewcommand{\\arraystretch}{1.2}\\centering \\begin{tabular}{*{2}{M{0.5cm}}*{5}{r@{\\hspace{0.4cm}}r}@{\\hspace{0.5cm}}*{5}{r@{\\hspace{0.5cm}}}}\\toprule\\multirow{2}{*}{\\textbf{n}} & \\multirow{2}{*}{\\textbf{K}}&\\multicolumn{10}{c}{\\textbf{Time (s) and Gap (\\%)}} & \\multicolumn{5}{c}{\\textbf{Nodes}} \\\\& & \\multicolumn{2}{c}{$(F_{nc1})$} & \\multicolumn{2}{c}{$(F_{nc2})$} & \\multicolumn{2}{c}{$(F_{er})$} & \\multicolumn{2}{c}{$(F_{ext})$} & \\multicolumn{2}{c}{$(BC)$} & $(F_{nc1})$ & $(F_{nc2})$ & $(F_{er})$ & $(F_{ext})$ & $(BC)$\\tabularnewline\\hline";
 		String suf_table1 = "\\bottomrule\n\\end{tabular}\n\\caption{";
 		String suf_table2 = "}\\end{table}\\end{center}";
 
+		Collections.sort(listN);
+		Collections.sort(listK);
 
-		for(int n = minN ; n <= maxN ; n+=10){
+		int minN = listN.get(0);
+		int maxN = listN.get(listN.size() - 1);
 
-			int id_n = Math.round((n - minN)/10*2)+2;
+		List<Integer> instances = ser.getValidInstancesNumber();
 
-			content += "\\multirow{" + nbFormulations + "}{*}{\\textbf{" + n + "}} \t";
+		for(Integer n: listN){
 
-			for(int k = 0 ; k <= 3 ; ++k){
-				content += "& \\textbf{" + (2*k+2) + "} \t";
+			//			int id_n = Math.round((n - minN)/10*2)+2;
 
-				/* Add the time/gap for the 4 formulations */
-				for(int formulation = 0 ; formulation < 4 ; ++formulation){
+			content += "\\multirow{" + listK.size() + "}{*}{\\textbf{" + n + "}} \t";
+
+			for(Integer k: listK){
+				content += "& \\textbf{" + k + "} \t";
+
+				/* Add the time/gap for the 5 configurations */
+				for(int formulation = 0 ; formulation < 5 ; ++formulation){
+
+					FormulationType ft;
+
+					switch(formulation) {
+					case 0: ft = FormulationType.XY1;break;
+					case 1: ft = FormulationType.XY2;break;
+					case 2: ft = FormulationType.REPRESENTATIVE;break;
+					case 3: ft = FormulationType.TILDE;break;
+					default: ft = FormulationType.BC;break;
+					}
 
 					double meanTime = 0.0;
 					double meanGap = 0.0;
 
-					for(int i = 0 ; i < instanceMax ; ++i){
+					for(Integer i: instances){
 
-						double time;
-						double relax;
-						double bestI;
+						
+						System.out.println(i);
+						res.n = n;
+						res.K = k;
+						res.i = i;
+						res.type = ft;
 
-						if(order_formulations[formulation] == 1 || order_formulations[formulation] == 2){
-							time = resultats_xy[id_n][k][data_set][order_formulations[formulation]][1][i];
-							relax = resultats_xy[id_n][k][data_set][order_formulations[formulation]][0][i];
+						System.out.println("Formulation type: "+ ft);
+						StandardResult resTemp = ser.get(res);
+						
+						System.out.println("(n,k,i,f,h): (" + n + "," + k + ","+ i + "," + formulation + "," + resTemp.hashCode() + ")" );
+
+						if(resTemp == null) {
+							System.err.println("Error: unable to find result which corresponds to " + res);
+							return null;
 						}
-						else{
-							time = resultats[id_n][k][data_set][order_formulations[formulation]][1][i];
-							relax = resultats[id_n][k][data_set][order_formulations[formulation]][0][i];
-						}
 
-						bestI = bestInt[id_n][k][i];	
-						meanTime += time;
+						System.out.println("res time: " + resTemp.resolutionTime);
+						meanTime += resTemp.resolutionTime;
 
 						/* If there is a gap */
-						if(time >= 600)
-							meanGap += ComputeResults.improvement(bestI, relax);
+						if(resTemp.resolutionTime >= resTemp.tilim) {
+							meanGap += ComputeResults.improvement(resTemp.bestInteger, resTemp.bestRelaxation);
+							System.out.println("Gap: " + ComputeResults.improvement(resTemp.bestInteger, resTemp.bestRelaxation));
+						}
 					}
 
-					meanTime /= ((Integer)instanceMax).doubleValue();
-					meanGap /= ((Integer)instanceMax).doubleValue();
+					meanTime /= (double)(instances.size());
+					meanGap /= (double)(instances.size());
 					meanGap *= 100.0;
 
 					content += "& " + Math.round(meanTime) + "s & " + Math.round(meanGap) + "\\%";
 				}
 
-				/* Add the time/gap for the CP */
-				double meanTime = 0.0;
-				double meanTime_old = 0.0;
-				double meanGap = 0.0;
-				double meanGap_old = 0.0;
+				/* Add the nodes for the 5 configurations */
+				for(int formulation = 0 ; formulation < 5 ; ++formulation){
 
-				for(int i = 0 ; i < instanceMax ; ++i){
+					FormulationType ft;
 
-					double time = resultatsCP2[id_n][k][data_set][1][i];
-					double time_old = resultatsCP[id_n][k][data_set][1][i];
-					double relax = resultatsCP2[id_n][k][data_set][0][i];
-					double relax_old = resultatsCP[id_n][k][data_set][0][i];
-					double bestI = bestInt[id_n][k][i];	
+					switch(formulation) {
+					case 0: ft = FormulationType.REPRESENTATIVE;break;
+					case 1: ft = FormulationType.TILDE;break;
+					case 2: ft = FormulationType.XY1;break;
+					case 3: ft = FormulationType.XY2;break;
+					default: ft = FormulationType.BC;break;
+					}
 
-					meanTime += time;
-					meanTime_old += time_old;
+					res.type = ft;
 
-					/* If there is a gap */
-					if(time >= 600)
-						meanGap += ComputeResults.improvement(bestI, relax);
-
-					if(time_old >= 600)
-						meanGap_old += ComputeResults.improvement(bestI, relax_old);
-
-				}
-
-				meanTime /= ((Integer)instanceMax).doubleValue();
-				meanGap /= ((Integer)instanceMax).doubleValue();
-				meanTime_old /= ((Integer)instanceMax).doubleValue();
-				meanGap_old /= ((Integer)instanceMax).doubleValue();
-				meanGap *= 100.0;
-				meanGap_old *= 100.0;
-
-				content += "& " + Math.round(meanTime) + "s & " + Math.round(meanGap) + "\\%";
-
-				System.out.println("new: " + Math.round(meanTime) + "s " + Math.round(meanGap) + "%");
-				System.out.println("old: " + Math.round(meanTime_old) + "s " + Math.round(meanGap_old) + "%");
-
-				/* Add the nodes for the 4 formulations */
-				for(int formulation = 0 ; formulation < 4 ; ++formulation){
 
 					double meanNodes = 0;
 
-					for(int i = 0 ; i < instanceMax ; ++i)
-						meanNodes += resultats[id_n][k][data_set][order_formulations[formulation]][2][i];
+					for(Integer i: instances) {
+						res.i = i;
+						meanNodes += ser.get(res).nodes;
+					}
 
-					meanNodes /= instanceMax;
+					meanNodes /= instances.size();
 					content += "& " + Math.round(meanNodes);
 				}
-
-				/* Add the nodes for the CP */
-				double meanNodes = 0;
-
-				for(int i = 0 ; i < instanceMax ; ++i)
-					meanNodes += resultatsCP[id_n][k][data_set][2][i];	
-
-
-				meanNodes /= instanceMax;
-				content += "& " + Math.round(meanNodes);
 
 				content += "\\\\\n";
 			}
@@ -906,13 +959,12 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 		}
 
 		content += suf_table1;
-		content += "Mean results (in terms of time, gap and number of nodes in the branch-and-cut tree) obtained for each of the five configurations over $10$ instances of $D_" + (data_set + 1) + "$. Configuration $(BC)$ corresponds to the branch-and-cut algorithm presented section~\\ref{sec:branch}.\n";
+		content += "Mean results (in terms of time, gap and number of nodes in the branch-and-cut tree) obtained for each of the five configurations over $10$ instances of $D_" + (res.gapId() + 1) + "$. Configuration $(BC)$ corresponds to the branch-and-cut algorithm presented section~\\ref{sec:branch}.\n";
 		content += suf_table2;
 
 		return content;
 
 	}
-
 
 	private double getXPosition(int n, int k, double base) {		
 		return (5 * n + k+1) * base; 
@@ -945,24 +997,40 @@ public class Execution_inoc_numero_special_v3_10_min_tmax2 extends Execution{
 
 	public static void main(String[] args){
 
-//		StandardExperimentResults ser = new StandardExperimentResults();
-//		
-//		StandardResult sr = new StandardResult(10, 10, FormulationType.REPRESENTATIVE, new TildeParam("pouet", 3));
-//		
-//		ser.add(sr);
-//		
-//		StandardExperimentResults.saveResults(ser, "test.xml");
-//		
-//		ser = StandardExperimentResults.getResults("test.xml");
-//		
-//		if(ser.check())
-//			System.out.println("ok");
-//		else
-//			System.out.println("pas ok");
-		
+		//		StandardExperimentResults ser = new StandardExperimentResults();
+		//		
+		//		StandardResult sr = new StandardResult(10, 10, FormulationType.REPRESENTATIVE, new TildeParam("pouet", 3));
+		//		
+		//		ser.add(sr);
+		//		
+		//		StandardExperimentResults.saveResults(ser, "test.xml");
+		//		
+		//		ser = StandardExperimentResults.getResults("test.xml");
+		//		
+		//		if(ser.check())
+		//			System.out.println("ok");
+		//		else
+		//			System.out.println("pas ok");
+
 		Partition.start();
-		new Execution_inoc_numero_special_v3_10_min_tmax2(40, 40, 4, 4, 0, 3, 600).execute();
-		new Execution_inoc_numero_special_v3_10_min_tmax2(40, 40, 4, 4, 0, 3, 3600).execute();
+		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 600).execute();
+		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 3600).execute();
+		//		doXY1 = true;
+		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 600).execute();
+		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 3600).execute();
+
+		Execution_inoc_numero_special_v3_10_min_tmax2 expe = new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 3600);
+
+		List<Integer> listN = new ArrayList<>();
+		List<Integer> listK = new ArrayList<>();
+
+		listN.add(30);
+		listN.add(40);
+
+		listK.add(4);
+
+		expe.printComparisonTimesOnRandomInstances("output.tex", listN, listK);
+
 		Partition.end();
 	}
 

@@ -80,7 +80,7 @@ public class CP_Result extends Result{
 				log += "\t\t" + cplexCutNb.get(j).cutName + " cut:\t" + cplexCutNb.get(j).cutNb + "\n";
 		}
 		
-		ComputeResults.writeInFile("log.txt", log);
+		ComputeResults.writeInFile("log.txt", log, true);
 		System.out.println(log);
 	}
 }

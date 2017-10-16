@@ -1,0 +1,1694 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<standardExperimentResults>
+    <map>
+        <entry>
+            <key>300420</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="603.6126050949097" nodes="117410" bestInteger="15149.0" bestRelaxation="8253.819868944584" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="610.5997672080994" nodes="128206" bestInteger="16667.0" bestRelaxation="8335.499999999982" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.5950691699982" nodes="135557" bestInteger="16668.0" bestRelaxation="8908.971209823727" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.7198491096497" nodes="126666" bestInteger="15336.0" bestRelaxation="8426.262165410662" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.5354719161987" nodes="131002" bestInteger="15579.0" bestRelaxation="7702.823141339376" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="612.4803378582001" nodes="132448" bestInteger="16734.0" bestRelaxation="9471.808468467672" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.5914919376373" nodes="134329" bestInteger="16266.0" bestRelaxation="7650.2329968119" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300421</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0226640701294" nodes="68968" bestInteger="-11020.0" bestRelaxation="-12831.00054959325" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0041971206665" nodes="68652" bestInteger="-10705.0" bestRelaxation="-12775.717427380685" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.4979739189148" nodes="82755" bestInteger="-8766.0" bestRelaxation="-13201.234536120828" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0042290687561" nodes="63543" bestInteger="-11026.0" bestRelaxation="-15101.768267771115" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0025150775909" nodes="81237" bestInteger="-10447.0" bestRelaxation="-13729.240681003736" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.4950330257416" nodes="71989" bestInteger="-8792.0" bestRelaxation="-12907.866546270634" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.3925421237946" nodes="82832" bestInteger="-8891.0" bestRelaxation="-12349.312499999858" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300422</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="16.494362115859985" nodes="5828" bestInteger="-93018.0" bestRelaxation="-93022.62087912047" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="20.181241035461426" nodes="4128" bestInteger="-93073.0" bestRelaxation="-93073.0" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="9.436964988708496" nodes="2183" bestInteger="-90604.0" bestRelaxation="-90609.97273144335" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="15.377580881118774" nodes="4337" bestInteger="-94971.0" bestRelaxation="-94980.49639896727" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="39.64431381225586" nodes="10126" bestInteger="-92514.0" bestRelaxation="-92521.62790697625" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="5.949278116226196" nodes="1099" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="10.768856048583984" nodes="3157" bestInteger="-91608.0" bestRelaxation="-91612.72727272726" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300430</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="601.0564820766449" nodes="49687" bestInteger="16494.0" bestRelaxation="7042.869873086195" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.5071971416473" nodes="46107" bestInteger="16525.0" bestRelaxation="6900.686274509639" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.8016631603241" nodes="52374" bestInteger="18152.0" bestRelaxation="7669.313218394566" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.4617018699646" nodes="48166" bestInteger="15803.0" bestRelaxation="6938.750000001047" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.6369910240173" nodes="53024" bestInteger="16307.0" bestRelaxation="6599.024234694056" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="606.2040569782257" nodes="48752" bestInteger="17328.0" bestRelaxation="7493.6500000011065" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.3647201061249" nodes="37855" bestInteger="17236.0" bestRelaxation="6835.0199115093865" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300431</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0047700405121" nodes="8108" bestInteger="-10395.0" bestRelaxation="-17011.0510999456" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0061118602753" nodes="6742" bestInteger="-9361.0" bestRelaxation="-17160.248940542635" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0072078704834" nodes="6619" bestInteger="-7821.0" bestRelaxation="-16687.572994824397" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0049328804016" nodes="6140" bestInteger="-10135.0" bestRelaxation="-18676.40083692046" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0050148963928" nodes="8589" bestInteger="-8903.0" bestRelaxation="-17467.95168251131" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.005322933197" nodes="5967" bestInteger="-8599.0" bestRelaxation="-16582.440805643902" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0047900676727" nodes="7680" bestInteger="-8188.0" bestRelaxation="-16137.510784031645" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400402</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0050599575043" nodes="1351" bestInteger="-171398.0" bestRelaxation="-175033.33042110116" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="533.9343180656433" nodes="2059" bestInteger="-172316.0" bestRelaxation="-172331.98237453756" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="524.9615540504456" nodes="1563" bestInteger="-171720.0" bestRelaxation="-171734.00000000006" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0061950683594" nodes="770" bestInteger="-173812.0" bestRelaxation="-180170.78284068374" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0061631202698" nodes="1754" bestInteger="-175622.0" bestRelaxation="-180842.79775063202" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0067732334137" nodes="1394" bestInteger="-178108.0" bestRelaxation="-183004.4980993635" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0139579772949" nodes="1116" bestInteger="-168485.0" bestRelaxation="-174523.77659384455" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300432</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="6.3845109939575195" nodes="537" bestInteger="-93018.0" bestRelaxation="-93018.0" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4.849102020263672" nodes="312" bestInteger="-93073.0" bestRelaxation="-93073.0" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4.259343862533569" nodes="177" bestInteger="-90604.0" bestRelaxation="-90604.0" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="6.019309043884277" nodes="342" bestInteger="-94971.0" bestRelaxation="-94971.0" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="5.748092174530029" nodes="492" bestInteger="-92514.0" bestRelaxation="-92514.0" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="2.5220870971679688" nodes="0" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3.007390022277832" nodes="0" bestInteger="-91608.0" bestRelaxation="-91608.0" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400400</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0076830387115" nodes="675" bestInteger="34575.0" bestRelaxation="27689.99642271659" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0121419429779" nodes="287" bestInteger="34230.0" bestRelaxation="26896.717958683854" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0092339515686" nodes="517" bestInteger="34637.0" bestRelaxation="27350.750628030073" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.013592004776" nodes="229" bestInteger="39206.0" bestRelaxation="27088.195563316647" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.1141519546509" nodes="311" bestInteger="39176.0" bestRelaxation="26947.000367330587" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0130729675293" nodes="218" bestInteger="36634.0" bestRelaxation="26352.285104263712" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0127959251404" nodes="156" bestInteger="43378.0" bestRelaxation="28087.578380393843" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400401</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0120301246643" nodes="336" bestInteger="-14364.000000000002" bestRelaxation="-18095.99524108309" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0062158107758" nodes="32" bestInteger="-8973.0" bestRelaxation="-19162.296873030285" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0127229690552" nodes="358" bestInteger="-11344.0" bestRelaxation="-18620.145742756806" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0063900947571" nodes="290" bestInteger="-12087.0" bestRelaxation="-19193.57453317918" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.013099193573" nodes="339" bestInteger="-12629.999999999996" bestRelaxation="-19850.020922290627" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.006101846695" nodes="19" bestInteger="-9455.0" bestRelaxation="-20610.801638840978" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0107519626617" nodes="68" bestInteger="-9481.0" bestRelaxation="-17545.80912397501" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400412</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0064971446991" nodes="955" bestInteger="-171398.0" bestRelaxation="-174601.77217717175" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0063621997833" nodes="878" bestInteger="-172247.0" bestRelaxation="-174573.70314927006" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="329.57906913757324" nodes="840" bestInteger="-171720.0" bestRelaxation="-171720.0" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="386.9951591491699" nodes="958" bestInteger="-174123.0" bestRelaxation="-174139.2853033828" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="508.1717929840088" nodes="1724" bestInteger="-175622.0" bestRelaxation="-175635.6363636348" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="469.20361495018005" nodes="1100" bestInteger="-178108.0" bestRelaxation="-178108.0" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="492.635498046875" nodes="1450" bestInteger="-168496.0" bestRelaxation="-168503.44283226898" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400410</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0053961277008" nodes="29" bestInteger="37862.0" bestRelaxation="27818.981348123405" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0154120922089" nodes="0" bestInteger="37213.0" bestRelaxation="26819.5127219168" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0156590938568" nodes="225" bestInteger="32390.0" bestRelaxation="27400.894404544233" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0058350563049" nodes="116" bestInteger="37454.0" bestRelaxation="27085.334763812112" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0127258300781" nodes="306" bestInteger="35395.0" bestRelaxation="26877.416326684677" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0090010166168" nodes="44" bestInteger="41155.0" bestRelaxation="26489.602906266948" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0068800449371" nodes="197" bestInteger="39423.0" bestRelaxation="28130.10809273635" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300440</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="73.52966690063477" nodes="280" bestInteger="14875.000000000004" bestRelaxation="14875.000000000004" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="10.939021110534668" nodes="0" bestInteger="15012.999999999996" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="109.76585102081299" nodes="550" bestInteger="16298.0" bestRelaxation="16298.0" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="53.79922914505005" nodes="119" bestInteger="14564.999999999996" bestRelaxation="14564.999999999996" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="64.0803439617157" nodes="0" bestInteger="15005.0" bestRelaxation="15005.0" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="95.04415321350098" nodes="280" bestInteger="16132.999999999985" bestRelaxation="16132.999999999985" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="93.83230209350586" nodes="277" bestInteger="15834.999999999993" bestRelaxation="15834.999999999993" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400411</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.5062968730927" nodes="0" bestInteger="-10833.0" bestRelaxation="-18058.228909330795" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0634999275208" nodes="83" bestInteger="-10598.0" bestRelaxation="-19338.730853092424" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0141670703888" nodes="0" bestInteger="-9121.0" bestRelaxation="-18499.490339837685" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.4033839702606" nodes="0" bestInteger="-10056.0" bestRelaxation="-19195.664461389624" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0507938861847" nodes="0" bestInteger="-11411.0" bestRelaxation="-19719.57636743431" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0076360702515" nodes="8" bestInteger="-9307.0" bestRelaxation="-20635.598229299972" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.007523059845" nodes="2" bestInteger="-9071.0" bestRelaxation="-17584.618517164923" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300441</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="16.988441944122314" nodes="0" bestInteger="-11275.999999999998" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="14.614269971847534" nodes="0" bestInteger="-10810.0" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="116.3264467716217" nodes="91" bestInteger="-8990.0" bestRelaxation="-8990.0" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="92.20482921600342" nodes="148" bestInteger="-11026.0" bestRelaxation="-11026.0" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="32.508137941360474" nodes="0" bestInteger="-10663.0" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="99.35020709037781" nodes="85" bestInteger="-9215.0" bestRelaxation="-9215.0" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="121.26318907737732" nodes="139" bestInteger="-9349.999999999995" bestRelaxation="-9349.999999999995" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300442</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="405.6002399921417" nodes="215" bestInteger="-93018.0" bestRelaxation="-93018.0" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="446.02828001976013" nodes="339" bestInteger="-93073.00000000012" bestRelaxation="-93073.00000000012" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="296.4072141647339" nodes="88" bestInteger="-90604.0" bestRelaxation="-90604.0" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="592.5675218105316" nodes="375" bestInteger="-94970.99999999988" bestRelaxation="-94970.99999999988" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="588.17844414711" nodes="445" bestInteger="-92514.00000000004" bestRelaxation="-92514.00000000004" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="285.7739751338959" nodes="100" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="335.00474405288696" nodes="214" bestInteger="-91608.00000000001" bestRelaxation="-91608.00000000001" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400422</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="136.738028049469" nodes="13518" bestInteger="-171511.0" bestRelaxation="-171527.99999999985" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="209.77156114578247" nodes="17582" bestInteger="-172316.0" bestRelaxation="-172327.45454545438" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="100.58630418777466" nodes="7876" bestInteger="-171720.0" bestRelaxation="-171724.81914893613" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="148.60226106643677" nodes="13994" bestInteger="-174123.0" bestRelaxation="-174134.77484222926" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="155.343847990036" nodes="16526" bestInteger="-175622.0" bestRelaxation="-175639.26230975834" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="140.84095191955566" nodes="10064" bestInteger="-178108.0" bestRelaxation="-178125.61218836554" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="201.3157799243927" nodes="18934" bestInteger="-168496.0" bestRelaxation="-168512.64603481643" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300402</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="65.52932596206665" nodes="847" bestInteger="-93018.0" bestRelaxation="-93023.26060546275" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="36.37968897819519" nodes="691" bestInteger="-93073.0" bestRelaxation="-93080.5000000009" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="39.56631588935852" nodes="406" bestInteger="-90604.0" bestRelaxation="-90610.89370169921" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="72.3573169708252" nodes="799" bestInteger="-94971.0" bestRelaxation="-94971.0" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="33.029561042785645" nodes="817" bestInteger="-92514.0" bestRelaxation="-92514.0" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="27.63996696472168" nodes="319" bestInteger="-90738.99999999997" bestRelaxation="-90738.99999999997" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="42.13882803916931" nodes="602" bestInteger="-91608.0" bestRelaxation="-91616.81818181828" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400420</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="601.2894830703735" nodes="49259" bestInteger="32353.0" bestRelaxation="7948.27129397625" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.8114051818848" nodes="56029" bestInteger="33650.0" bestRelaxation="8613.056372549016" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.5068778991699" nodes="52466" bestInteger="33254.0" bestRelaxation="9587.992189512983" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="601.6266040802002" nodes="58869" bestInteger="33707.0" bestRelaxation="9108.288263633758" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.8687198162079" nodes="46533" bestInteger="33937.0" bestRelaxation="9437.308888031877" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.6803450584412" nodes="58539" bestInteger="33045.0" bestRelaxation="9098.933140573436" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.6179940700531" nodes="51956" bestInteger="34222.0" bestRelaxation="8880.588845947686" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300401</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="23.836074829101562" nodes="31" bestInteger="-11276.0" bestRelaxation="-11277.125539272858" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="29.376051902770996" nodes="91" bestInteger="-10810.0" bestRelaxation="-10810.0" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="268.02550292015076" nodes="4009" bestInteger="-8990.0" bestRelaxation="-8990.0" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="130.13490891456604" nodes="2096" bestInteger="-11026.0" bestRelaxation="-11026.0" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="50.65319800376892" nodes="433" bestInteger="-10663.0" bestRelaxation="-10663.0" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="263.69033694267273" nodes="5530" bestInteger="-9215.0" bestRelaxation="-9215.0" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="138.7528429031372" nodes="2911" bestInteger="-9350.0" bestRelaxation="-9350.0" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400421</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0034770965576" nodes="17146" bestInteger="-13556.0" bestRelaxation="-32926.81144567222" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0027279853821" nodes="12671" bestInteger="-14102.0" bestRelaxation="-33195.207263450706" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0041401386261" nodes="12084" bestInteger="-13213.0" bestRelaxation="-32344.714157627554" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0365397930145" nodes="13502" bestInteger="-13328.0" bestRelaxation="-33484.67403966425" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0075950622559" nodes="12683" bestInteger="-14020.0" bestRelaxation="-33657.983667406785" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0025169849396" nodes="12150" bestInteger="-14560.0" bestRelaxation="-35433.245110571064" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0024299621582" nodes="14666" bestInteger="-12101.0" bestRelaxation="-30739.883135101612" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300400</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="556.9260869026184" nodes="15740" bestInteger="14875.0" bestRelaxation="14873.515412700248" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="261.7684760093689" nodes="4910" bestInteger="15013.00000000001" bestRelaxation="15011.674636102704" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="834.9850051403046" nodes="15632" bestInteger="16297.999999999933" bestRelaxation="16296.668927250199" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="539.9977400302887" nodes="13257" bestInteger="14565.0" bestRelaxation="14563.586467282212" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="605.2391791343689" nodes="14242" bestInteger="15005.0" bestRelaxation="15003.666666666646" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="807.5854878425598" nodes="16305" bestInteger="16133.0" bestRelaxation="16131.613813201608" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="576.0675618648529" nodes="8620" bestInteger="15835.000000000238" bestRelaxation="15835.000000000238" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400430</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0335850715637" nodes="1807" bestInteger="37156.0" bestRelaxation="6180.269550114342" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0560760498047" nodes="1467" bestInteger="35695.0" bestRelaxation="5819.442020277182" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.055596113205" nodes="1525" bestInteger="37737.0" bestRelaxation="6308.480134322164" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0139751434326" nodes="1751" bestInteger="34922.0" bestRelaxation="5911.286673172777" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0091691017151" nodes="2312" bestInteger="35667.0" bestRelaxation="6422.679775818527" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0164158344269" nodes="2161" bestInteger="35235.0" bestRelaxation="6163.611791319974" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0075290203094" nodes="1714" bestInteger="35347.0" bestRelaxation="6150.097934027885" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300411</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="39.02079701423645" nodes="54" bestInteger="-11276.0" bestRelaxation="-11276.0" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="34.30280900001526" nodes="53" bestInteger="-10810.0" bestRelaxation="-10810.0" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="497.5278642177582" nodes="6880" bestInteger="-8990.0" bestRelaxation="-8990.0" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="201.50729203224182" nodes="3022" bestInteger="-11026.0" bestRelaxation="-11026.0" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="69.95111203193665" nodes="422" bestInteger="-10663.0" bestRelaxation="-10663.0" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="262.6295599937439" nodes="3504" bestInteger="-9215.0" bestRelaxation="-9215.0" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="497.6867730617523" nodes="5596" bestInteger="-9350.0" bestRelaxation="-9350.0" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400431</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0086600780487" nodes="933" bestInteger="-11904.0" bestRelaxation="-35427.13056723593" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0123519897461" nodes="936" bestInteger="-10544.0" bestRelaxation="-37177.78920722127" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.1637101173401" nodes="1165" bestInteger="-10327.0" bestRelaxation="-36050.96504087958" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0184910297394" nodes="1171" bestInteger="-11858.0" bestRelaxation="-37690.417026227165" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0080740451813" nodes="868" bestInteger="-11871.0" bestRelaxation="-38428.7622741011" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0065040588379" nodes="540" bestInteger="-13611.0" bestRelaxation="-40350.19213909322" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0112998485565" nodes="1203" bestInteger="-10313.0" bestRelaxation="-35131.23459850504" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300410</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="329.3255081176758" nodes="4886" bestInteger="14875.0" bestRelaxation="14873.559272024531" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="133.1740951538086" nodes="1358" bestInteger="15013.000000000013" bestRelaxation="15013.000000000013" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1901.1135649681091" nodes="33646" bestInteger="16297.999999999996" bestRelaxation="16296.587955089786" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="669.4558401107788" nodes="11244" bestInteger="14565.0" bestRelaxation="14563.692417659591" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="953.6112699508667" nodes="14910" bestInteger="15005.0" bestRelaxation="15003.779824166088" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1980.5831379890442" nodes="42397" bestInteger="16133.0" bestRelaxation="16131.394564325885" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="901.3351612091064" nodes="9825" bestInteger="15834.999999999973" bestRelaxation="15833.464869580892" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300412</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="56.03942584991455" nodes="703" bestInteger="-93018.0" bestRelaxation="-93024.60718562879" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="55.29625082015991" nodes="549" bestInteger="-93073.0" bestRelaxation="-93073.0" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="34.75390005111694" nodes="220" bestInteger="-90604.0" bestRelaxation="-90604.0" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="50.07144498825073" nodes="665" bestInteger="-94971.0" bestRelaxation="-94976.07142857744" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="43.19353699684143" nodes="992" bestInteger="-92514.0" bestRelaxation="-92518.3733207359" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="32.26721405982971" nodes="173" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="31.230976104736328" nodes="456" bestInteger="-91607.99999999993" bestRelaxation="-91615.74025974021" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400432</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="37.59104800224304" nodes="1382" bestInteger="-171511.0" bestRelaxation="-171526.99999999584" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="23.224140882492065" nodes="744" bestInteger="-172316.0" bestRelaxation="-172326.9999999993" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="21.116724014282227" nodes="449" bestInteger="-171720.0" bestRelaxation="-171723.99999999994" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="15.65881609916687" nodes="398" bestInteger="-174123.0" bestRelaxation="-174135.99999999997" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="33.445889949798584" nodes="1297" bestInteger="-175622.0" bestRelaxation="-175637.6086956521" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="24.342715978622437" nodes="871" bestInteger="-178108.0" bestRelaxation="-178121.99999999997" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="21.612617015838623" nodes="926" bestInteger="-168496.0" bestRelaxation="-168504.30769230748" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400442</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.3853089809418" nodes="380" bestInteger="-171511.0" bestRelaxation="-180530.9277103286" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.065101146698" nodes="7" bestInteger="-167210.0" bestRelaxation="-180008.66555317093" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0492491722107" nodes="3" bestInteger="-167783.0" bestRelaxation="-180863.9151061814" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0506489276886" nodes="7" bestInteger="-166997.0" bestRelaxation="-179266.06831818508" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0479390621185" nodes="7" bestInteger="-168911.0" bestRelaxation="-181917.5943462184" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0959620475769" nodes="4" bestInteger="-171766.0" bestRelaxation="-184862.6543157674" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0454452037811" nodes="7" bestInteger="-173759.0" bestRelaxation="-186699.53693144032" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.1403229236603" nodes="7" bestInteger="-162131.0" bestRelaxation="-176856.4302094028" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400440</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.0223462581635" nodes="0" bestInteger="32526.0" bestRelaxation="28090.921355792678" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0115602016449" nodes="467" bestInteger="31388.0" bestRelaxation="29482.005573123086" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0072572231293" nodes="411" bestInteger="30371.0" bestRelaxation="29159.42408906397" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0142819881439" nodes="393" bestInteger="30239.000000000007" bestRelaxation="29566.451683889714" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0120511054993" nodes="385" bestInteger="31452.0" bestRelaxation="29376.03586357901" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0141077041626" nodes="423" bestInteger="31381.0" bestRelaxation="29080.910261439378" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0075557231903" nodes="295" bestInteger="31194.0" bestRelaxation="28587.1861337547" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0064392089844" nodes="679" bestInteger="30291.0" bestRelaxation="30173.439147786514" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>400441</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="600.023679971695" nodes="0" bestInteger="-13879.0" bestRelaxation="-17406.5038349622" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0061838626862" nodes="176" bestInteger="-13817.0" bestRelaxation="-16843.92947224081" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.016252040863" nodes="302" bestInteger="-17069.0" bestRelaxation="-17601.02734575862" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0433900356293" nodes="5" bestInteger="-13814.0" bestRelaxation="-17111.44312539934" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0072209835052" nodes="342" bestInteger="-14077.0" bestRelaxation="-17440.7420192626" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0064709186554" nodes="121" bestInteger="-16242.0" bestRelaxation="-18078.488894761886" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0090210437775" nodes="216" bestInteger="-16149.0" bestRelaxation="-18689.238379622482" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0164937973022" nodes="218" bestInteger="-15113.999999999989" bestRelaxation="-16253.071513352483" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300432</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="6.345937013626099" nodes="537" bestInteger="-93018.0" bestRelaxation="-93018.0" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4.737691879272461" nodes="312" bestInteger="-93073.0" bestRelaxation="-93073.0" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4.206032991409302" nodes="177" bestInteger="-90604.0" bestRelaxation="-90604.0" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="5.877036094665527" nodes="342" bestInteger="-94971.0" bestRelaxation="-94971.0" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="5.807563066482544" nodes="492" bestInteger="-92514.0" bestRelaxation="-92514.0" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="2.591684103012085" nodes="0" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="2.9481148719787598" nodes="0" bestInteger="-91608.0" bestRelaxation="-91608.0" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400401</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.0063638687134" nodes="5045" bestInteger="-15609.0" bestRelaxation="-17140.800716307996" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.007078886032" nodes="5652" bestInteger="-14181.0" bestRelaxation="-18208.710966695005" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.010395050049" nodes="6446" bestInteger="-15039.0" bestRelaxation="-17591.51457898002" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0067281723022" nodes="6311" bestInteger="-12514.0" bestRelaxation="-18228.23589610662" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0099408626556" nodes="5469" bestInteger="-15475.0" bestRelaxation="-18876.357460498148" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0108330249786" nodes="6534" bestInteger="-14444.0" bestRelaxation="-19705.728086017967" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.006772041321" nodes="5522" bestInteger="-14896.0" bestRelaxation="-16472.044707729932" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400400</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.0061218738556" nodes="5765" bestInteger="30368.000000000033" bestRelaxation="28633.45846566609" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0059440135956" nodes="6876" bestInteger="34230.0" bestRelaxation="27691.223441940278" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0067920684814" nodes="6360" bestInteger="32905.0" bestRelaxation="28205.417819738912" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0106739997864" nodes="5643" bestInteger="32733.0" bestRelaxation="27955.263710699583" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0103290081024" nodes="5762" bestInteger="32955.0" bestRelaxation="27683.23038483569" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.00719499588" nodes="5505" bestInteger="32555.0" bestRelaxation="27087.63246866854" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.014820098877" nodes="4912" bestInteger="32651.0" bestRelaxation="29047.533778745088" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400402</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="767.1889050006866" nodes="2127" bestInteger="-171511.0" bestRelaxation="-171526.072321031" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="786.9887018203735" nodes="2059" bestInteger="-172316.0" bestRelaxation="-172331.98237453756" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="520.1040279865265" nodes="1563" bestInteger="-171720.0" bestRelaxation="-171734.00000000006" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1378.923665046692" nodes="2006" bestInteger="-174123.0" bestRelaxation="-174130.9208857074" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="888.9711639881134" nodes="3000" bestInteger="-175622.0" bestRelaxation="-175639.45158338" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="716.8437201976776" nodes="2158" bestInteger="-178108.0" bestRelaxation="-178125.42033397095" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="935.5388939380646" nodes="2919" bestInteger="-168496.0" bestRelaxation="-168496.0" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400412</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="705.0585000514984" nodes="1750" bestInteger="-171511.0000000001" bestRelaxation="-171525.7921140186" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="666.3397970199585" nodes="1368" bestInteger="-172316.0" bestRelaxation="-172326.9969430748" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="327.24347710609436" nodes="840" bestInteger="-171720.0" bestRelaxation="-171720.0" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="605.4245729446411" nodes="958" bestInteger="-174123.0" bestRelaxation="-174139.2853033828" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="515.3172130584717" nodes="1724" bestInteger="-175622.0" bestRelaxation="-175635.6363636348" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="436.97213196754456" nodes="1100" bestInteger="-178108.0" bestRelaxation="-178108.0" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="472.98726201057434" nodes="1450" bestInteger="-168496.0" bestRelaxation="-168503.44283226898" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300442</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="400.74970626831055" nodes="215" bestInteger="-93018.0" bestRelaxation="-93018.0" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="450.9960660934448" nodes="339" bestInteger="-93073.00000000012" bestRelaxation="-93073.00000000012" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="309.86468601226807" nodes="88" bestInteger="-90604.0" bestRelaxation="-90604.0" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="593.5717380046844" nodes="375" bestInteger="-94970.99999999988" bestRelaxation="-94970.99999999988" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="419.6389710903168" nodes="472" bestInteger="-92514.0" bestRelaxation="-92514.0" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="262.4455769062042" nodes="100" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="435.77051305770874" nodes="309" bestInteger="-91608.0" bestRelaxation="-91608.0" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300441</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="16.473971843719482" nodes="0" bestInteger="-11276.0" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="15.337355852127075" nodes="0" bestInteger="-10809.999999999998" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="313.7516460418701" nodes="28" bestInteger="-8989.999999999982" bestRelaxation="-8989.999999999982" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="266.34321904182434" nodes="109" bestInteger="-11026.0" bestRelaxation="-11026.0" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="42.92737698554993" nodes="0" bestInteger="-10663.000000000004" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="303.3686373233795" nodes="60" bestInteger="-9214.999999999936" bestRelaxation="-9214.999999999936" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="371.74713492393494" nodes="0" bestInteger="-9350.0" bestRelaxation="-9350.0" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300440</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="105.37910199165344" nodes="262" bestInteger="14874.999999999989" bestRelaxation="14874.999999999989" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="25.203609943389893" nodes="0" bestInteger="15012.99999999999" bestRelaxation="-1.0" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="200.10789608955383" nodes="299" bestInteger="16298.0" bestRelaxation="16296.461781489274" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="88.36259198188782" nodes="120" bestInteger="14564.999999999976" bestRelaxation="14564.999999999976" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="61.44581413269043" nodes="73" bestInteger="15005.0" bestRelaxation="15005.0" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="92.32159996032715" nodes="273" bestInteger="16133.0" bestRelaxation="16133.0" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="82.18864822387695" nodes="257" bestInteger="15834.999999999947" bestRelaxation="15834.999999999947" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400411</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.0138261318207" nodes="3404" bestInteger="-15220.0" bestRelaxation="-17225.993147769957" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.01527094841" nodes="3101" bestInteger="-16286.0" bestRelaxation="-18397.750105347062" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.022582054138" nodes="4251" bestInteger="-14390.0" bestRelaxation="-17841.45593253057" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.016296863556" nodes="2771" bestInteger="-14957.0" bestRelaxation="-18347.768479548897" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0107760429382" nodes="3671" bestInteger="-14540.0" bestRelaxation="-18916.736143680362" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0069489479065" nodes="4751" bestInteger="-13359.0" bestRelaxation="-19720.673955793227" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.012489080429" nodes="3703" bestInteger="-14131.0" bestRelaxation="-16887.336476109595" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400410</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.286581993103" nodes="3241" bestInteger="30655.0" bestRelaxation="28267.664570520268" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.1740539073944" nodes="3209" bestInteger="31587.0" bestRelaxation="27482.350063066962" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.534554004669" nodes="3773" bestInteger="31277.0" bestRelaxation="28080.655261405955" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.4900889396667" nodes="3615" bestInteger="31787.0" bestRelaxation="27728.30526387141" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.7292740345" nodes="4111" bestInteger="32590.0" bestRelaxation="27366.532616191602" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.8536489009857" nodes="3868" bestInteger="30814.0" bestRelaxation="27061.81974926788" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0145611763" nodes="3588" bestInteger="31922.0" bestRelaxation="28961.966516625438" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300422</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="16.6279718875885" nodes="5828" bestInteger="-93018.0" bestRelaxation="-93022.62087912047" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="20.240406036376953" nodes="4128" bestInteger="-93073.0" bestRelaxation="-93073.0" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="9.78991413116455" nodes="2183" bestInteger="-90604.0" bestRelaxation="-90609.97273144335" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="15.731138944625854" nodes="4337" bestInteger="-94971.0" bestRelaxation="-94980.49639896727" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="41.52845311164856" nodes="10126" bestInteger="-92514.0" bestRelaxation="-92521.62790697625" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="9.194486141204834" nodes="1099" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="29.637815952301025" nodes="3157" bestInteger="-91608.0" bestRelaxation="-91612.72727272726" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300421</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="1164.732666015625" nodes="164486" bestInteger="-11276.0" bestRelaxation="-11277.105104442502" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1706.819795846939" nodes="257623" bestInteger="-10810.0" bestRelaxation="-10811.021739129872" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3603.757555961609" nodes="408562" bestInteger="-8958.0" bestRelaxation="-11830.513202247514" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3601.567006111145" nodes="405090" bestInteger="-11026.0" bestRelaxation="-12911.590587547807" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.992388010025" nodes="552976" bestInteger="-10585.0" bestRelaxation="-11448.44032663316" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3604.5876960754395" nodes="425507" bestInteger="-9215.0" bestRelaxation="-10961.174318225889" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3606.4286301136017" nodes="449053" bestInteger="-9110.0" bestRelaxation="-10851.8733471961" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300420</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="4200.640398025513" nodes="370888" bestInteger="15149.0" bestRelaxation="9535.62218568794" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4089.38685297966" nodes="363555" bestInteger="16369.0" bestRelaxation="9496.411111111236" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4025.235435962677" nodes="382797" bestInteger="16741.0" bestRelaxation="10073.000000000047" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3953.3312768936157" nodes="333261" bestInteger="15427.0" bestRelaxation="9454.502906976646" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3963.5539309978485" nodes="376347" bestInteger="15744.0" bestRelaxation="9232.973296502163" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4077.602485895157" nodes="349067" bestInteger="16744.0" bestRelaxation="10556.700000000154" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3705.278810977936" nodes="361455" bestInteger="16402.0" bestRelaxation="9156.96590909102" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300431</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.6098680496216" nodes="77841" bestInteger="-11276.0" bestRelaxation="-13152.06153846397" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3635.1271409988403" nodes="73261" bestInteger="-10084.0" bestRelaxation="-13253.674629250003" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3608.712058067322" nodes="69213" bestInteger="-8234.0" bestRelaxation="-13440.345503985876" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3626.8984019756317" nodes="67602" bestInteger="-10807.0" bestRelaxation="-15547.484171325192" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3601.2414650917053" nodes="82472" bestInteger="-10600.0" bestRelaxation="-14188.794822012993" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3608.8784630298615" nodes="70182" bestInteger="-8599.0" bestRelaxation="-13484.857795606895" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3605.7373819351196" nodes="87973" bestInteger="-9002.0" bestRelaxation="-13347.452123797997" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1300430</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="6678.870436191559" nodes="177651" bestInteger="15813.0" bestRelaxation="8113.5" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="5742.300802946091" nodes="159831" bestInteger="16668.0" bestRelaxation="7861.504918064332" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4816.704478025436" nodes="161698" bestInteger="16822.0" bestRelaxation="8562.349999999999" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4710.1141839027405" nodes="158102" bestInteger="16040.0" bestRelaxation="7810.750000000025" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4956.753010034561" nodes="143525" bestInteger="17271.0" bestRelaxation="7334.4499999999325" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4067.4896879196167" nodes="146681" bestInteger="17354.0" bestRelaxation="8370.812500000002" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4298.718425035477" nodes="145445" bestInteger="17118.0" bestRelaxation="7952.749999996818" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400432</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="36.62271499633789" nodes="1382" bestInteger="-171511.0" bestRelaxation="-171526.99999999584" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="24.15086603164673" nodes="744" bestInteger="-172316.0" bestRelaxation="-172326.9999999993" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="21.00191903114319" nodes="449" bestInteger="-171720.0" bestRelaxation="-171723.99999999994" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="17.051130056381226" nodes="398" bestInteger="-174123.0" bestRelaxation="-174135.99999999997" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="33.54903602600098" nodes="1297" bestInteger="-175622.0" bestRelaxation="-175637.6086956521" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="23.823175191879272" nodes="871" bestInteger="-178108.0" bestRelaxation="-178121.99999999997" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="20.707134008407593" nodes="926" bestInteger="-168496.0" bestRelaxation="-168504.30769230748" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400441</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.0154027938843" nodes="5014" bestInteger="-15843.000000000004" bestRelaxation="-16193.30003450651" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1296.7381558418274" nodes="1273" bestInteger="-17069.0" bestRelaxation="-17070.595019135646" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.2123522758484" nodes="4889" bestInteger="-15913.0" bestRelaxation="-16229.535994241907" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0093088150024" nodes="5255" bestInteger="-14510.0" bestRelaxation="-16749.220992688322" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3379.5478150844574" nodes="4764" bestInteger="-17025.0" bestRelaxation="-17026.551142844502" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0090668201447" nodes="3491" bestInteger="-17546.0" bestRelaxation="-17779.519234703563" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1264.7435050010681" nodes="1361" bestInteger="-15544.0" bestRelaxation="-15544.0" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400440</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="715.045912027359" nodes="509" bestInteger="29930.0" bestRelaxation="29930.0" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="1324.5390093326569" nodes="1632" bestInteger="29718.000000000095" bestRelaxation="29715.409831301047" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0055119991302" nodes="7065" bestInteger="30346.0" bestRelaxation="29985.230900102415" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0225808620453" nodes="6667" bestInteger="30895.000000000025" bestRelaxation="29764.594444966253" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0151500701904" nodes="5999" bestInteger="29885.000000000022" bestRelaxation="29501.135140388273" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0055680274963" nodes="7587" bestInteger="30159.00000000003" bestRelaxation="28931.102988636718" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="470.9923951625824" nodes="160" bestInteger="30291.0" bestRelaxation="30291.0" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400442</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.101423025131" nodes="187" bestInteger="-171304.00000000012" bestRelaxation="-180008.58475207473" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.047341108322" nodes="394" bestInteger="-172316.0" bestRelaxation="-176127.72621681824" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3492.7803440093994" nodes="334" bestInteger="-171719.99999999962" bestRelaxation="-171736.79827570144" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0412878990173" nodes="141" bestInteger="-173085.99999999983" bestRelaxation="-178668.9954919141" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0410599708557" nodes="205" bestInteger="-175104.0" bestRelaxation="-181367.33547755337" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0502560138702" nodes="267" bestInteger="-177884.0" bestRelaxation="-181627.37886996797" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0467658042908" nodes="146" bestInteger="-168429.99999999962" bestRelaxation="-174151.80319625264" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>BC</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400421</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.5360181331635" nodes="91962" bestInteger="-15353.0" bestRelaxation="-31049.37205303964" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3613.7694129943848" nodes="90514" bestInteger="-14806.0" bestRelaxation="-30025.318838701085" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3679.2595069408417" nodes="80462" bestInteger="-14813.0" bestRelaxation="-28938.927166292644" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3605.4689960479736" nodes="90639" bestInteger="-14204.0" bestRelaxation="-30044.944433210963" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3605.548712015152" nodes="84045" bestInteger="-15784.0" bestRelaxation="-30253.073840440095" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3631.466062068939" nodes="79350" bestInteger="-16042.0" bestRelaxation="-31679.958151770643" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3602.5680820941925" nodes="96024" bestInteger="-13984.0" bestRelaxation="-27583.98994903237" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400420</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3630.8011660575867" nodes="222409" bestInteger="30746.0" bestRelaxation="9786.99555844361" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4049.5542120933533" nodes="189880" bestInteger="34003.0" bestRelaxation="10345.6393805346" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3941.821874856949" nodes="175361" bestInteger="33254.0" bestRelaxation="11358.977606386708" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3959.610193014145" nodes="183287" bestInteger="33741.0" bestRelaxation="10655.648148148208" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3796.2562251091003" nodes="170217" bestInteger="33816.0" bestRelaxation="11091.780174768483" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3875.9186401367188" nodes="167763" bestInteger="32791.0" bestRelaxation="10444.804687502234" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="4427.599272012711" nodes="168613" bestInteger="34222.0" bestRelaxation="10562.263474081676" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400422</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="134.64147996902466" nodes="13518" bestInteger="-171511.0" bestRelaxation="-171527.99999999985" n="40" k="4" dissimilarityGap="-500.0" i="0" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="217.72529697418213" nodes="17582" bestInteger="-172316.0" bestRelaxation="-172327.45454545438" n="40" k="4" dissimilarityGap="-500.0" i="1" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="105.81031703948975" nodes="7876" bestInteger="-171720.0" bestRelaxation="-171724.81914893613" n="40" k="4" dissimilarityGap="-500.0" i="2" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="155.05325198173523" nodes="13994" bestInteger="-174123.0" bestRelaxation="-174134.77484222926" n="40" k="4" dissimilarityGap="-500.0" i="3" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="156.8075349330902" nodes="16526" bestInteger="-175622.0" bestRelaxation="-175639.26230975834" n="40" k="4" dissimilarityGap="-500.0" i="4" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="147.48787784576416" nodes="10064" bestInteger="-178108.0" bestRelaxation="-178125.61218836554" n="40" k="4" dissimilarityGap="-500.0" i="5" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="206.01652693748474" nodes="18934" bestInteger="-168496.0" bestRelaxation="-168512.64603481643" n="40" k="4" dissimilarityGap="-500.0" i="6" tilim="3600.0">
+                        <type>XY1</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300400</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="557.956629037857" nodes="15740" bestInteger="14875.0" bestRelaxation="14873.515412700248" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="254.0241560935974" nodes="4910" bestInteger="15013.00000000001" bestRelaxation="15011.674636102704" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0039350986481" nodes="9788" bestInteger="16297.999999999933" bestRelaxation="15886.03588626305" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="539.9978711605072" nodes="13257" bestInteger="14565.0" bestRelaxation="14563.586467282212" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0027351379395" nodes="13709" bestInteger="15005.0" bestRelaxation="14953.285479419907" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0297420024872" nodes="9983" bestInteger="16133.0" bestRelaxation="15782.909950742656" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="579.6419839859009" nodes="8620" bestInteger="15835.000000000238" bestRelaxation="15835.000000000238" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300401</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="23.85490393638611" nodes="31" bestInteger="-11276.0" bestRelaxation="-11277.125539272858" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="28.276535987854004" nodes="91" bestInteger="-10810.0" bestRelaxation="-10810.0" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="274.224289894104" nodes="4009" bestInteger="-8990.0" bestRelaxation="-8990.0" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="130.15643405914307" nodes="2096" bestInteger="-11026.0" bestRelaxation="-11026.0" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="51.62305521965027" nodes="433" bestInteger="-10663.0" bestRelaxation="-10663.0" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="267.67767119407654" nodes="5530" bestInteger="-9215.0" bestRelaxation="-9215.0" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="139.2509889602661" nodes="2911" bestInteger="-9350.0" bestRelaxation="-9350.0" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300402</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="63.81154108047485" nodes="847" bestInteger="-93018.0" bestRelaxation="-93023.26060546275" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="36.6553840637207" nodes="691" bestInteger="-93073.0" bestRelaxation="-93080.5000000009" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="40.70491600036621" nodes="406" bestInteger="-90604.0" bestRelaxation="-90610.89370169921" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="71.94862914085388" nodes="799" bestInteger="-94971.0" bestRelaxation="-94971.0" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="33.00901508331299" nodes="817" bestInteger="-92514.0" bestRelaxation="-92514.0" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="28.363305807113647" nodes="319" bestInteger="-90738.99999999997" bestRelaxation="-90738.99999999997" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="42.522111892700195" nodes="602" bestInteger="-91608.0" bestRelaxation="-91616.81818181828" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>REPRESENTATIVE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300412</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="55.60767197608948" nodes="703" bestInteger="-93018.0" bestRelaxation="-93024.60718562879" n="30" k="4" dissimilarityGap="-500.0" i="0" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="57.432148933410645" nodes="549" bestInteger="-93073.0" bestRelaxation="-93073.0" n="30" k="4" dissimilarityGap="-500.0" i="1" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="35.65718603134155" nodes="220" bestInteger="-90604.0" bestRelaxation="-90604.0" n="30" k="4" dissimilarityGap="-500.0" i="2" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="49.58587884902954" nodes="665" bestInteger="-94971.0" bestRelaxation="-94976.07142857744" n="30" k="4" dissimilarityGap="-500.0" i="3" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="44.396459102630615" nodes="992" bestInteger="-92514.0" bestRelaxation="-92518.3733207359" n="30" k="4" dissimilarityGap="-500.0" i="4" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="33.15507888793945" nodes="173" bestInteger="-90739.0" bestRelaxation="-90739.0" n="30" k="4" dissimilarityGap="-500.0" i="5" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="31.453990936279297" nodes="456" bestInteger="-91607.99999999993" bestRelaxation="-91615.74025974021" n="30" k="4" dissimilarityGap="-500.0" i="6" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400431</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3600.016592979431" nodes="5804" bestInteger="-12075.0" bestRelaxation="-33340.993601727154" n="40" k="4" dissimilarityGap="-250.0" i="0" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0089540481567" nodes="7182" bestInteger="-13929.0" bestRelaxation="-34556.44966083663" n="40" k="4" dissimilarityGap="-250.0" i="1" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0087900161743" nodes="7833" bestInteger="-12791.0" bestRelaxation="-32898.67358948094" n="40" k="4" dissimilarityGap="-250.0" i="2" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.013081073761" nodes="6683" bestInteger="-12046.0" bestRelaxation="-34756.47471936602" n="40" k="4" dissimilarityGap="-250.0" i="3" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.011703014374" nodes="5377" bestInteger="-12803.0" bestRelaxation="-35940.962224947085" n="40" k="4" dissimilarityGap="-250.0" i="4" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.0087628364563" nodes="4824" bestInteger="-13611.0" bestRelaxation="-37968.31338362874" n="40" k="4" dissimilarityGap="-250.0" i="5" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.009747982025" nodes="7587" bestInteger="-11223.0" bestRelaxation="-31865.44130953129" n="40" k="4" dissimilarityGap="-250.0" i="6" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>1400430</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="3660.3806850910187" nodes="32293" bestInteger="35366.0" bestRelaxation="7414.427866666585" n="40" k="4" dissimilarityGap="0.0" i="0" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3616.863377094269" nodes="24033" bestInteger="35537.0" bestRelaxation="6799.677752159729" n="40" k="4" dissimilarityGap="0.0" i="1" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3620.062390089035" nodes="40678" bestInteger="34352.0" bestRelaxation="8607.931818180794" n="40" k="4" dissimilarityGap="0.0" i="2" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3636.4063210487366" nodes="26388" bestInteger="35024.0" bestRelaxation="6726.1494272559785" n="40" k="4" dissimilarityGap="0.0" i="3" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3707.567080974579" nodes="42529" bestInteger="34865.0" bestRelaxation="8948.017436974478" n="40" k="4" dissimilarityGap="0.0" i="4" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3623.6110231876373" nodes="41068" bestInteger="34503.0" bestRelaxation="8458.750000000031" n="40" k="4" dissimilarityGap="0.0" i="5" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="3600.00994181633" nodes="13085" bestInteger="35347.0" bestRelaxation="7607.033045052542" n="40" k="4" dissimilarityGap="0.0" i="6" tilim="3600.0">
+                        <type>XY2</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300410</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="285.5002589225769" nodes="4886" bestInteger="14875.0" bestRelaxation="14873.559272024531" n="30" k="4" dissimilarityGap="0.0" i="0" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="125.18012189865112" nodes="1358" bestInteger="15013.000000000013" bestRelaxation="15013.000000000013" n="30" k="4" dissimilarityGap="0.0" i="1" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0172879695892" nodes="7748" bestInteger="16536.0" bestRelaxation="15497.368619902347" n="30" k="4" dissimilarityGap="0.0" i="2" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0039169788361" nodes="9430" bestInteger="14565.0" bestRelaxation="14375.880156937057" n="30" k="4" dissimilarityGap="0.0" i="3" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.009644985199" nodes="7683" bestInteger="15005.0" bestRelaxation="14577.802687984557" n="30" k="4" dissimilarityGap="0.0" i="4" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0067698955536" nodes="8521" bestInteger="16288.0" bestRelaxation="15510.266177435085" n="30" k="4" dissimilarityGap="0.0" i="5" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="600.0054099559784" nodes="5864" bestInteger="15920.0" bestRelaxation="15382.699273036793" n="30" k="4" dissimilarityGap="0.0" i="6" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+        <entry>
+            <key>300411</key>
+            <value>
+                <list>
+                    <StandardResult resolutionTime="38.804715156555176" nodes="54" bestInteger="-11276.0" bestRelaxation="-11276.0" n="30" k="4" dissimilarityGap="-250.0" i="0" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="32.897773027420044" nodes="53" bestInteger="-10810.0" bestRelaxation="-10810.0" n="30" k="4" dissimilarityGap="-250.0" i="1" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="507.64741611480713" nodes="6880" bestInteger="-8990.0" bestRelaxation="-8990.0" n="30" k="4" dissimilarityGap="-250.0" i="2" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="197.32231307029724" nodes="3022" bestInteger="-11026.0" bestRelaxation="-11026.0" n="30" k="4" dissimilarityGap="-250.0" i="3" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="69.09213995933533" nodes="422" bestInteger="-10663.0" bestRelaxation="-10663.0" n="30" k="4" dissimilarityGap="-250.0" i="4" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="261.9876208305359" nodes="3504" bestInteger="-9215.0" bestRelaxation="-9215.0" n="30" k="4" dissimilarityGap="-250.0" i="5" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                    <StandardResult resolutionTime="500.72338008880615" nodes="5596" bestInteger="-9350.0" bestRelaxation="-9350.0" n="30" k="4" dissimilarityGap="-250.0" i="6" tilim="600.0">
+                        <type>TILDE</type>
+                    </StandardResult>
+                </list>
+            </value>
+        </entry>
+    </map>
+</standardExperimentResults>

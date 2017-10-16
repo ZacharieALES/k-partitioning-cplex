@@ -641,7 +641,7 @@ public void printTablesTimeGapNodes() {
 		if(f.exists())
 			f.delete();
 
-		ComputeResults.writeInFile(outputTexFile, content);
+		ComputeResults.writeInFile(outputTexFile, content, false);
 		
 		System.out.println("done");
 		

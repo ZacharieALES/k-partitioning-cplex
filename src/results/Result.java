@@ -145,7 +145,7 @@ public class Result implements Serializable{
 		for(int j = 0 ; j < this.cplexCutNb.size() ; ++j)
 			log += "\t\t" + cplexCutNb.get(j).cutName + " cut:\t" + cplexCutNb.get(j).cutNb + "\n";
 
-		ComputeResults.writeInFile("log.txt", log);
+		ComputeResults.writeInFile("log.txt", log, true);
 		System.out.println(log);
 	}
 	

@@ -119,6 +119,7 @@ public class CP_Rep extends Abstract_Cutting_Plane{
 		((RepParam)rep.p).useLower = true;
 		((RepParam)rep.p).useUpper = true;
 		
+		rep.p.cplexOutput = true;
 		if(remaining_time != -1)
 			rep.p.tilim = remaining_time;
 		

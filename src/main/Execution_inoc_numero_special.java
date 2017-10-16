@@ -292,7 +292,7 @@ public class Execution_inoc_numero_special extends Execution{
 		content += "\\end{document}\n";
 
 		
-		ComputeResults.writeInFile("./schema.tex", content);
+		ComputeResults.writeInFile("./schema.tex", content, false);
 		
 		System.out.println("done");
 		

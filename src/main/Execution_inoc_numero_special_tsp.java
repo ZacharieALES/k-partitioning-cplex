@@ -351,7 +351,7 @@ public void printTablesTimeGapNodes() {
 		content += "\\end{document}\n";
 
 		
-		ComputeResults.writeInFile("./tables_tsp_time_gap_nodes.tex", content);
+		ComputeResults.writeInFile("./tables_tsp_time_gap_nodes.tex", content, false);
 		
 		System.out.println("done");
 		
