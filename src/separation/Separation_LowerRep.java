@@ -5,13 +5,16 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import formulation.interfaces.IFEdgeVNodeVClusterNb;
+import formulation.interfaces.IFormulation;
 import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-import inequality_family.LowerRep_Inequality;
-import solution.Solution_Representative;
+import inequality_family.AbstractInequality;
+import inequality_family.LowerRepInequality;
+import variable.VariableGetter;
 
 
-public class Separation_LowerRep extends Abstract_Separation {
+
+public class Separation_LowerRep extends AbstractSeparation<IFEdgeVNodeVClusterNb> {
 
 	int MAXCUT;
 	int MAXFOUND;
@@ -27,21 +30,22 @@ public class Separation_LowerRep extends Abstract_Separation {
 		}
 	});
 
-	public Separation_LowerRep(Solution_Representative rep, int MAXCUT) {
-		super("Lower rep", rep);
+	public Separation_LowerRep(IFEdgeVNodeVClusterNb formulation, VariableGetter vg, int MAXCUT) {
+		super("Lower rep", formulation, vg);
+		
 		this.MAXCUT = MAXCUT;
 		MAXFOUND = 5*MAXCUT;
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate() {
+	public ArrayList<AbstractInequality<? extends IFormulation>> separate() {
 		
-		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
+		ArrayList<AbstractInequality<? extends IFormulation>> result = new ArrayList<>();
 		
 		foundIneq.clear();	
 		int l = 2;
 		
-		while(l < s.n() && foundIneq.size() < MAXFOUND){
+		while(l < formulation.n() && foundIneq.size() < MAXFOUND){
 
 			try {
 				addIfGapNegative(l);
@@ -71,13 +75,13 @@ public class Separation_LowerRep extends Abstract_Separation {
 			foundIneq.add(ineq);
 	}
 	
-	public class GapLowerRepInequality extends LowerRep_Inequality{
+	public class GapLowerRepInequality extends LowerRepInequality{
 		
 		public int gap;
 		
 		public GapLowerRepInequality(int l) throws IloException {
-			super(Separation_LowerRep.this.s, l);
-			this.gap = (int) (getSlack() * 1000);
+			super(Separation_LowerRep.this.formulation, l);
+			this.gap = (int) (getSlack(vg) * 1000);
 		}
 		
 	}

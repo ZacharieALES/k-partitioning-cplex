@@ -1,8 +1,7 @@
 package main;
 
+import cplex.Cplex;
 import cutting_plane.CP_Rep;
-import formulation.Partition;
-import formulation.Partition_with_tildes;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
 import ilog.concert.IloException;
@@ -30,7 +29,8 @@ public class Main {
 	 */
 	public static void main(String[] args) {
 
-		Partition.start();
+		Cplex cplex = new Cplex();
+		cplex.start();
 
 //		new Execution_sub_rep_added_when_branching(10).printResults(6);
 		
@@ -49,7 +49,7 @@ public class Main {
 		
 //		boolean useEmptyBC = false;
 //		
-//		Partition_with_tildes p = new Partition_with_tildes(8, "data/input_root_relaxation_100/n_19_id_0.txt", new CplexParam(true, true, true, -1), new TildeParam(true, true, true, true, true, true, true));
+//		Partition_with_tildes p = new Partition_with_tildes(8, "data/input_root_relaxation_100/n_19_id_0.txt", new CplexParam(true, true, true, cplex, -1), new TildeParam(true, true, true, true, true, true, true));
 //		
 //		try {
 //			
@@ -60,7 +60,7 @@ public class Main {
 //				PartitionWithRepresentative.cplex.use(new Branch_DisplayInformations());
 //				PartitionWithRepresentative.cplex.use(new CB_AddSubRep_inequalities(p));
 //			}
-//			p.solve();
+//			p.getCplex().solve();
 //			p.displaySolution();
 //		} catch (Exception e) {
 //			e.printStackTrace();
@@ -69,7 +69,7 @@ public class Main {
 
 //		Partition_with_tildes p = new Partition_with_tildes(7, "./data/input_root_relaxation_100/n_36_id_6.txt", new CplexParam(false), new TildeParam(false, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false));
 //		CP_Rep cprep = new CP_Rep(p, 500, 300,  -1, 750, true, 3600);
-//		cprep.solve();
+//		cprep.getCplex().solve();
 		
 		
 //		new Execution_rr_tilde_et_sans().execute();
@@ -89,7 +89,7 @@ public class Main {
 //		int n = 50;
 //		Partition_with_tildes p = new Partition_with_tildes(7, "./data/input_root_relaxation_100/n_" + n + "_id_10.txt", new CplexParam(false), new TildeParam(false, true, Triangle.USE_IN_BC_ONLY, true, false, false));
 //		CP_Rep cprep = new CP_Rep(p, 500, 300,  -1, 750, true, 3600);
-//		cprep.solve();
+//		cprep.getCplex().solve();
 		
 //		 new CP_Execution_Rep(n, n, 2, 2, 2, 2, 500, 100000000).execute();
 
@@ -116,8 +116,13 @@ public class Main {
 		// new Execution_grotschell_data().createDissimilarity();
 		 
 
-			CP_Rep cprep = new CP_Rep(new TildeParam("./data/input_root_relaxation/n_20_id_19.txt", 7, true, Triangle.USE_LAZY, true, false, false), 500, 300,  -1, 750, true, 3600);
-			cprep.solve();
+			CP_Rep cprep;
+			try {
+				cprep = new CP_Rep(new TildeParam("./data/input_root_relaxation/n_20_id_19.txt", cplex, 7, true, Triangle.USE_LAZY, true, false, false), 500, 300,  -1, 750, true, 3600);
+				cprep.solve();
+			} catch (IloException e) {
+				e.printStackTrace();
+			}
 		 
 //		Partition_with_tildes p = new Partition_with_tildes(K, "./data/these_final/dissimilarity_final.txt", max_nb_node, new CplexParam(false),  new TildeParam(false, true, Triangle.USE_LAZY_IN_BC_ONLY, true, false, false));
 		
@@ -212,7 +217,7 @@ public class Main {
 		// new Execution_tilde_n_n_1_and_without(20, 20, 5, 20, 0,
 		// 4).displayResults();
 
-		Partition.end();
+		cplex.end();
 
 	}
 

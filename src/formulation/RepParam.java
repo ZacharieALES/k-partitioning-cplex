@@ -1,5 +1,7 @@
 package formulation;
 
+import cplex.Cplex;
+
 public class RepParam extends Param{
 	
 	public boolean useLower = true;
@@ -19,8 +21,8 @@ public class RepParam extends Param{
 		USE, USE_LAZY, USE_LAZY_IN_BC_ONLY, USE_IN_BC_ONLY
 	}
 	
-	public RepParam(String inputFile, int K){
-		super(inputFile, K);
+	public RepParam(String inputFile, Cplex cplex, int K){
+		super(inputFile, cplex, K);
 	}
 	
 	public RepParam(RepParam pCopy){
@@ -30,13 +32,13 @@ public class RepParam extends Param{
 		triangle = pCopy.triangle;
 	}
 	
-	public RepParam(String inputFile, int K, boolean useNN_1){
-		this(inputFile, K);
+	public RepParam(String inputFile, Cplex cplex, int K, boolean useNN_1){
+		this(inputFile, cplex, K);
 		this.useNN_1 = useNN_1;	
 	}
 
-	public RepParam(String inputFile, int K, Triangle triangle, boolean useNN_1, boolean useLower, boolean useUpper){
-		this(inputFile, K, useNN_1);
+	public RepParam(String inputFile, Cplex cplex, int K, Triangle triangle, boolean useNN_1, boolean useLower, boolean useUpper){
+		this(inputFile, cplex, K, useNN_1);
 
 		this.triangle = triangle;
 		this.useLower = useLower;

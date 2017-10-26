@@ -7,11 +7,13 @@ import java.io.Serializable;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-import cut_callback.Abstract_CutCallback;
+import callback.cut_callback.AbstractCutCallback;
 import formulation.Partition;
+import formulation.interfaces.IFEdgeVClusterNb;
+import formulation.interfaces.IFormulation;
 import ilog.concert.IloException;
 import ilog.cplex.IloCplex;
-import separation.Abstract_Separation;
+import separation.AbstractSeparation;
 
 
 /**
@@ -40,36 +42,40 @@ public class Result implements Serializable{
 	public double separationTime;
 	public double firstRelaxation = -1.0;
 	
-	public void solveAndGetResults(int i, Partition p, boolean log){
-		solveAndGetResults(i, p, null, log);
+	public void solveAndGetResults(int i, IFEdgeVClusterNb formulation, boolean log){
+		solveAndGetResults(i, formulation, null, log);
 	}
 	
-	public void solveAndGetResults(int i, Abstract_CutCallback ucc, boolean log){
-		solveAndGetResults(i, ucc.rep, ucc, log);
-	}
+//	public void solveAndGetResults(int i, Abstract_CutCallback ucc, boolean log){
+//		solveAndGetResults(i, ucc.formulation, ucc, log);
+//	}
 	
-	public void solveAndGetResults(int i, Partition p, Abstract_CutCallback ucc, boolean log){
+	public void solveAndGetResults(int i, IFEdgeVClusterNb formulation, AbstractCutCallback ucc, boolean log){
 
-		time = p.solve();
-		getResults(i, p, ucc, log);
+		try {
+			time = formulation.getCplex().solve();
+			getResults(i, formulation, ucc, log);
+		} catch (IloException e) {
+			e.printStackTrace();
+		}
 
 	}
 	
-	public void getResults(int i, Partition p,
-			Abstract_CutCallback ucc, boolean log) {
+	public void getResults(int i, IFEdgeVClusterNb formulation,
+			AbstractCutCallback ucc, boolean log) {
 		
 		try{
 			
-			n = p.n;
-			K = p.K();
+			n = formulation.n();
+			K = formulation.maximalNumberOfClusters();
 			this.i = i;
 			
-			node = p.getNnodes();
-			System.out.println("Result, nb of nodes: " + p.getNnodes());
+			node = formulation.getCplex().getNnodes();
+			System.out.println("Result, nb of nodes: " + formulation.getCplex().getNnodes());
 
 			if(ucc != null && ucc.sep != null){
 
-				ArrayList<Abstract_Separation> al_as = ucc.sep;				
+				ArrayList<AbstractSeparation> al_as = ucc.sep;				
 				separationTime = ucc.time;
 				iterationNb = ucc.iterations;
 				firstRelaxation = ucc.root_relaxation;
@@ -85,10 +91,10 @@ public class Result implements Serializable{
 				firstRelaxation = -1.0;
 			}
 			
-			bestInt = p.getObjValue2();
-			bestRelaxation = p.getBestObjValue2();
+			bestInt = formulation.getCplex().getObjValue();
+			bestRelaxation = formulation.getCplex().getBestObjValue();
 		
-			countCplexCuts(p);
+			countCplexCuts(formulation);
 				
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -204,54 +210,54 @@ public class Result implements Serializable{
 		
 	}
 		
-	public void countCplexCuts(Partition p) throws IloException{
+	public void countCplexCuts(IFormulation formulation) throws IloException{
 	
-		if(p.getNcuts(IloCplex.CutType.CliqueCover) != 0)
-			this.cplexCutNb.add(new Cut("CliqueCover", p.getNcuts(IloCplex.CutType.CliqueCover)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.CliqueCover) != 0)
+			this.cplexCutNb.add(new Cut("CliqueCover", formulation.getCplex().getNcuts(IloCplex.CutType.CliqueCover)));
 		
-		if(p.getNcuts(IloCplex.CutType.Cover) != 0)
-			this.cplexCutNb.add(new Cut("Cover", p.getNcuts(IloCplex.CutType.Cover)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.Cover) != 0)
+			this.cplexCutNb.add(new Cut("Cover", formulation.getCplex().getNcuts(IloCplex.CutType.Cover)));
 		
-		if(p.getNcuts(IloCplex.CutType.Disj) != 0)
-			this.cplexCutNb.add(new Cut("Disj", p.getNcuts(IloCplex.CutType.Disj)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.Disj) != 0)
+			this.cplexCutNb.add(new Cut("Disj", formulation.getCplex().getNcuts(IloCplex.CutType.Disj)));
 		
-		if(p.getNcuts(IloCplex.CutType.FlowCover) != 0)
-			this.cplexCutNb.add(new Cut("FlowCover", p.getNcuts(IloCplex.CutType.FlowCover)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.FlowCover) != 0)
+			this.cplexCutNb.add(new Cut("FlowCover", formulation.getCplex().getNcuts(IloCplex.CutType.FlowCover)));
 		
-		if(p.getNcuts(IloCplex.CutType.FlowPath) != 0)
-			this.cplexCutNb.add(new Cut("FlowPath", p.getNcuts(IloCplex.CutType.FlowPath)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.FlowPath) != 0)
+			this.cplexCutNb.add(new Cut("FlowPath", formulation.getCplex().getNcuts(IloCplex.CutType.FlowPath)));
 		
-		if(p.getNcuts(IloCplex.CutType.Frac) != 0)
-			this.cplexCutNb.add(new Cut("Frac", p.getNcuts(IloCplex.CutType.Frac)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.Frac) != 0)
+			this.cplexCutNb.add(new Cut("Frac", formulation.getCplex().getNcuts(IloCplex.CutType.Frac)));
 		
-		if(p.getNcuts(IloCplex.CutType.GUBCover) != 0)
-			this.cplexCutNb.add(new Cut("GUBCover", p.getNcuts(IloCplex.CutType.GUBCover)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.GUBCover) != 0)
+			this.cplexCutNb.add(new Cut("GUBCover", formulation.getCplex().getNcuts(IloCplex.CutType.GUBCover)));
 		
-		if(p.getNcuts(IloCplex.CutType.ImplBd) != 0)
-			this.cplexCutNb.add(new Cut("ImplBd", p.getNcuts(IloCplex.CutType.ImplBd)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.ImplBd) != 0)
+			this.cplexCutNb.add(new Cut("ImplBd", formulation.getCplex().getNcuts(IloCplex.CutType.ImplBd)));
 		
-		if(p.getNcuts(IloCplex.CutType.LocalCover) != 0)
-			this.cplexCutNb.add(new Cut("LocalCover", p.getNcuts(IloCplex.CutType.LocalCover)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.LocalCover) != 0)
+			this.cplexCutNb.add(new Cut("LocalCover", formulation.getCplex().getNcuts(IloCplex.CutType.LocalCover)));
 		
-		if(p.getNcuts(IloCplex.CutType.MCF) != 0)
-			this.cplexCutNb.add(new Cut("MCF", p.getNcuts(IloCplex.CutType.MCF)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.MCF) != 0)
+			this.cplexCutNb.add(new Cut("MCF", formulation.getCplex().getNcuts(IloCplex.CutType.MCF)));
 		
-		if(p.getNcuts(IloCplex.CutType.MIR) != 0)
-			this.cplexCutNb.add(new Cut("MIR", p.getNcuts(IloCplex.CutType.MIR)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.MIR) != 0)
+			this.cplexCutNb.add(new Cut("MIR", formulation.getCplex().getNcuts(IloCplex.CutType.MIR)));
 		
-		if(p.getNcuts(IloCplex.CutType.ObjDisj) != 0)
-			this.cplexCutNb.add(new Cut("ObjDisj", p.getNcuts(IloCplex.CutType.ObjDisj)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.ObjDisj) != 0)
+			this.cplexCutNb.add(new Cut("ObjDisj", formulation.getCplex().getNcuts(IloCplex.CutType.ObjDisj)));
 		
-		if(p.getNcuts(IloCplex.CutType.SolnPool) != 0)
-			this.cplexCutNb.add(new Cut("SolnPool", p.getNcuts(IloCplex.CutType.SolnPool)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.SolnPool) != 0)
+			this.cplexCutNb.add(new Cut("SolnPool", formulation.getCplex().getNcuts(IloCplex.CutType.SolnPool)));
 	
-		if(p.getNcuts(IloCplex.CutType.Table) != 0)
-			this.cplexCutNb.add(new Cut("Table", p.getNcuts(IloCplex.CutType.Table)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.Table) != 0)
+			this.cplexCutNb.add(new Cut("Table", formulation.getCplex().getNcuts(IloCplex.CutType.Table)));
 		
-		if(p.getNcuts(IloCplex.CutType.Tighten) != 0)
-			this.cplexCutNb.add(new Cut("Tighten", p.getNcuts(IloCplex.CutType.Tighten)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.Tighten) != 0)
+			this.cplexCutNb.add(new Cut("Tighten", formulation.getCplex().getNcuts(IloCplex.CutType.Tighten)));
 		
-		if(p.getNcuts(IloCplex.CutType.ZeroHalf) != 0)
-			this.cplexCutNb.add(new Cut("ZeroHalf", p.getNcuts(IloCplex.CutType.ZeroHalf)));
+		if(formulation.getCplex().getNcuts(IloCplex.CutType.ZeroHalf) != 0)
+			this.cplexCutNb.add(new Cut("ZeroHalf", formulation.getCplex().getNcuts(IloCplex.CutType.ZeroHalf)));
 	}
 }

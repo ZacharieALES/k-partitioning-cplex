@@ -1,5 +1,8 @@
 package formulation;
 
+import callback.cut_callback.AbstractCutCallback;
+import formulation.interfaces.IFEdgeVNodeClusterV;
+import formulation.interfaces.IFNodeClusterV;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
 import ilog.concert.IloLinearNumExpr;
@@ -8,9 +11,9 @@ import ilog.concert.IloNumVarType;
 import ilog.cplex.IloCplex;
 import ilog.cplex.IloCplex.UnknownObjectException;
 import inequality_family.Range;
-import inequality_family.Triangle_Inequality_x_y1;
-import inequality_family.Triangle_Inequality_x_y2;
-import solution.Solution_Representative;
+import inequality_family.TriangleInequalityXY1;
+import inequality_family.TriangleInequalityXY2;
+import variable.CplexVariableGetter;
 
 /**
  * The difference with Partition_x_y_2 is that here the y variables vary 1 to K for the second index.
@@ -34,12 +37,14 @@ import solution.Solution_Representative;
  * @author zach
  * 
  */
-public class Partition_x_y extends Partition implements Solution_Representative {
+public class Partition_x_y extends Partition implements IFEdgeVNodeClusterV{
 
 	/**
 	 * If true, we search integer points; otherwise search for fractional points
 	 */
 	public boolean isInt;
+	
+	public int maxClusterId;
 
 	/**
 	 * Node/Cluster variables.
@@ -54,36 +59,37 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 
 		this.d = objectif;
 		this.n = d.length;
+		setMaxClusterId();
 
 		this.isInt = xyp.isInt;
 
 		this.p = new XYParam(xyp);
 
 		if (!xyp.cplexOutput)
-			turnOffCPOutput();
+			getCplex().turnOffCPOutput();
 
 		if (xyp.cplexAutoCuts)
-			removeAutomaticCuts();
+			getCplex().removeAutomaticCuts();
 
 		if (xyp.cplexPrimalDual)
-			turnOffPrimalDualReduction();
+			getCplex().turnOffPrimalDualReduction();
 
 		try {
 
 			/* Create the model */
-			cplex.clearModel();
-			cplex.clearCallbacks();
+			getCplex().iloCplex.clearModel();
+			getCplex().iloCplex.clearCallbacks();
 
 			/* Reinitialize the parameters to their default value */
-			cplex.setDefaults();
+			getCplex().setDefaults();
 
 			if (xyp.tilim != -1)
-				cplex.setParam(IloCplex.DoubleParam.TiLim,
+				getCplex().setParam(IloCplex.DoubleParam.TiLim,
 						Math.max(10, xyp.tilim));
 
 			// cplex.setParam(DoubleParam.WorkMem, 2000);
 			// cplex.setParam(DoubleParam.TreLim, 500);
-//			 cplex.setParam(IntParam.NodeFileInd, 3);
+			// cplex.setParam(IntParam.NodeFileInd, 2);
 
 			/* Create the variables */
 			createVariables();
@@ -101,71 +107,31 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 	}
 
 
-	private void createConstraints() throws IloException {
+	protected void setMaxClusterId() {
+		maxClusterId = KMax();
+	}
+
+	protected void createConstraints() throws IloException {
 
 		createUniqueClusterConstraints();
 		createNonEmptyClusterConstraints();
 		createTriangleConstraints();
 		createNonSymmetricConstraints();
-		
+
 		if(p.useNN_1)
 			createNN_1Constraints();
 
 	}
-	
-	
-	public void createNN_1Constraints(){
-
-		try {
-			int d = (int) Math.floor((n-1)/p.K);
-			int mo = (n-1)%p.K;
-			int n1 = (d+1) * d / 2;
-			int n2 = d * (d-1) / 2;
-			int righthand = n1 * mo + n2 * (p.K-mo);
-			
-			for(int j = 0 ; j < n ; ++j){
-				IloLinearNumExpr expr;
-					expr = cplex.linearNumExpr();
-	
-				for(int l = 0 ; l < n ; ++l)
-					if(l != j)
-						for(int m = l+1 ; m < n ; ++m){
-							if(m != j)
-								expr.addTerm(+1.0, v_edge[l][m]);
-						}
-			
-				cplex.addGe(expr, righthand);
-	
-			}
-	
-			d = (int) Math.floor((n)/p.K);
-			mo = (n)%p.K;
-			n1 = (d+1) * d / 2;
-			n2 = d * (d-1) / 2;
-			righthand = n1 * mo + n2 * (p.K-mo);
-			
-			IloLinearNumExpr expr = cplex.linearNumExpr();
-			for(int l = 0 ; l < n ; ++l)
-				for(int m = l+1 ; m < n ; ++m){
-					expr.addTerm(+1.0, v_edge[l][m]);
-					}
-			
-			cplex.addGe(expr, righthand);
-
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
 
 	private void createNonSymmetricConstraints() {
 		
-		for(int i = 0 ; i < K() ; ++i){
-			for(int j = i+1 ; j < K() ; ++j){
+		for(int i = 0 ; i < maxClusterId ; ++i){
+			for(int j = i+1 ; j < maxClusterId ; ++j){
 
 				try {
-					IloLinearNumExpr expr = linearNumExpr();
-					expr.addTerm(+1.0, y_var(i, j));
-					addRange(new Range(expr, 0.0));
+					IloLinearNumExpr expr = getCplex().linearNumExpr();
+					expr.addTerm(+1.0, nodeInClusterVar(i, j));
+					getCplex().addRange(new Range(expr, 0.0));
 				} catch (IloException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -177,18 +143,18 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 		
 	}
 
-	private void createUniqueClusterConstraints() {
+	protected void createUniqueClusterConstraints() {
 
 	//			addRange(new UniqueCluster_Inequality(this, i).createRange());
 		
 		try {
 			for (int i = 0; i < n; ++i) {
 				
-				IloLinearNumExpr expr = linearNumExpr();
-				for(int j = 0 ; j < K() ; ++j)
-						expr.addTerm(+1.0, y_var(i, j));
+				IloLinearNumExpr expr = getCplex().linearNumExpr();
+				for(int j = 0 ; j < n ; ++j)
+						expr.addTerm(+1.0, nodeInClusterVar(i, j));
 				
-				addRange(new Range(1.0, expr, 1.0));
+				getCplex().addRange(new Range(1.0, expr, 1.0));
 					
 			}
 		} catch (IloException e) {
@@ -203,19 +169,18 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 	//			addRange(new UniqueCluster_Inequality(this, i).createRange());
 		
 		try {
-			for(int j = 0 ; j < K() ; ++j){
+			for(int j = 0 ; j < KMax() ; ++j){
 				
-				IloLinearNumExpr expr = linearNumExpr();
+				IloLinearNumExpr expr = getCplex().linearNumExpr();
 			
 				for (int i = 0; i < n; ++i) {
-						expr.addTerm(+1.0, y_var(i, j));
+						expr.addTerm(+1.0, nodeInClusterVar(i, j));
 				}
 				
-				addRange(new Range(1.0, expr));
+				getCplex().addRange(new Range(1.0, expr));
 					
 			}
 		} catch (IloException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -233,17 +198,17 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 
 		for (int i = 0; i < n ; ++i)
 			for (int j = i + 1; j < n ; ++j)
-				for (int k = 0; k < K(); ++k) {
+				for (int k = 0; k < maxClusterId; ++k) {
 
 
-					addRange(new Triangle_Inequality_x_y1(this, k, i, j)
+					getCplex().addRange(new TriangleInequalityXY1(this, k, i, j)
 							.createRange());
 
-					addRange(new Triangle_Inequality_x_y2(this, k, i, j)
+					getCplex().addRange(new TriangleInequalityXY2(this, k, i, j)
 							.createRange());
 					
 
-					addRange(new Triangle_Inequality_x_y2(this, k, j, i)
+					getCplex().addRange(new TriangleInequalityXY2(this, k, j, i)
 							.createRange());
 				}
 
@@ -251,13 +216,13 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 
 	private void createObjectiveFunction() throws IloException {
 
-		IloLinearNumExpr obj = cplex.linearNumExpr();
+		IloLinearNumExpr obj = getCplex().linearNumExpr();
 
 		for (int i = 1; i < n; ++i)
 			for (int j = 0; j < i; ++j)
 				obj.addTerm(d[i][j], v_edge[i][j]);
 
-		cplex.addMinimize(obj);
+		getCplex().iloCplex.addMinimize(obj);
 	}
 
 	private void createVariables() throws IloException {
@@ -272,21 +237,21 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 
 		for (int i = 0; i < n; ++i) {
 			if (isInt) {
-				v_nodeCluster[i] = new IloIntVar[K()];
+				v_nodeCluster[i] = new IloIntVar[maxClusterId];
 				v_edge[i] = new IloIntVar[n];
 			} else {
-				v_nodeCluster[i] = new IloNumVar[K()];
+				v_nodeCluster[i] = new IloNumVar[maxClusterId];
 				v_edge[i] = new IloNumVar[n];
 			}
 
-			cplex.conversion(v_edge[i], IloNumVarType.Float);
-			cplex.conversion(v_nodeCluster[i], IloNumVarType.Float);
+			getCplex().iloCplex.conversion(v_edge[i], IloNumVarType.Float);
+			getCplex().iloCplex.conversion(v_nodeCluster[i], IloNumVarType.Float);
 
-			for (int k = 0; k < K(); ++k) {
+			for (int k = 0; k < maxClusterId; ++k) {
 				if (isInt)
-					v_nodeCluster[i][k] = cplex.intVar(0, 1);
+					v_nodeCluster[i][k] = getCplex().iloCplex.intVar(0, 1);
 				else
-					v_nodeCluster[i][k] = cplex.numVar(0, 1);
+					v_nodeCluster[i][k] = getCplex().iloCplex.numVar(0, 1);
 
 				v_nodeCluster[i][k].setName("y_" + i + "_" + k);
 
@@ -294,9 +259,9 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 
 			for (int j = 0; j < i; ++j) {
 				if (isInt)
-					v_edge[i][j] = cplex.intVar(0, 1);
+					v_edge[i][j] = getCplex().iloCplex.intVar(0, 1);
 				else
-					v_edge[i][j] = cplex.numVar(0, 1);
+					v_edge[i][j] = getCplex().iloCplex.numVar(0, 1);
 
 				v_edge[i][j].setName("x_" + i + "_" + j);
 			}
@@ -346,14 +311,14 @@ public class Partition_x_y extends Partition implements Solution_Representative 
 			 */
 			while (k < numberOfElementsByLine && i != n) {
 
-				double value = cplex.getValue(v_nodeCluster[i][j]);
+				double value = cvg.getValue(v_nodeCluster[i][j]);
 //System.out.println(i + " : " + j);
 System.out.print("cluster " + j + ": " + i + "(" + value + ")\t\t");
 
 				/* If the value is not zero (or very close) */
-				if ( !(value < 0.0+epsilon)) {
+				if ( !(value < 0.0+getCplex().PRECISION)) {
 					/* If the value is one (or very close) */
-					if (value > 1-epsilon) {
+					if (value > 1-getCplex().PRECISION) {
 
 //						System.out.print("cluster " + j + ": " + i + "\t\t");
 						++k;
@@ -365,7 +330,7 @@ System.out.print("cluster " + j + ": " + i + "(" + value + ")\t\t");
 
 				}
 
-				if (j != K()-1)
+				if (j != maxClusterId-1)
 					++j;
 				else {
 					++i;
@@ -376,106 +341,6 @@ System.out.print("cluster " + j + ": " + i + "(" + value + ")\t\t");
 			System.out.println(" ");
 		}
 
-	}
-
-	
-	@Override
-	public int n() {
-		return n();
-	}
-	
-	@Override
-	public double xt(int i, int j) {
-		return 0;
-	}
-
-	@Override
-	public double x(int i, int j) {
-		try {
-			return cplex.getValue(x_var(i, j));
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("(i,j): (" + i + "," + j + ")");
-			System.exit(0);
-			return 1.0;
-		}
-	}
-
-	@Override
-	public double x(int i) {
-		return 0;
-	}
-
-	@Override
-	public IloLinearNumExpr linearNumExpr() {
-		try {
-			return cplex.linearNumExpr();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	@Override
-	public IloNumVar xt_var(int i, int j) {
-		return null;
-	}
-
-	@Override
-	public IloNumVar x_var(int i, int j) {
-		return v_edge[i][j];
-	}
-
-	@Override
-	public IloNumVar x_var(int i) {
-		return null;
-	}
-
-	@Override
-	public IloNumVar y_var(int i, int j) {
-		return v_nodeCluster[i][j];
-	}
-
-	@Override
-	public double getBestObjValue2() {
-		try {
-			return cplex.getBestObjValue();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-
-	@Override
-	public double getObjValue2() {
-		try {
-			return cplex.getObjValue();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-
-	@Override
-	public boolean isTilde() {
-		return false;
-	}
-
-	@Override
-	public double d(int i, int j) {
-		return d[i][j];
-	}
-
-	@Override
-	public double y(int i, int j) {
-		try {
-			return cplex.getValue(y_var(i, j));
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.err.println("(i,j): (" + i + "," + j + ")");
-			System.exit(0);
-			return 1.0;
-		}
 	}
 	
 
@@ -504,7 +369,7 @@ System.out.print("cluster " + j + ": " + i + "(" + value + ")\t\t");
 			 */
 			while (k < numberOfElementsByLine && i != n) {
 
-				double value = cplex.getValue(v_nodeCluster[i][j]);
+				double value = cvg.getValue(v_nodeCluster[i][j]);
 
 
 if(value > 1E-4){
@@ -527,7 +392,7 @@ System.out.print("y" + i + "-" + j + "(" + value + ")\t\t");
 //
 //				}
 
-				if (j != K() - 1)
+				if (j != maxClusterId - 1)
 					++j;
 				else {
 					++i;
@@ -539,7 +404,57 @@ System.out.print("y" + i + "-" + j + "(" + value + ")\t\t");
 			System.out.println(" ");
 		}
 	}
+
+
 	
+	public void displayAllCoefficientSolution() {
+
+		try {
+
+			double obj = 0.0;
+			/*
+			 * Display the representative variables different from 0 (<l> by
+			 * line)
+			 */
+			System.out.println(" ");
+			System.out.println("XY variables");
+			
+			double value = 0.0;
+			for (int m = 0; m < n ; ++m){
+				for(int o = 0 ; o < maxClusterId ; ++o){
+					value = cvg.getValue(this.v_nodeCluster[m][o]);
+					System.out.println(m+ "," + o + " = " + value);
+				}
+			}
+
+			/* Display the edge variables different from 0 (<l> by line) */
+			System.out.println(" ");
+			System.out.println("Edges variables");
+
+			/* While all the edges variables have not been displayed */
+			for(int i = 1 ; i < n ; ++i)
+				for(int j = 0 ; j < i ; ++j){
+
+					value = cvg.getValue(v_edge[i][j]);
+					
+					System.out.println(i + "-" + j + " : " + value);
+					if(value == 1.0){
+						obj += d[i][j];
+					}
+					
+				}
+			
+			System.out.println("Objective: "+ obj);
+					
+				System.out.println(" ");
+			
+		} catch (UnknownObjectException e) {
+			e.printStackTrace();
+		} catch (IloException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	public void displayNonNegativeCoefficientSolution() {
 
@@ -555,10 +470,10 @@ System.out.print("y" + i + "-" + j + "(" + value + ")\t\t");
 			
 			double value = 0.0;
 			for (int m = 0; m < n ; ++m){
-				for(int o = 0 ; o < p.K ; ++o){
+				for(int o = 0 ; o < maxClusterId ; ++o){
 					
-					value = cplex.getValue(this.v_nodeCluster[m][o]);
-					if(value > 0.0 + epsilon){
+					value = cvg.getValue(this.v_nodeCluster[m][o]);
+					if(value > 0.0 + getCplex().PRECISION){
 						System.out.println(m+ "," + o + " = " + value);
 					}
 				}
@@ -572,9 +487,9 @@ System.out.print("y" + i + "-" + j + "(" + value + ")\t\t");
 			for(int i = 1 ; i < n ; ++i)
 				for(int j = 0 ; j < i ; ++j){
 
-					value = cplex.getValue(v_edge[i][j]);
+					value = cvg.getValue(v_edge[i][j]);
 
-					if(value > 0.0 + epsilon){
+					if(value > 0.0 + getCplex().PRECISION){
 						System.out.println(i + "-" + j + " : " + value);
 						if(value == 1.0){
 							obj += d[i][j];
@@ -594,6 +509,12 @@ System.out.print("y" + i + "-" + j + "(" + value + ")\t\t");
 		}
 		
 	}
+
+	@Override
+	public IloNumVar nodeInClusterVar(int i, int k) throws IloException {
+		return v_nodeCluster[i][k];
+	}
+
 
 
 }

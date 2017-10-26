@@ -1,12 +1,12 @@
 package main;
 
+import cplex.Cplex;
 import formulation.Param;
 import formulation.Partition;
 import formulation.PartitionWithRepresentative;
-import formulation.Partition_with_tildes;
 import formulation.RepParam;
-import formulation.TildeParam;
 import ilog.concert.IloException;
+import ilog.cplex.IloCplex.UnknownObjectException;
 
 public abstract class Execution {
 
@@ -15,13 +15,16 @@ public abstract class Execution {
 	public int im, iM;
 	public int nbGraph;
 	
-	public Execution(int nm, int nM, int km, int kM, int im, int iM){
+	public Cplex cplex;
+	
+	public Execution(Cplex cplex, int nm, int nM, int km, int kM, int im, int iM){
 		this.nm = nm;
 		this.nM = nM;
 		this.km = km;
 		this.kM = kM;
 		this.im = im;
 		this.iM = iM;
+		this.cplex = cplex;
 	}
 	
 	public int c_n;
@@ -53,30 +56,19 @@ public abstract class Execution {
 		}
 	}
 	
-	public Partition createPartition(Param param){
+	public Partition createPartition(Param param) throws IloException{
 		param.maxNumberOfNodes = c_n;
 		param.inputFile = getInputFile(c_n, c_i);
-		param.K = c_k;
+		param.KMax = c_k;
 		return Partition.createPartition(param);
 	}
 	
 	public void updateParam(Param p){
 		p.maxNumberOfNodes = c_n;
-		p.K = c_k;
+		p.KMax = c_k;
 	}
 	
-	public Partition getRootRelaxationThenCreatePartition(RepParam rp){
-
-		double relaxation = getRootRelaxation(rp);
-		
-		Partition p = createPartition(rp);
-		p.rootRelaxation = relaxation;
-		
-		return p;
-	
-	}
-	
-	public double getRootRelaxation(RepParam rp){
+	public double getRootRelaxation(RepParam rp) throws IloException{
 		
 		Partition p = null;
 		rp.maxNumberOfNodes = c_n;
@@ -87,37 +79,36 @@ public abstract class Execution {
 		
 		p = createPartition(rp);
 		
-		p.turnOffCPOutput();
-		p.removeAutomaticCuts();
-		p.turnOffPrimalDualReduction();
+		p.getCplex().turnOffCPOutput();
+		p.getCplex().removeAutomaticCuts();
+		p.getCplex().turnOffPrimalDualReduction();
 		
-		p.solve();
+		p.getCplex().solve();
 		
 		rp.isInt = temp;
 		
-		return p.getObjValue2();
+		return p.getCplex().getObjValue();
 		
 	}
 	
-	public boolean isRelaxationInteger(RepParam rp){
+	public boolean isRelaxationInteger(RepParam rp) throws UnknownObjectException, IloException{
 		
-		Partition p = null;
 		rp.maxNumberOfNodes = c_n;
 		rp.inputFile = c_input_file;
 		
-		p = createPartition(rp);
+		PartitionWithRepresentative p = (PartitionWithRepresentative)createPartition(rp);
 		
-		p.turnOffCPOutput();
-		p.removeAutomaticCuts();
-		p.turnOffPrimalDualReduction();
+		p.getCplex().turnOffCPOutput();
+		p.getCplex().removeAutomaticCuts();
+		p.getCplex().turnOffPrimalDualReduction();
 		
-		p.solve();
+		p.getCplex().solve();
 		
 		boolean result = true;
 		int i = 3;
 		
 		while(result && i < c_n){
-			double v = p.getValue(i-3);
+			double v = p.variableGetter().getValue(p.nodeVar(i));
 //			if(Math.round(v) - v > 1E-4)
 			if(Math.abs(Math.round(v) - v) > 1E-4)
 				result = false;
@@ -131,7 +122,7 @@ public abstract class Execution {
 			int j = i+1;
 			
 			while(result && j < c_n){
-				double v = p.getValue(i,j);
+				double v = p.variableGetter().getValue(p.edgeVar(i,j));
 //				if(Math.round(v) - v > 1E-4)
 				if(Math.abs(Math.round(v) - v) > 1E-4)
 					result = false;

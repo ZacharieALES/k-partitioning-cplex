@@ -296,15 +296,15 @@ public class ComputeResults {
 				
 				for(int k = 0 ;  k < result[0][0].length ; ++k){
 					if(j == 0){
-						if(result[i][j][k] instanceof CP_Result)
+						if(result[i][j][k] instanceof CPResult)
 							isCpResult[k] = true;
 						else
 							isCpResult[k] = false;
 					}
 					
 					else{
-						if(result[i][j][k] instanceof CP_Result && !isCpResult[k] 
-							|| !(result[i][j][k] instanceof CP_Result) && isCpResult[k]){
+						if(result[i][j][k] instanceof CPResult && !isCpResult[k] 
+							|| !(result[i][j][k] instanceof CPResult) && isCpResult[k]){
 							isValid = false;
 							System.err.println("<result> inconsistent. For a given i and j, all the <result[i][j][k]> must be of the same class (i.e.: all Result or all CP_Result) (k : " + k + ")");
 						}
@@ -442,10 +442,10 @@ public class ComputeResults {
 						
 //						output += i + "\t";
 						Result res = result[n][k][i];
-						CP_Result cpres = null;
+						CPResult cpres = null;
 						
 						if(isCpResult[i])
-							cpres = (CP_Result)res;
+							cpres = (CPResult)res;
 						
 						if(param.cp_time != -1 && isCpResult[i])
 							output += colSeparator + al_nf.get(param.cp_time).format(cpres.cp_time);
@@ -882,15 +882,15 @@ public class ComputeResults {
 				
 				for(int k = 0 ;  k < result[0][0].length ; ++k){
 					if(j == 0){
-						if(result[i][j][k] instanceof CP_Result)
+						if(result[i][j][k] instanceof CPResult)
 							isCpResult[k] = true;
 						else
 							isCpResult[k] = false;
 					}
 					
 					else{
-						if(result[i][j][k] instanceof CP_Result && !isCpResult[k] 
-							|| !(result[i][j][k] instanceof CP_Result) && isCpResult[k]){
+						if(result[i][j][k] instanceof CPResult && !isCpResult[k] 
+							|| !(result[i][j][k] instanceof CPResult) && isCpResult[k]){
 							isValid = false;
 							System.err.println("<result> inconsistent. For a given i and j, all the <result[i][j][k]> must be of the same class (i.e.: all Result or all CP_Result) (k : " + k + ")");
 						}
@@ -972,9 +972,9 @@ public class ComputeResults {
 					
 						Result res = result[n][k][i];
 						
-						CP_Result cpres = null;
+						CPResult cpres = null;
 						if(isCpResult[i])
-							cpres = (CP_Result)res;
+							cpres = (CPResult)res;
 						
 						yCoordinates[k] = res.time;
 						

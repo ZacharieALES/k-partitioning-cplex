@@ -1,12 +1,13 @@
 package formulation;
 
+import cplex.Cplex;
+
 public class Param {
 	
 	/**
 	 * Value added to all the weight of each edge in the graph (enable to quickly change the value of all the edges of a graph without generating a new input file)
 	 */
 	public double gapDiss = 0.0;
-
 
 	/** Display cplex output */
 	public boolean cplexOutput = false;
@@ -29,14 +30,24 @@ public class Param {
 	/** Maximal number of nodes read into the input file */
 	public int maxNumberOfNodes = -1;
 	
-	/** Number of clusters */
-	public int K = -1;
+	/** Maximal number of clusters */
+	public int KMax = -1;
 	
-	public Param(String inputFile, int K){
+	/** Maximal number of clusters */
+	public int KMin = -1;
+	
+	public Cplex cplex;
+	
+	public Param(String inputFile, Cplex cplex, int KMin, int KMax){
 		this.inputFile = inputFile;
-		this.K = K;
+		this.KMax = KMin;
+		this.KMin = KMax;
 	}
 	
+	public Param(String inputFile, Cplex cplex, int K){
+		this(inputFile, cplex, K, K);
+	}
+
 	public Param(Param p){
 		gapDiss = p.gapDiss;
 		cplexOutput = p.cplexOutput;
@@ -47,6 +58,8 @@ public class Param {
 		useNN_1 = p.useNN_1;
 		inputFile = p.inputFile;
 		maxNumberOfNodes = p.maxNumberOfNodes;
-		K = p.K;
+		KMax = p.KMax;
+		KMin = p.KMin;
+		cplex = p.cplex;
 	}
 }

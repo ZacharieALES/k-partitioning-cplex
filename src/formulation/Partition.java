@@ -8,45 +8,26 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import cplex.Cplex;
+import formulation.interfaces.IFEdgeVClusterNb;
+import formulation.interfaces.IFEdgeW;
 import generate_input_file.InvalidInputFileException;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
-import ilog.concert.IloNumExpr;
 import ilog.concert.IloNumVar;
-import ilog.concert.IloRange;
-import ilog.cplex.IloCplex;
-import ilog.cplex.IloCplex.BooleanParam;
-import ilog.cplex.IloCplex.DoubleParam;
-import ilog.cplex.IloCplex.IntParam;
-import ilog.cplex.IloCplex.LazyConstraintCallback;
-import ilog.cplex.IloCplex.ParameterSet;
 import ilog.cplex.IloCplex.UnknownObjectException;
-import ilog.cplex.IloCplex.UserCutCallback;
-import inequality_family.Range;
-import presolve_callback.CallBack_PresolveInfo;
-import cut_callback.Callback_RootRelaxation;
+import variable.CplexVariableGetter;
 
 
-public abstract class Partition {
-	
-	double epsilon = 0.0000001;
+public abstract class Partition implements IFEdgeVClusterNb, IFEdgeW{
+
+
+	public Param p;
 
 	/* Number of points to cluster */
 	public int n;
-	
-	public Param p;
 
 	public double[][] d;
-
-	public static IloCplex cplex;
-
-	/**
-	 * Representative variables Array of n-3 elements. v_rep[i] contains the
-	 * value of xi+3 (1=0..n-4)
-	 */
-	public IloNumVar[] v_rep;
-	
-	public double rootRelaxation = -1.0;
 
 	/**
 	 * Edges variables Array of n elements. v_edge[0] is empty v_edge[i]
@@ -55,362 +36,7 @@ public abstract class Partition {
 	 */
 	public IloNumVar[][] v_edge;
 	
-	public void removeAutomaticCuts(){
-		try {
-			cplex.setParam(IloCplex.DoubleParam.CutsFactor, 0.0);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public boolean isSolved = false;
-
-	public void turnOffCPOutput(){
-		/* Turn off cplex output */
-		cplex.setOut(null);
-		cplex.setWarning(null);
-		
-	}
-	
 	public abstract void displaySolution() throws UnknownObjectException, IloException;
-	
-	public void onlyDisplayRootRelaxation() {
-		
-	//	cplex.setParam(IloCplex.IntParam.AggCutLim, -1);
-		Callback_RootRelaxation rootCB = new Callback_RootRelaxation(true);
-
-		removeAutomaticCuts();
-		turnOffCPOutput();
-		
-		try {
-			cplex.use(rootCB);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-		
-	}
-
-	
-	public void displayPresolveInfo() {
-	
-		//cplex.setParam(IloCplex.IntParam.AggCutLim, -1);
-		CallBack_PresolveInfo presolveCB = new CallBack_PresolveInfo();
-		try {
-			cplex.use(presolveCB);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	
-	}
-	
-	public void displayObjectiveFunction(){
-		try {
-			if(isSolved)
-				System.out.println("Cplex found a result of: " + cplex.getObjValue());
-		} catch (IloException e) {
-			e.printStackTrace();
-		}	
-	}
-
-	public void nodeLimitTo0() {
-		try {
-			cplex.setParam(IloCplex.IntParam.NodeLim, 0);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void end(){
-		cplex.end();
-	}
-
-	public void turnOffPrimalDualReduction() {
-		try {
-			cplex.setParam(IloCplex.IntParam.Reduce, 0);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public IloLinearNumExpr linearNumExpr(){
-		try {
-			return cplex.linearNumExpr();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public IloRange addRange(Range r){
-		try {
-			return cplex.addRange(r.lbound, r.expr, r.ubound);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-//	public IloRange addLazyRange(Range r){
-//		try {
-//			return cplex.addLazyConstraint(cplex.range(r.lbound, r.expr, r.ubound));
-//		} catch (IloException e) {
-//			e.printStackTrace();
-//			return null;
-//		}
-//	}
-	
-	public IloRange addRange(double lbound, IloLinearNumExpr expr, double ubound){
-		try {
-			
-			return cplex.addRange(lbound, expr, ubound);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public IloRange addLe(IloLinearNumExpr expr, double bound){
-		try {
-			
-			return cplex.addLe(expr, bound);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public IloRange addGe(IloLinearNumExpr expr, double bound){
-		try {
-			
-			return cplex.addGe(expr, bound);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
-	public double solve(){
-		try {
-				
-			double time = -cplex.getCplexTime();		
-			cplex.solve();
-			return time + cplex.getCplexTime();
-			
-			
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-	
-	public void clearCallback(){
-		try {
-			cplex.clearCallbacks();
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void use(UserCutCallback ucc){
-		try {
-			cplex.use(ucc);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void use(LazyConstraintCallback lcc){
-		try {
-			cplex.use(lcc);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void start(){
-		try {
-			cplex = new IloCplex();
-			cplex.setParam(IntParam.ClockType, 2);
-			
-			/* Min gap under which cplex consider that the optimal solution is found */
-//			cplex.setParam(DoubleParam.EpGap, 1E-13);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public double getNnodes() {
-		return cplex.getNnodes();
-	}
-
-	public double getObjValue2() {
-		try {
-			return cplex.getObjValue();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-
-	public double getBestObjValue2() {
-		try {
-			return cplex.getBestObjValue();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-
-	public int getNcuts(int cuttype) {
-		try {
-			return cplex.getNcuts(cuttype);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1;
-		}
-	}
-
-	public double getCplexTime() {
-		try {
-			return cplex.getCplexTime();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-
-	public IloRange le(IloLinearNumExpr expr, double ubound) {
-		try {
-			return cplex.le(expr, ubound);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public IloRange ge(IloLinearNumExpr expr, double lbound) {
-		try {
-			return cplex.ge(expr, lbound);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public IloRange range(double bound, IloNumExpr expr, double bound2) {
-		try {
-			return cplex.range(bound, expr, bound2);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public IloRange eq(double e, IloNumVar iloNumVar) {
-		try {
-			return cplex.eq(e,  iloNumVar);
-		} catch (IloException e1) {
-			e1.printStackTrace();
-			return null;
-		}
-	}
-
-	public IloRange eq(double e, IloLinearNumExpr iloNumExpr) {
-		try {
-			return cplex.eq(e,  iloNumExpr);
-		} catch (IloException e1) {
-			e1.printStackTrace();
-			return null;
-		}
-	}
-
-	public static void setParam(DoubleParam p, double value) {
-		try {
-			cplex.setParam(p, value);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setParam(BooleanParam p, boolean value) {
-		try {
-			cplex.setParam(p, value);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setParam(IntParam p, int value) {
-		try {
-			cplex.setParam(p, value);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static double getParam(DoubleParam p) {
-		try {
-			return cplex.getParam(p);
-		} catch (IloException e) {
-			e.printStackTrace();
-			return -1.0;
-		}
-	}
-
-	public static ParameterSet getParameterSet() {
-		try {
-			return cplex.getParameterSet();
-		} catch (IloException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public static void setParameterSet(ParameterSet s) {
-		try {
-			cplex.setParameterSet(s);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public static void setDefaults() {
-		try {
-			cplex.setDefaults();
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-
-
-	public double getSlack(IloRange r) {
-		try {
-			return cplex.getSlack(r);
-		} catch (Exception e) {
-			e.printStackTrace();
-			System.exit(0);
-			return -1.0;
-		}
-	}
-
-	public void remove(IloRange r) {
-		try {
-		cplex.remove(r);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void addMIPStart(IloNumVar[] var, double[] val) {
-		try {
-			cplex.addMIPStart(var, val);
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-	}
-	
-
 
 	/**
 	 * Read a txt file which contains a low triangular matrix. This matrix
@@ -541,30 +167,16 @@ public abstract class Partition {
 		return d;
 	}
 	
-
-	public double getValue(int i, int j){
-		try {
-			return cplex.getValue(v_edge[i][j]);
-		} catch (UnknownObjectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-		return Double.MAX_VALUE;
+	@Override
+	public double edgeWeight(int i, int j) {
+		return d[i][j];
 	}
 	
-	public double getValue(int i){
-		try {
-			return cplex.getValue(v_rep[i]);
-		} catch (UnknownObjectException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
-		return Double.MAX_VALUE;
+	@Override
+	public IloNumVar edgeVar(int i, int j) throws IloException {
+		return v_edge[i][j];
 	}
+	
 
 	/**
 	 * Display the value of the edge variables which are equal to 1
@@ -591,7 +203,7 @@ public abstract class Partition {
 			 */
 			while (k < numberOfElementsByLine && i != n) {
 
-				double value = cplex.getValue(v_edge[i][j]);
+				double value = cvg.getValue(v_edge[i][j]);
 
 if(value > 1E-4){
 System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
@@ -634,113 +246,34 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 	}
 
 
-	public int K() {
+	public int KMax() {
 		if(p != null)
-			return p.K;
+			return p.KMax;
 		else
 			return -1;
 	}
 
 
-	/**
-	 * Display the value of the representative variables which are different
-	 * from zero
-	 * 
-	 * @param numberOfElementsByLine
-	 *            Number of variables displayed by line
-	 * @throws UnknownObjectException
-	 * @throws IloException
-	 */
-	public void displayRepresentativeVariables(
-			int numberOfElementsByLine) throws UnknownObjectException,
-			IloException {
-
-		int i = 0; // Index of the node
-
-		/* First node: x0 = 1 */
-		System.out.print("0\t");
-
-		/* Second node: x1 = 1 - x01 */
-		double value = 1 - cplex.getValue(v_edge[1][0]);
-
-		/* If the value is not zero (or very close) */
-		if ( !(value < 0.0+epsilon)) {
-
-			/* If the value is one (or very close) */
-			if (value > 1.0-epsilon)
-				System.out.print("1\t");
-			else
-				System.err
-						.println("Error the representative variable number 1 is not equal to 0 or 1 (value "
-								+ value + ")");
-
-		}
-
-		/* Third node: x2 = K - 2 + x01 - sum xi */
-		value = p.K - 2 + cplex.getValue(v_edge[1][0]);
-
-		for (int m = 0; m < n - 3; ++m)
-			value -= cplex.getValue(v_rep[m]);
-
-		/* If the value is not zero (or very close) */
-		if ( !(value < 0.0+epsilon)) {
-			/* If the value is one (or very close) */
-			if (value > 1.0-epsilon)
-				System.out.print("2\t");
-			else
-				System.err
-						.println("Error the representative variable number 2 is not equal to 0 or 1 (value "
-								+ value + ")");
-
-		}
-
-		/* While all the representative variables have not been displayed */
-		while (i < n - 3) {
-
-			int k = 0; // Id of the last element displayed on the line
-
-			/*
-			 * While the line is not over and all the representative variables
-			 * have not been displayed
-			 */
-			while (k < numberOfElementsByLine && i < n - 3) {
-
-				value = cplex.getValue(v_rep[i]);
-
-				/* If the value is not zero (or very close) */
-				if ( !(value < 0.0+epsilon)) {
-					/* If the value is one (or very close) */
-					if (value > 1.0-epsilon){
-						System.out.print(i + 3 + "\t");
-						++k;
-
-					} else
-						System.err
-								.println("Error the representative variable number "
-										+ i
-										+ " is not equal to 0 or 1 (value "
-										+ value + ")");
-
-				}
-
-				++i;
-
-			}
-
-			System.out.println(" ");
-		}
-
+	public int KMin() {
+		if(p != null)
+			return p.KMin;
+		else
+			return -1;
+	}
+	
+	CplexVariableGetter cvg;
+	
+	public CplexVariableGetter intValueGetter() {
+		return cvg;
 	}
 
-
-	
-	public static Partition createPartition(Param param){
+	public static Partition createPartition(Param param) throws IloException{
 
 		Partition p = null;
 
 		if(param instanceof TildeParam){
 			TildeParam tp = (TildeParam) param;
-			p = new Partition_with_tildes(tp);
+			p = new PartitionWithTildes(tp);
 		}
 		else if(param instanceof RepParam){
 			RepParam rp = (RepParam) param;
@@ -754,8 +287,69 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 			else
 				p = new Partition_x_y(xyp);
 		}
+		p.cvg = new CplexVariableGetter(p.getCplex());
 		
 		return p;
+	}
+
+	public int maximalNumberOfClusters() {
+		return KMax();
+	}
+	public int minimalNumberOfClusters() {
+		return KMin();
+	}
+
+	public void createNN_1Constraints(){
+
+		try {
+			int d = (int) Math.floor((n-1)/p.KMax);
+			int mo = (n-1)%p.KMax;
+			int n1 = (d+1) * d / 2;
+			int n2 = d * (d-1) / 2;
+			int righthand = n1 * mo + n2 * (p.KMax-mo);
+			
+			for(int j = 0 ; j < n ; ++j){
+				IloLinearNumExpr expr;
+					expr = getCplex().linearNumExpr();
+	
+				for(int l = 0 ; l < n ; ++l)
+					if(l != j)
+						for(int m = l+1 ; m < n ; ++m){
+							if(m != j)
+								expr.addTerm(+1.0, v_edge[l][m]);
+						}
+			
+				getCplex().addGe(expr, righthand);
+	
+			}
+	
+			d = (int) Math.floor((n)/p.KMax);
+			mo = (n)%p.KMax;
+			n1 = (d+1) * d / 2;
+			n2 = d * (d-1) / 2;
+			righthand = n1 * mo + n2 * (p.KMax-mo);
+			
+			IloLinearNumExpr expr = getCplex().linearNumExpr();
+			for(int l = 0 ; l < n ; ++l)
+				for(int m = l+1 ; m < n ; ++m){
+					expr.addTerm(+1.0, v_edge[l][m]);
+					}
+			
+			getCplex().addGe(expr, righthand);
+
+		} catch (IloException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public Cplex getCplex() {
+		return p.cplex;
+	}
+
+	@Override
+	public CplexVariableGetter variableGetter() {
+		return cvg;
 	}
 	
 }

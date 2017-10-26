@@ -49,7 +49,7 @@ public class StandardResult {
 		this.n = n;
 		this.i = i;
 		this.dissimilarityGap = param.gapDiss;
-		this.K = param.K;
+		this.K = param.KMax;
 		this.tilim = param.tilim;
 		type = formulation;
 	}

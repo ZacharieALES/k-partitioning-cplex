@@ -5,15 +5,18 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
+import formulation.interfaces.IFEdgeVNodeClusterVNodeVConstrainedClusterNb;
+import formulation.interfaces.IFormulation;
 import ilog.concert.IloException;
-import inequality_family.Abstract_Inequality;
-import inequality_family.Linear_First_Inequality;
-import inequality_family.Linear_Second_Inequality;
-import inequality_family.Linear_Third_Inequality;
-import solution.Solution_Representative;
+import inequality_family.AbstractInequality;
+import inequality_family.LinearFirstInequality;
+import inequality_family.LinearSecondInequality;
+import inequality_family.LinearThirdInequality;
+import variable.VariableGetter;
 
 
-public class Separation_Linear extends Abstract_Separation {
+
+public class Separation_Linear extends AbstractSeparation<IFEdgeVNodeClusterVNodeVConstrainedClusterNb> {
 
 	int MAXCUT;
 	int MAXFOUND;
@@ -51,16 +54,18 @@ public class Separation_Linear extends Abstract_Separation {
 		}
 	});
 
-	public Separation_Linear(Solution_Representative ucc, int MAXCUT) {
-		super("Linear inequality", ucc);
+	public Separation_Linear(IFEdgeVNodeClusterVNodeVConstrainedClusterNb formulation, VariableGetter vg, int MAXCUT) {
+		super("Linear inequality", formulation, vg);
+		
+		
 		this.MAXCUT = MAXCUT;
 		MAXFOUND = 5*MAXCUT;
 	}
 
 	@Override
-	public ArrayList<Abstract_Inequality> separate(){
+	public ArrayList<AbstractInequality<? extends IFormulation>> separate(){
 
-		ArrayList<Abstract_Inequality> result = new ArrayList<Abstract_Inequality>();
+		ArrayList<AbstractInequality<? extends IFormulation>> result = new ArrayList<>();
 
 		foundIneq1.clear();	
 		foundIneq2.clear();	
@@ -69,11 +74,11 @@ public class Separation_Linear extends Abstract_Separation {
 		int i = 0;
 		int totalFound = 0;
 
-		while(i < s.n() && totalFound < MAXFOUND){
+		while(i < formulation.n() && totalFound < MAXFOUND){
 
 			int j = i+1;
 
-			while(j < s.n()){
+			while(j < formulation.n()){
 
 				//				addFirstIfGapNegative(i,j);
 
@@ -159,38 +164,38 @@ public class Separation_Linear extends Abstract_Separation {
 
 
 
-	public class GapFirstInequality extends Linear_First_Inequality{
+	public class GapFirstInequality extends LinearFirstInequality{
 
 		/** Gap between the value of the inequality and it's upper bound */
 		public int gap;
 
 		public GapFirstInequality(int i, int j) throws IloException{
-			super(Separation_Linear.this.s, i, j);
-			gap = (int) (getSlack() * 1000);
+			super(Separation_Linear.this.formulation, i, j);
+			gap = (int) (getSlack(vg) * 1000);
 		}
 
 	}
 
-	public class GapSecondInequality extends Linear_Second_Inequality{
+	public class GapSecondInequality extends LinearSecondInequality{
 
 		/** Gap between the value of the inequality and it's upper bound */
 		public int gap;
 
 		public GapSecondInequality(int i, int j) throws IloException{
-			super(Separation_Linear.this.s, i, j);
-			gap = (int) (getSlack() * 1000);
+			super(Separation_Linear.this.formulation, i, j);
+			gap = (int) (getSlack(vg) * 1000);
 		}
 
 	}
 
-	public class GapThirdInequality extends Linear_Third_Inequality{
+	public class GapThirdInequality extends LinearThirdInequality{
 
 		/** Gap between the value of the inequality and it's upper bound */
 		public int gap;
 
 		public GapThirdInequality(int i, int j) throws IloException{
-			super(Separation_Linear.this.s, i, j);
-			gap = (int) (getSlack() * 1000);
+			super(Separation_Linear.this.formulation, i, j);
+			gap = (int) (getSlack(vg) * 1000);
 		}
 
 	}

@@ -1,8 +1,9 @@
 package inequality_family;
 
+import formulation.interfaces.IFEdgeVNodeV;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
-import solution.Solution_Representative;
+import variable.VariableGetter;
 
 /**
  * Inequality in the shape of x_s1_t1 + x_s1_t2 - x_t1_t2 + x_s1 + x_t2 + x_v_t2 s<= 2
@@ -10,12 +11,14 @@ import solution.Solution_Representative;
  * @author zach
  *
  */
-public class TriangleRepresentative extends Abstract_Inequality{
-	
+@SuppressWarnings("serial")
+public class TriangleRepresentative extends AbstractInequality<IFEdgeVNodeV>{
+
 	public int s1, t1, t2, v;
 
-	public TriangleRepresentative(Solution_Representative s, int t1, int v, int s1, int t2) {
-		super(s);
+	public TriangleRepresentative(IFEdgeVNodeV formulation, int t1, int v, int s1, int t2) {
+		super(formulation, IFEdgeVNodeV.class);
+		
 		this.s1 = s1;
 		this.t1 = t1;
 		this.t2 = t2;
@@ -24,16 +27,16 @@ public class TriangleRepresentative extends Abstract_Inequality{
 
 	@Override
 	public Range createRange() {
-		
-		IloLinearNumExpr expr = s.linearNumExpr();
+
+		IloLinearNumExpr expr = formulation.getCplex().linearNumExpr();
 
 		try {
-			expr.addTerm(+1.0, s.x_var(s1, t1));
-			expr.addTerm(+1.0, s.x_var(s1, t2));
-			expr.addTerm(-1.0, s.x_var(t1, t2));
-			expr.addTerm(+1.0, s.x_var(v, t2));
-			expr.addTerm(+1.0, s.x_var(s1));
-			expr.addTerm(+1.0, s.x_var(t2));
+			expr.addTerm(+1.0, formulation.edgeVar(s1, t1));
+			expr.addTerm(+1.0, formulation.edgeVar(s1, t2));
+			expr.addTerm(-1.0, formulation.edgeVar(t1, t2));
+			expr.addTerm(+1.0, formulation.edgeVar(v, t2));
+			expr.addTerm(+1.0, formulation.nodeVar(s1));
+			expr.addTerm(+1.0, formulation.nodeVar(t2));
 
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -43,29 +46,25 @@ public class TriangleRepresentative extends Abstract_Inequality{
 	}
 
 	@Override
-	public Abstract_Inequality clone() {
-		return new TriangleRepresentative(s, t1, v, s1, t2);
+	public AbstractInequality<IFEdgeVNodeV> clone() {
+		return new TriangleRepresentative(formulation, t1, v, s1, t2);
 	}
 
 	@Override
-	public double evaluate() throws IloException  {
-		double result = this.s.x(s1, t1);
+	protected double evaluate(VariableGetter vg) throws IloException  {
+		double result = vg.getValue(formulation.edgeVar(s1, t1));
 
-		result += this.s.x(s1, t2);
-		result -= this.s.x(t1, t2);
-		result += this.s.x(v, t2);
-		result += this.s.x(s1);
-		result += this.s.x(t2);
+		result += vg.getValue(formulation.edgeVar(s1, t2));
+		result -= vg.getValue(formulation.edgeVar(t1, t2));
+		result += vg.getValue(formulation.edgeVar(v, t2));
+		result += vg.getValue(formulation.nodeVar(s1));
+		result += vg.getValue(formulation.nodeVar(t2));
 		return result;
 	}
 
 	@Override
-	public double getSlack() throws IloException  {
-		return 2.0 - this.evaluate();
+	public double getSlack(VariableGetter vg) throws IloException   {
+		return 2.0 - this.evaluate(vg);
 	}
-	
-
-	@Override
-	public boolean useTilde(){return false;}
 
 }
