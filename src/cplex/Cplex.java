@@ -41,6 +41,7 @@ public class Cplex {
 		/* Turn off cplex output */
 		iloCplex.setOut(null);
 		iloCplex.setWarning(null);
+//		System.out.println("Warning: Cplex.java decomment turnOffCPOutput()");
 
 	}
 

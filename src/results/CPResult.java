@@ -3,12 +3,12 @@ package results;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
-public class CPResult extends Result{
+public class CPResult extends ResultOld{
 	
 	private static final long serialVersionUID = -656518835105631616L;
 	public double cp_first_relaxation;
 	public double cp_time;
-	public ArrayList<Cut> cpCutNb = new ArrayList<Result.Cut>();
+	public ArrayList<Cut> cpCutNb = new ArrayList<ResultOld.Cut>();
 	public int cp_iteration;
 	
 	/* Integer.MAX_VALUE if inequalities are never removed during the cutting_plane step.

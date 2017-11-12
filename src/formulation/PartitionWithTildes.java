@@ -28,18 +28,18 @@ public class PartitionWithTildes extends PartitionWithRepresentative implements 
 
 		super.displaySolution();
 		
-		try {
-			int l = 6;
-
-			/* Display the edge variables different from 0 (<l> by line) */
-			System.out.println("\nTilde variables");
-			displayTildeVariables(l);
-			
-		} catch (UnknownObjectException e) {
-			e.printStackTrace();
-		} catch (IloException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			int l = 6;
+//
+//			/* Display the edge variables different from 0 (<l> by line) */
+//			System.out.println("\nTilde variables");
+//			displayTildeVariables(l);
+//			
+//		} catch (UnknownObjectException e) {
+//			e.printStackTrace();
+//		} catch (IloException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	/**

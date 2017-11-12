@@ -5,8 +5,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import formulation.Param;
-import results.StandardResult.FormulationType;
+import formulation.PartitionParam;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StandardResult {
@@ -45,7 +44,7 @@ public class StandardResult {
 
 	public StandardResult(){}
 	
-	public StandardResult(int n, int i, FormulationType formulation, Param param) {
+	public StandardResult(int n, int i, FormulationType formulation, PartitionParam param) {
 		this.n = n;
 		this.i = i;
 		this.dissimilarityGap = param.gapDiss;

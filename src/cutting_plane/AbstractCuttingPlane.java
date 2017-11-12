@@ -3,6 +3,7 @@ package cutting_plane;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import formulation.Param;
 import formulation.PartitionWithRepresentative;
 import formulation.interfaces.IFormulation;
 import ilog.concert.IloException;
@@ -10,7 +11,7 @@ import ilog.concert.IloRange;
 import ilog.cplex.IloCplex;
 import inequality_family.AbstractInequality;
 import mipstart.AbstractMIPStartGetter;
-import mipstart.SolutionManager;
+import mipstart.SolutionManagerRepresentative;
 import results.CPResult;
 import results.ComputeResults;
 
@@ -23,12 +24,13 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 	Double minimalTimeBeforeRemovingUntightCut = Double.MAX_VALUE;
 	Integer modFindIntSolution = Integer.MAX_VALUE;
 
-	public Formulation rep;
+	public Formulation formulation;
 	boolean reordering;
 	double tilim;
 
-	public AbstractCuttingPlane(int i, double minimalTimeBeforeRemovingUntightCut, int modFindIntSolution, boolean reordering, double tilim) throws IloException{
+	public AbstractCuttingPlane(Param p, int i, double minimalTimeBeforeRemovingUntightCut, int modFindIntSolution, boolean reordering, double tilim) throws IloException{
 
+		p.isInt = false;
 		cpresult = new CPResult();
 		cpresult.i = i;
 		this.minimalTimeBeforeRemovingUntightCut = minimalTimeBeforeRemovingUntightCut;
@@ -45,18 +47,17 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 	/**
 	 * Solve a formulation with the cutting plane
 	 * (warning: the variables in the formulation must be continuous, not integer!)
-	 * @param formulation The formulation with continuous variables
 	 * @return
 	 */
 	public double solve(){
 
-		this.rep = getFormulation();
+		this.formulation = getFormulation();
 		createSeparationAlgorithm();
 
-		cpresult.cp_time = -rep.getCplex().getCplexTime();
+		cpresult.cp_time = -formulation.getCplex().getCplexTime();
 
 		try {
-			rep.getCplex().iloCplex.setParam(IloCplex.IntParam.RootAlg, 2);
+			formulation.getCplex().iloCplex.setParam(IloCplex.IntParam.RootAlg, 2);
 		} catch (IloException e1) {
 			e1.printStackTrace();
 		}
@@ -66,12 +67,12 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 		double last_cp_relaxation = -Double.MAX_VALUE;
 
 		double bestInt = Double.MAX_VALUE;
-		SolutionManager bestMIP = null;
+		SolutionManagerRepresentative bestMIP = null;
 
 		try {
-			rep.getCplex().solve();
+			formulation.getCplex().solve();
 
-			cpresult.cp_first_relaxation = rep.getCplex().getObjValue();
+			cpresult.cp_first_relaxation = formulation.getCplex().getObjValue();
 			cpresult.cp_iteration = 0;
 
 			/* Maximal time in seconds given to the cutting plane step to improve the relaxation by at least 0.01%
@@ -79,11 +80,11 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 			 */
 			double max_time_for_relaxation_improvement = tilim/20.0;
 
-			//		System.out.println(max_time_for_relaxation_improvement + "s");
+					System.out.println(max_time_for_relaxation_improvement + "s");
 
 			int max_iteration_for_relaxation_improvement = 5;
-			double last_relaxation_improvement_time = -rep.getCplex().getCplexTime();
-			double last_removing_cuts_time = -rep.getCplex().getCplexTime();
+			double last_relaxation_improvement_time = -formulation.getCplex().getCplexTime();
+			double last_removing_cuts_time = -formulation.getCplex().getCplexTime();
 			int last_improvement_iteration = 0;
 
 			boolean max_time_for_relaxation_improvement_reached = false;
@@ -102,7 +103,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 			while(cutFound && !optimumFound && !max_time_for_relaxation_improvement_reached){ 
 
 				/* Compute the relaxation */
-				rep.getCplex().solve();
+				formulation.getCplex().solve();
 				toAdd = new ArrayList<>();
 				cutFound = false;
 
@@ -114,7 +115,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 
 
 				// Remove variables (part 1/2)
-				if(rep.getCplex().getCplexTime()+last_removing_cuts_time > minimalTimeBeforeRemovingUntightCut){
+				if(formulation.getCplex().getCplexTime()+last_removing_cuts_time > minimalTimeBeforeRemovingUntightCut){
 					//			if(cpresult.cp_iteration % minimalTimeBeforeRemovingUntightCut == 0){	
 
 					max_time_for_cut_removing_reached = true;
@@ -123,7 +124,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 					for(CP_Separation<?> si : sep)
 						for(int i = si.addedIneq.size()-1 ; i >= 0 ; --i){
 							AbstractInequality<?> ai = si.addedIneq.get(i);
-							if(!ai.isTight(rep.variableGetter())){
+							if(!ai.isTight(formulation.variableGetter())){
 								toRemove.add(ai.ilorange);
 								si.remove(i);
 							}
@@ -131,14 +132,14 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 				}
 
 				/* Remaining cutting plane time */
-				double remainingTime = cptilim - (rep.getCplex().getCplexTime() + cpresult.cp_time);
+				double remainingTime = cptilim - (formulation.getCplex().getCplexTime() + cpresult.cp_time);
 
 				/* Is the relaxation an integer solution? */ 
 				isInteger = isInteger();
 
-				last_cp_relaxation = rep.getCplex().getObjValue();
+				last_cp_relaxation = formulation.getCplex().getObjValue();
 				gap = ComputeResults.improvement(last_cp_relaxation,  bestInt);
-				//			System.out.print(Math.round(rep.getCplexTime() + cpresult.cp_time) + "s : [" + Math.round(last_cp_relaxation) + ", " + Math.round(bestInt) + "] " + (Math.round(100*gap)/100.0) + "%");
+							System.out.print(Math.round(formulation.getCplex().getCplexTime() + cpresult.cp_time) + "s : [" + Math.round(last_cp_relaxation) + ", " + Math.round(bestInt) + "] " + (Math.round(100*gap)/100.0) + "%");
 
 				/* If the solution is Integer, first test if a separation method from the formulation find a violated inequality (if the optimum is not found) */
 				if(isInteger){
@@ -167,8 +168,8 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 
 								cutFound = true;
 
-								//								System.out.print(" : " + sep.get(methode).se.name);	
-								//								System.out.print(" (" + r.size() + ")");		
+//																System.out.print(" : " + sep.get(methode).se.name);	
+//																System.out.print(" (" + r.size() + ")");		
 
 								//								/* Swap the method to the third place */
 								//								if(reordering && methode > 1)
@@ -194,11 +195,11 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 					{
 
 						AbstractMIPStartGetter mip_getter = getMIPSolution();
-						SolutionManager new_mip;
+						SolutionManagerRepresentative new_mip;
 
 						try {
 							new_mip = mip_getter.getMIPStart();
-							double newInt = new_mip.evaluation;
+							double newInt = new_mip.evaluate();
 							if(newInt < bestInt){
 								bestInt = newInt;
 								bestMIP = new_mip;
@@ -208,24 +209,24 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 							e.printStackTrace();
 						}
 
-						//					System.out.print(" : int "  + Math.round(newInt));
+//											System.out.print(" : int "  + Math.round(newInt));
 
 					}
 				}
 
 				double gapFromLastImprovedRelaxation = ComputeResults.improvement(last_improved_relaxation, last_cp_relaxation);
-				double time_since_last_improvement = last_relaxation_improvement_time + rep.getCplex().getCplexTime();
-				//			System.out.println("\n time/gap since last relaxation improvement: " + Math.round(time_since_last_improvement) + "s " + ComputeResults.doubleToString(gapFromLastImprovedRelaxation, 4) + "%");
+				double time_since_last_improvement = last_relaxation_improvement_time + formulation.getCplex().getCplexTime();
+//							System.out.println("\n time/gap since last relaxation improvement: " + Math.round(time_since_last_improvement) + "s " + ComputeResults.doubleToString(gapFromLastImprovedRelaxation, 4) + "%");
 				if(gapFromLastImprovedRelaxation > 1E-2){
 					last_improved_relaxation = last_cp_relaxation;
-					last_relaxation_improvement_time = -rep.getCplex().getCplexTime();
+					last_relaxation_improvement_time = -formulation.getCplex().getCplexTime();
 				}
 				else if(time_since_last_improvement > max_time_for_relaxation_improvement){
 					max_time_for_relaxation_improvement_reached = true;
-					//				System.out.println("\n Max time for relaxation improvement reached (" + Math.round(max_time_for_relaxation_improvement) + "s)");
+//									System.out.println("\n Max time for relaxation improvement reached (" + Math.round(max_time_for_relaxation_improvement) + "s)");
 				}
 
-				//			System.out.println("\ntime: " + Math.round(rep.getCplexTime()+last_improvement_time) + " iterations: " + last_improvement_iteration + ":" + cpresult.cp_iteration);
+//							System.out.println("\ntime: " + Math.round(rep.getCplex().getCplexTime()+last_improvement_time) + " iterations: " + last_improvement_iteration + ":" + cpresult.cp_iteration);
 
 				//			/* If the gap has been improved by more than 1E-2 since the last gap improvement */
 				//			if(Math.abs(gap-last_improved_gap) > 1E-2){
@@ -266,18 +267,18 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 									toAdd.addAll(r);
 									cutFound = true;
 
-									//			System.out.print(" : " + sep.get(methode).se.name);
-									////			
-									////		//	if(sep.get(methode).se instanceof Separation_Kp1_KL)
-									////		//		System.out.print( " : " + ((Separation_Kp1_KL)(sep.get(methode).se)).size);
-									////			
-									//			System.out.print(" (" + r.size() + ")");			
-									////			
-									//////			/* Swap the method to the third place */
-									//////			if(reordering && methode > 1)
-									//////				Collections.rotate(sep.subList(2, methode+1), +1);
-									//////		//	Collections.rotate(sep.subList(0, methode+1), +1);
-									//////		//}
+//												System.out.print(" : " + sep.get(methode).se.name);
+												
+											//	if(sep.get(methode).se instanceof Separation_Kp1_KL)
+											//		System.out.print( " : " + ((Separation_Kp1_KL)(sep.get(methode).se)).size);
+												
+//												System.out.print(" (" + r.size() + ")");			
+												
+									//			/* Swap the method to the third place */
+									//			if(reordering && methode > 1)
+									//				Collections.rotate(sep.subList(2, methode+1), +1);
+									//		//	Collections.rotate(sep.subList(0, methode+1), +1);
+									//		//}
 								}
 							}
 
@@ -287,14 +288,14 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 
 
 						methode++;
-						remainingTime = cptilim - (rep.getCplex().getCplexTime() + cpresult.cp_time);
+						remainingTime = cptilim - (formulation.getCplex().getCplexTime() + cpresult.cp_time);
 
 					}
 
-					//				System.out.print("lim: " + cptilim + " actuel: " + (rep.getCplexTime() + cpresult.cp_time));
+									System.out.print("lim: " + cptilim + " actuel: " + (formulation.getCplex().getCplexTime() + cpresult.cp_time));
 
-					//				if(!cutFound)
-					//					System.out.println("\n--- No cut found ---");	
+									if(!cutFound)
+										System.out.println("\n--- No cut found ---");	
 
 
 				}
@@ -305,15 +306,15 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 				if(max_time_for_cut_removing_reached && cutFound)		{	
 					//			if(cpresult.cp_iteration % minimalTimeBeforeRemovingUntightCut == 0 && cutFound)		{	
 					for(IloRange i: toRemove)
-						rep.getCplex().remove(i);
+						formulation.getCplex().remove(i);
 					//				ComputeResults.log(toRemove.size() + " ineq removed");
 
-					//				System.out.print( " : " + toRemove.size() + " ineq removed");
+//									System.out.print( " : " + toRemove.size() + " ineq removed");
 					max_time_for_cut_removing_reached = false;
-					last_removing_cuts_time = -rep.getCplex().getCplexTime();
+					last_removing_cuts_time = -formulation.getCplex().getCplexTime();
 				}
 
-				//			System.out.println();
+//							System.out.println();
 
 				cpresult.cp_iteration++;
 
@@ -324,10 +325,10 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 			e1.printStackTrace();
 		}
 
-		//		System.out.print("Optimum found: ");
-		//		System.out.println(optimumFound);
-		//		System.out.print("Slow gap improvement: ");
-		//		System.out.println(max_time_for_gap_improvement_reached);
+//				System.out.print("Optimum found: ");
+//				System.out.println(optimumFound);
+//				System.out.print("Slow gap improvement: ");
+//				System.out.println(max_time_for_gap_improvement_reached);
 
 
 
@@ -337,7 +338,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 		//System.out.println(s);
 		//System.out.println("Getter2 :  " + new_mip2.evaluation);
 
-		cpresult.cp_time += rep.getCplex().getCplexTime();
+		cpresult.cp_time += formulation.getCplex().getCplexTime();
 
 		//		rep.displayAllCoefficientSolution();
 
@@ -349,16 +350,16 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 			if(s.addedIneq.size() > 0)
 				cpresult.cpCutNb.add(cpresult.new Cut(s.se.name, s.addedIneq.size()));
 
-		//		System.out.println("\t" + Math.round(cpresult.cp_time) + "s " + Math.round(cpresult.firstRelaxation));
+//				System.out.println("\t" + Math.round(cpresult.cp_time) + "s " + Math.round(cpresult.firstRelaxation));
 
 		if(isInteger){
 			//			System.out.println("\nSolution is integer after cp");
 			cpresult.bestRelaxation = -1.0;
 			cpresult.time = 0.0;
 
-			if(rep instanceof PartitionWithRepresentative) {
+			if(formulation instanceof PartitionWithRepresentative) {
 				
-				PartitionWithRepresentative pwr = (PartitionWithRepresentative)rep;
+				PartitionWithRepresentative pwr = (PartitionWithRepresentative)formulation;
 				cpresult.n = pwr.n;
 				cpresult.K = pwr.KMax();
 			}
@@ -367,16 +368,16 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 			cpresult.iterationNb = -1;
 
 			try {
-				cpresult.bestInt = rep.getCplex().getObjValue();
+				cpresult.bestInt = formulation.getCplex().getObjValue();
 			} catch (IloException e) {
 				e.printStackTrace();
 			}
 		}
 		else{
-			//			System.out.println("\nSolution is not integer after cp");
+						System.out.println("\nSolution is not integer after cp");
 			findIntSolutionAfterCP(tilim == -1 ? -1 : tilim - cpresult.cp_time, bestMIP);
 
-			//			System.out.println("CP relaxation: " + last_cp_relaxation + " BC relaxation: " + cpresult.bestRelaxation);
+//						System.out.println("CP relaxation: " + last_cp_relaxation + " BC relaxation: " + cpresult.bestRelaxation);
 			if(cpresult.bestRelaxation < last_cp_relaxation || cpresult.bestRelaxation > 1E15)
 				cpresult.bestRelaxation = last_cp_relaxation;
 		}
@@ -421,7 +422,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 
 		for(AbstractInequality<? extends IFormulation> ri : r)
 			try {
-				ri.ilorange = rep.getCplex().addRange(ri.getRange());
+				ri.ilorange = formulation.getCplex().addRange(ri.getRange());
 			} catch (IloException e) {
 				e.printStackTrace();
 			}
@@ -436,7 +437,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 	 * Find an integer solution thanks to the best relaxation found by the cutting plane step.
 	 * Warning : This method must update the secondStep_time attribute
 	 */
-	public abstract void findIntSolutionAfterCP(double remaining_time, SolutionManager mipStart);
+	public abstract void findIntSolutionAfterCP(double remaining_time, SolutionManagerRepresentative mipStart);
 
 
 	/**
@@ -459,7 +460,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 		for(CP_Separation<?> si : sep)
 			if(si.toAddInBB){		
 				for(AbstractInequality<?> i : si.addedIneq){					
-					if(i.isTight(rep.variableGetter())){		
+					if(i.isTight(formulation.variableGetter())){		
 						result.add(i);
 					}
 				}

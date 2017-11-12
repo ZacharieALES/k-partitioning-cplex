@@ -261,7 +261,7 @@ public class ComputeResults {
 	
 	
 	
-	public static String get3DTables(CP_ResultParamToDisplay param, Result[][][] result, int[] nValue, int[] kValue, String[] solutionHeader){
+	public static String get3DTables(CP_ResultParamToDisplay param, ResultOld[][][] result, int[] nValue, int[] kValue, String[] solutionHeader){
 		
 		
 		String output = "";
@@ -441,7 +441,7 @@ public class ComputeResults {
 //						output += colSeparator + colSeparator;
 						
 //						output += i + "\t";
-						Result res = result[n][k][i];
+						ResultOld res = result[n][k][i];
 						CPResult cpres = null;
 						
 						if(isCpResult[i])
@@ -847,7 +847,7 @@ public class ComputeResults {
 		
 	}
 
-	public static String get3DHistogram(Result[][][] result, int[] nValue,
+	public static String get3DHistogram(ResultOld[][][] result, int[] nValue,
 			int[] kValue, String[] solutionHeader) {
 
 		String output = "";
@@ -970,7 +970,7 @@ public class ComputeResults {
 					/* For each K */
 					for(int k = 0 ; k < kValue.length ; ++k){
 					
-						Result res = result[n][k][i];
+						ResultOld res = result[n][k][i];
 						
 						CPResult cpres = null;
 						if(isCpResult[i])

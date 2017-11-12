@@ -22,32 +22,17 @@ public class Param {
 	public double tilim = -1;
 	
 	public boolean isInt = true;
-	public boolean useNN_1 = false;
 	
 	/** Input file which contains the weight value of the considered graph */
 	public String inputFile = null;
 	
-	/** Maximal number of nodes read into the input file */
-	public int maxNumberOfNodes = -1;
-	
-	/** Maximal number of clusters */
-	public int KMax = -1;
-	
-	/** Maximal number of clusters */
-	public int KMin = -1;
-	
 	public Cplex cplex;
 	
-	public Param(String inputFile, Cplex cplex, int KMin, int KMax){
+	public Param(String inputFile, Cplex cplex){
 		this.inputFile = inputFile;
-		this.KMax = KMin;
-		this.KMin = KMax;
+		this.cplex = cplex;
 	}
 	
-	public Param(String inputFile, Cplex cplex, int K){
-		this(inputFile, cplex, K, K);
-	}
-
 	public Param(Param p){
 		gapDiss = p.gapDiss;
 		cplexOutput = p.cplexOutput;
@@ -55,11 +40,7 @@ public class Param {
 		cplexAutoCuts = p.cplexAutoCuts;
 		tilim = p.tilim;
 		isInt = p.isInt;
-		useNN_1 = p.useNN_1;
 		inputFile = p.inputFile;
-		maxNumberOfNodes = p.maxNumberOfNodes;
-		KMax = p.KMax;
-		KMin = p.KMin;
 		cplex = p.cplex;
 	}
 }

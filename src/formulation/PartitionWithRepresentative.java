@@ -1,7 +1,6 @@
 package formulation;
 import callback.lazy_callback.LazyCBTriangle;
 import formulation.RepParam.Triangle;
-import formulation.interfaces.IFEdgeVNodeVClusterNb;
 import formulation.interfaces.IFEdgeVNodeVClusterNbEdgeW;
 import ilog.concert.IloException;
 import ilog.concert.IloIntVar;
@@ -68,6 +67,8 @@ public static boolean test = true;
 	
 	public PartitionWithRepresentative(double objectif[][], RepParam rp){
 		
+		super(rp);
+		
 		this.d = objectif;
 		this.n = d.length;
 		
@@ -75,7 +76,7 @@ public static boolean test = true;
 			this.p = new TildeParam((TildeParam)rp);
 		else
 			this.p = new RepParam(rp);
-
+		
 		if(!rp.cplexOutput)
 			getCplex().turnOffCPOutput();
 		
@@ -243,13 +244,13 @@ public static boolean test = true;
 				if ( !(value < 0.0+getCplex().PRECISION)) {
 					/* If the value is one (or very close) */
 					if (value > 1.0-getCplex().PRECISION){
-						System.out.print(i + 3 + "\t");
+						System.out.print((i + 3) + "\t");
 						++k;
 
 					} else
 						System.err
 								.println("Error the representative variable number "
-										+ i
+										+ (i+3)
 										+ " is not equal to 0 or 1 (value "
 										+ value + ")");
 

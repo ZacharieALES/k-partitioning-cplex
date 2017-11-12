@@ -3,14 +3,20 @@ package callback.heuristic_callback;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
 
-import formulation.Partition;
+import callback.control_callback.IControlCallback;
 import formulation.PartitionWithRepresentative;
+import formulation.PartitionWithTildes;
 import ilog.concert.IloException;
+import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex.HeuristicCallback;
-import mipstart.SolutionManager;
+import mipstart.SolutionManagerRepresentative;
+import mipstart.SolutionManagerTildes;
+import variable.CallbackVariableGetter;
+import variable.VariableGetter;
 
 /**
  * Create an integer solution from a continuous solution. Find the K nodes with
@@ -21,119 +27,125 @@ import mipstart.SolutionManager;
  * @author zach
  * 
  */
-public class KClosestRepresentatives extends HeuristicCallback{
+public class KClosestRepresentatives extends HeuristicCallback implements IControlCallback{
 
-	PartitionWithRepresentative p;
-	SolutionManager sm;
+	public static boolean onlyRoot = true;
+	PartitionWithRepresentative formulation;
+	SolutionManagerRepresentative sm;
+	private CallbackVariableGetter rvg;
 
 	public KClosestRepresentatives(PartitionWithRepresentative p) throws IloException {
-		this.p = p;
+		this.formulation = p;
+		rvg = new CallbackVariableGetter(formulation.getCplex(), this);
 	}
 
 
 	@Override
 	protected void main() throws IloException {
 
-		this.sm = new SolutionManager(p);
-		
-		TreeSet<Integer> t = new TreeSet<Integer>(new Comparator<Integer>(){
+		if(!onlyRoot || this.getNnodes() == 0) {
+			this.sm = new SolutionManagerRepresentative(formulation);
+
+			TreeSet<Integer> t = new TreeSet<Integer>(new Comparator<Integer>(){
 
 
-			Random random = new Random();
-			double rep2 = -1;
+				Random random = new Random();
+				double rep2 = -1;
 
-			@Override
-			public int compare(Integer o1, Integer o2) {
+				@Override
+				public int compare(Integer o1, Integer o2) {
 
-				int result = 0;
-				try {
-					result = (int) (getRep(o2) - getRep(o1));
-				} catch (IloException e) {
-					e.printStackTrace();
-				}
+					int result = 0;
+					try {
+						result = (int) (getRep(o2) - getRep(o1));
+					} catch (IloException e) {
+						e.printStackTrace();
+					}
 
-				if(result == 0){
-					if(random.nextInt(2) == 0)
-						result = -1;
-					else
-						result = 1;
-				}
-
-				return result;
-			}
-
-			public double getRep(int i) throws IloException {
-
-				double result = 0;
-
-				if(i >= 3)
-					result = p.variableGetter().getValue(p.nodeVar(i));
-				else{
-					if(i == 0)
-						result = 2;
-					else
-						if(i == 1){
-							result = 1 - p.variableGetter().getValue(p.edgeVar(0,1));
-						}
-						else if(rep2 == -1 ){
-							result = p.KMax() - 2 + p.variableGetter().getValue(p.edgeVar(0,1));
-
-							for(int j = 3 ; j < p.n() ; ++j)
-								result -= p.variableGetter().getValue(p.nodeVar(j));
-						}
+					if(result == 0){
+						if(random.nextInt(2) == 0)
+							result = -1;
 						else
-							result = rep2;
+							result = 1;
+					}
+
+					return result;
 				}
 
-				return result;
+				public double getRep(int i) throws IloException {
 
+					double result = 0;
+
+					if(i >= 3)
+						result = rvg.getValue(formulation.nodeVar(i));
+					else{
+						if(i == 0)
+							result = 2;
+						else
+							if(i == 1){
+								result = 1 - rvg.getValue(formulation.edgeVar(0,1));
+							}
+							else if(rep2 == -1 ){
+								result = formulation.KMax() - 2 + rvg.getValue(formulation.edgeVar(0,1));
+
+								for(int j = 3 ; j < formulation.n() ; ++j)
+									result -= rvg.getValue(formulation.nodeVar(j));
+							}
+							else
+								result = rep2;
+					}
+
+					return result;
+
+				}
+			});
+
+			/* Add all the nodes in the representative tree */
+			for(int i = 0 ; i < formulation.n() ; ++i)
+				t.add(i);
+
+			/* Find the K representative by taking the K first values of <t> */		
+			ArrayList<ArrayList<Integer>> clusters = new ArrayList<ArrayList<Integer>>();
+
+			Iterator<Integer> it = t.iterator();
+			int addedRep = 0;
+
+			List<Integer> representative = new ArrayList<>();
+
+			while(it.hasNext() && addedRep < formulation.KMax()){
+
+				int id = it.next();
+
+				/* Create a new cluster with the node <id> in it */
+				ArrayList<Integer> al = new ArrayList<Integer>();
+				al.add(id);
+				clusters.add(al);
+
+				representative.add(id);
+
+				addedRep ++;
+				//System.out.println("is representative : " + id);			
 			}
-		});
-
-		/* Add all the nodes in the representative tree */
-		for(int i = 0 ; i < p.n() ; ++i)
-			t.add(i);
-
-		/* Find the K representative by taking the K first values of <t> */		
-		ArrayList<ArrayList<Integer>> clusters = new ArrayList<ArrayList<Integer>>();
-
-		Iterator<Integer> it = t.iterator();
-		int addedRep = 0;
-
-		while(it.hasNext() && addedRep < p.KMax()){
-
-			int id = it.next();
-
-			/* Create a new cluster with the node <id> in it */
-			ArrayList<Integer> al = new ArrayList<Integer>();
-			al.add(id);
-			clusters.add(al);
-
-			sm.setRep(id, 1.0);
-			addedRep ++;
-			//System.out.println("is representative : " + id);			
-		}
 
 
 
-		/* Find for each node its cluster */	
+			/* Find for each node its cluster */	
 
-		/* For each node */
-		for(int i = 0 ; i < p.n() ; ++i){
+			/* For each node */
+			for(int i = 0 ; i < formulation.n() ; ++i){
 
-			/* Find its best cluster */
-			int bestCluster = 0;
+				/* Find its best cluster */
+				int bestCluster = 0;
 
-			double bestValue = Double.MAX_VALUE;
+				double bestValue = Double.MAX_VALUE;
 
-			/* If i is not the representative of the first cluster */
-			if(i != clusters.get(0).get(0))
-				bestValue = p.variableGetter().getValue(p.edgeVar(i, clusters.get(0).get(0)));
+				/* If i is not the representative of the first cluster */
+				if(i != clusters.get(0).get(0))
+					bestValue = rvg.getValue(formulation.edgeVar(i, clusters.get(0).get(0)));
 
-			else {
 
 				/* For each cluster */
-				for(int j = 0 ; j < p.KMax() ; ++j){
+				for(int j = 0 ; j < formulation.KMax() ; ++j){
 
 					/* Get the cluster */
 					ArrayList<Integer> al = clusters.get(j);
@@ -146,7 +158,7 @@ public class KClosestRepresentatives extends HeuristicCallback{
 						bestValue = Double.MAX_VALUE;
 					}
 					else{
-						double v = p.variableGetter().getValue(p.edgeVar(i, rep));
+						double v = rvg.getValue(formulation.edgeVar(i, rep));
 
 						if(v > bestValue){
 							bestValue = v;
@@ -154,33 +166,76 @@ public class KClosestRepresentatives extends HeuristicCallback{
 						}
 					}
 				}
+
+				/* If i is not the representative of a cluster */
+				if(bestValue != Double.MAX_VALUE) {
+
+					/* Add i in the best cluster */
+					List<Integer> cluster = clusters.get(bestCluster);
+					cluster.add(i);
+
+					/* Update the representative if necessary */
+					if(representative.get(bestCluster) > i)
+						representative.set(bestCluster, i);
+
+				}
+
 			}
 
-			/* If i is not the representative of a cluster */
-			if(bestValue != Double.MAX_VALUE)
+			/* For each cluster */
+			for(int i = 0 ; i < clusters.size() ; i++){
 
-				/* Add i in the best cluster */
-				clusters.get(bestCluster).add(i);
+				List<Integer> cluster = clusters.get(i);
 
+				/* Get its representative ... */
+				int rep = representative.get(i);
+
+				/* ... and set it */
+				sm.setRep(rep, 1.0);
+
+			}
+
+
+			/* Set the edge variables of nodes inside the same cluster to 1 */
+			//		System.out.println("Clusters : ");		
+			/* For each cluster */
+			for(ArrayList<Integer> c : clusters){
+
+				//			System.out.println(c.toString());
+				for(int i = 0 ; i < c.size() ; ++i)
+					for(int j = 0 ; j < i ; ++j){
+
+						//					System.out.println(c.get(j) + " - " + c.get(i));
+
+
+						sm.setEdge(c.get(j), c.get(i), 1.0);
+					}
+			}
+
+			this.setSolution(sm.var, sm.val, sm.evaluate());
 		}
 
-//		/* Set the edge variables of nodes inside the same cluster to 1 */
-//		//System.out.println("Clusters : ");		
-//		/* For each cluster */
-//		mip.evaluation = 0.0;
-//
-//		for(ArrayList<Integer> c : clusters){
-//
-//			//System.out.println(c.toString());
-//			for(int i = 0 ; i < c.size() ; ++i)
-//				for(int j = 0 ; j < i ; ++j){
-//					if(c.get(j) > c.get(i))
-//						mip.evaluation += s.d(c.get(j), c.get(i));
-//					else
-//						mip.evaluation += s.d(c.get(i), c.get(j));
-//					mip.setEdge(c.get(j), c.get(i), 1.0);
-//				}
-//		}
+	}
 
+
+	@Override
+	public double getBestObjValuePublic() throws IloException {
+		return this.getBestObjValue();
+	}
+
+	@Override
+	public double getObjValuePublic() throws IloException {
+		return this.getObjValue();
+	}
+
+	@Override
+	public double getValuePublic(IloNumVar var) throws IloException{
+		return this.getValue(var);
+	}
+
+
+	@Override
+	public VariableGetter variableGetter() {
+		return rvg;
 	}
 }

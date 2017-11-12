@@ -7,7 +7,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,24 +18,23 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class StandardExperimentResults{
+public class StandardExperimentResults<Result extends StandardResult>{
 
+	@SuppressWarnings("unused")
 	private static final long serialVersionUID = 7521688851800622580L;
 
 	public StandardExperimentResults() {
 		results = new HashMap<>();
 	}
 
-	@XmlElementWrapper(name = "map")
-	public HashMap<Integer, SRListWrapper> results;
+	@SuppressWarnings("unchecked")
+	public StandardExperimentResults(String inputFile) {
 
-	public static StandardExperimentResults getResults(String inputFile){
 		File f = new File(inputFile);
 
 		if(f.exists()){
@@ -47,28 +45,39 @@ public class StandardExperimentResults{
 				is = new FileInputStream(f.getPath());
 
 				//XML and Java binding
-				JAXBContext jaxbContext = JAXBContext.newInstance(StandardResult.class,StandardExperimentResults.class);
+				JAXBContext jaxbContext = JAXBContext.newInstance(StandardResult.class,StandardExperimentResults.class, StandardResultCallbacks.class);
 
 				//class responsible for the process of deserializing
 				//XML data into Java object
 				Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-				return (StandardExperimentResults)jaxbUnmarshaller.unmarshal(is);
 
+				Object o = jaxbUnmarshaller.unmarshal(is);
+
+				results = ((StandardExperimentResults<Result>)o).results;
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (JAXBException e) {
 				e.printStackTrace();
-			}
-		}
+			} catch (ClassCastException e) { e.printStackTrace();}
 
-		return null;
+		}
 
 	}
 
-	public static void saveResults(StandardExperimentResults ser, String outputFile){
+	public StandardExperimentResults(String saveFilePath,
+			StandardExperimentResults<StandardResult> standardExperimentResults) {
+		// TODO Auto-generated constructor stub
+	}
+
+	@XmlElementWrapper(name = "map")
+	public HashMap<Integer, SRListWrapper<Result>> results;
+
+
+	public void saveResults(String outputFile){
 
 		try {
-			JAXBContext jaxbContext = JAXBContext.newInstance(StandardExperimentResults.class, StandardResult.class); 
+			JAXBContext jaxbContext = JAXBContext.newInstance(StandardExperimentResults.class, StandardResult.class, StandardResultCallbacks.class); 
 
 			//class responsible for the process of 
 			//serializing Java object into XML data
@@ -77,7 +86,7 @@ public class StandardExperimentResults{
 			//marshalled XML data is formatted with linefeeds and indentation
 			jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 			OutputStream os = new FileOutputStream(outputFile);
-			jaxbMarshaller.marshal(ser, os);
+			jaxbMarshaller.marshal(this, os);
 
 		} catch (JAXBException e) {
 			e.printStackTrace();
@@ -89,31 +98,29 @@ public class StandardExperimentResults{
 
 	/**
 	 * Check if the hashmap is correctly constructed
-	 * (i.e., if all list contain results which have the same:
-	 * - number of nodes
-	 * - number of clusters
-	 * - gap
-	 * - time limit
-	 * - formulation
+	 * (i.e., if all list contain results which are valid)
 	 * @return
 	 */
 	public boolean check(){
 
 		boolean isValid = true;
 
-		for(Map.Entry<Integer, SRListWrapper> entry : results.entrySet()) {
-			Integer id = entry.getKey();
-			List<StandardResult> value = entry.getValue().list;
+		/* For each entry */
+		for(Map.Entry<Integer, SRListWrapper<Result>> entry : results.entrySet()) {
 
+			List<Result> value = entry.getValue().list;
+
+			/* If the there are more than 1 results */
 			if(value != null && value.size() > 1){
-				StandardResult firstResult = value.get(0);
+
+				Result firstResult = value.get(0);
 				int hash = firstResult.hashCode();
-				
+
 				if(isValid && !firstResult.isValid()){
 					isValid = false;
 					System.err.println("Error invalid result: " + firstResult);
 				}
-				
+
 				int i = 1;
 
 				while(isValid && i < value.size())
@@ -125,24 +132,24 @@ public class StandardExperimentResults{
 						i++;
 			}
 		}
-		
+
 		return isValid;
 
 	}
-	
+
 	/**
 	 * Get the result which corresponds to the characteristics in <result>
 	 * @param result The characteristics sought
 	 * @return The corresponding result if it exists; null otherwise
 	 */
-	public StandardResult get(StandardResult result){
-		
-		StandardResult foundResult = null;
-		SRListWrapper srList = results.get(result.hashCode());
-		
+	public Result get(Result result){
+
+		Result foundResult = null;
+		SRListWrapper<Result> srList = results.get(result.hashCode());
+
 		if(srList != null){
-			ArrayList<StandardResult> list = srList.list;
-			
+			ArrayList<Result> list = srList.list;
+
 			int i = 0;
 			while(foundResult == null && i < list.size()){
 				if(list.get(i).i == result.i)
@@ -150,32 +157,32 @@ public class StandardExperimentResults{
 				i++;
 			}
 		}
-		
+
 		return foundResult;
-		
-	}
-	
-	public boolean contain(StandardResult result){
-		
-		return get(result) != null;
-			
+
 	}
 
-	public void add(StandardResult result) {
-		
+	public boolean contain(Result result){
+
+		return get(result) != null;
+
+	}
+
+	public void add(Result result) {
+
 		int hash = result.hashCode();
-		SRListWrapper srList = results.get(hash);
-		
+		SRListWrapper<Result> srList = results.get(hash);
+
 		if(srList == null){
-			srList = new SRListWrapper();
+			srList = new SRListWrapper<Result>();
 			results.put(hash, srList);
 		}
-		
+
 		srList.add(result);
-		
+
 	}
-	
-	
+
+
 	/**
 	 * Get the list of all the valid instances. 
 	 * An instance is valid if it has been solved for each possible combination of each parameter in the HashMap <result>
@@ -183,51 +190,55 @@ public class StandardExperimentResults{
 	 * @return
 	 */
 	public List<Integer> getValidInstancesNumber(){
-		
+
 		List<Integer> exhaustiveInstancesNumber = new ArrayList<>();
-		
+
 		/* Get the list of all the instances solved */
-		for(Map.Entry<Integer, SRListWrapper> entry: results.entrySet()) {
-			
-			SRListWrapper value = entry.getValue();
-			
+		for(Map.Entry<Integer, SRListWrapper<Result>> entry: results.entrySet()) {
+
+			SRListWrapper<Result> value = entry.getValue();
+
 			if(value != null && value.list != null)
-				for(StandardResult res: value.list)
+				for(Result res: value.list)
 					if(!exhaustiveInstancesNumber.contains(res.i))
 						exhaustiveInstancesNumber.add(res.i);
 
 		}
-		
+
+		List<Integer> validInstancesNumber = new ArrayList<>();
 		Collections.sort(exhaustiveInstancesNumber);
-		System.out.println(exhaustiveInstancesNumber.size() + " instances solved at least once (from n°" + exhaustiveInstancesNumber.get(0) + " to n°" + exhaustiveInstancesNumber.get(exhaustiveInstancesNumber.size()-1) + ")");
-		
-		List<Integer> validInstancesNumber = new ArrayList<>(exhaustiveInstancesNumber);
-			
-		for(Map.Entry<Integer, SRListWrapper> entry: results.entrySet()) {
-							
-			/* If the entry is valid */
-			if(entry.getValue() != null && entry.getValue().list != null && entry.getValue().list.size() != 0) {
-				
-//				System.out.println("Entry considered: "+ entry.getValue().list.get(0));
-				/* For each existing instance */
-				for(Integer i:exhaustiveInstancesNumber)
-					
-					/* If the instance is not solved for the current configuration */
-					if(!entry.getValue().containsInstance(i) ) { 
-						System.out.println("Instance not solved: " + entry.getValue().list.get(0));
-						validInstancesNumber.remove(Integer.valueOf(i));
-					}
+
+		if(exhaustiveInstancesNumber.size() > 0) {
+			System.out.println(exhaustiveInstancesNumber.size() + " instances solved at least once (from n°" + exhaustiveInstancesNumber.get(0) + " to n°" + exhaustiveInstancesNumber.get(exhaustiveInstancesNumber.size()-1) + ")");
+
+			validInstancesNumber = new ArrayList<>(exhaustiveInstancesNumber);
+
+			for(Map.Entry<Integer, SRListWrapper<Result>> entry: results.entrySet()) {
+
+				/* If the entry is valid */
+				if(entry.getValue() != null && entry.getValue().list != null && entry.getValue().list.size() != 0) {
+
+					//				System.out.println("Entry considered: "+ entry.getValue().list.get(0));
+					/* For each existing instance */
+					for(Integer i:exhaustiveInstancesNumber)
+
+						/* If the instance is not solved for the current configuration */
+						if(!entry.getValue().containsInstance(i) ) { 
+							System.out.println("Instance not solved: " + entry.getValue().list.get(0));
+							validInstancesNumber.remove(Integer.valueOf(i));
+						}
+				}
+				else
+					System.out.println("Entry " + entry.getKey() + " is invalid.");
+
 			}
-			else
-				System.out.println("Entry " + entry.getKey() + " is invalid.");
-				
 		}
-		
+
 		return validInstancesNumber;
-		
+
 	}
-	
-	
-	
+
+
+
 
 }

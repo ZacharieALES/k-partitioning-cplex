@@ -3,6 +3,7 @@ package mipstart;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 import java.util.TreeSet;
 
@@ -26,9 +27,11 @@ public class ClosestRep implements AbstractMIPStartGetter{
 		this.formulation = s;
 	}
 
-	public SolutionManager getMIPStart() throws IloException {
+	public SolutionManagerRepresentative getMIPStart() throws IloException {
 
-		SolutionManager mip = new SolutionManager(formulation);
+		SolutionManagerRepresentative mip = new SolutionManagerRepresentative(formulation);
+
+		//		formulation.displaySolution();
 
 		TreeSet<Integer> t = new TreeSet<Integer>(new Comparator<Integer>(){
 
@@ -95,6 +98,8 @@ public class ClosestRep implements AbstractMIPStartGetter{
 		Iterator<Integer> it = t.iterator();
 		int addedRep = 0;
 
+		List<Integer> representative = new ArrayList<>();
+		
 		while(it.hasNext() && addedRep < formulation.maximalNumberOfClusters()){
 
 			int id = it.next();
@@ -103,10 +108,11 @@ public class ClosestRep implements AbstractMIPStartGetter{
 			ArrayList<Integer> al = new ArrayList<Integer>();
 			al.add(id);
 			clusters.add(al);
+			
+			representative.add(id);
 
-			mip.setRep(id, 1.0);
 			addedRep ++;
-			//System.out.println("is representative : " + id);			
+			//			System.out.println("is representative : " + id);			
 		}
 
 
@@ -125,28 +131,26 @@ public class ClosestRep implements AbstractMIPStartGetter{
 			if(i != clusters.get(0).get(0))
 				bestValue = formulation.variableGetter().getValue(formulation.edgeVar(i, clusters.get(0).get(0)));
 
-			else {
 
-				/* For each cluster */
-				for(int j = 0 ; j < formulation.maximalNumberOfClusters() ; ++j){
+			/* For each cluster */
+			for(int j = 0 ; j < formulation.maximalNumberOfClusters() ; ++j){
 
-					/* Get the cluster */
-					ArrayList<Integer> al = clusters.get(j);
+				/* Get the cluster */
+				ArrayList<Integer> al = clusters.get(j);
 
-					/* Get the representative of the cluster */
-					int rep = al.get(0);
+				/* Get the representative of the cluster */
+				int rep = al.get(0);
 
-					/* If <i> is the representative of cluster j */
-					if(i == rep){
-						bestValue = Double.MAX_VALUE;
-					}
-					else{
-						double v = formulation.variableGetter().getValue(formulation.edgeVar(i, rep));
+				/* If <i> is the representative of cluster j */
+				if(i == rep){
+					bestValue = Double.MAX_VALUE;
+				}
+				else{
+					double v = formulation.variableGetter().getValue(formulation.edgeVar(i, rep));
 
-						if(v > bestValue){
-							bestValue = v;
-							bestCluster = j;
-						}
+					if(v > bestValue){
+						bestValue = v;
+						bestCluster = j;
 					}
 				}
 			}
@@ -157,22 +161,33 @@ public class ClosestRep implements AbstractMIPStartGetter{
 				/* Add i in the best cluster */
 				clusters.get(bestCluster).add(i);
 
+			/* Update the representative if necessary */
+			if(representative.get(bestCluster) > i)
+				representative.set(bestCluster, i);
+
+		}
+
+		/* For each cluster */
+		for(int i = 0 ; i < clusters.size() ; i++){
+
+			/* Get its representative ... */
+			int rep = representative.get(i);
+			
+			/* ... and set it */
+			mip.setRep(rep, 1.0);
+
 		}
 
 		/* Set the edge variables of nodes inside the same cluster to 1 */
-		//System.out.println("Clusters : ");		
+//		System.out.println("Clusters : ");		
+
+		mip.evaluate();
+
 		/* For each cluster */
-		mip.evaluation = 0.0;
-
 		for(ArrayList<Integer> c : clusters){
-
-			//System.out.println(c.toString());
+//			System.out.println(c.toString());
 			for(int i = 0 ; i < c.size() ; ++i)
 				for(int j = 0 ; j < i ; ++j){
-					if(c.get(j) > c.get(i))
-						mip.evaluation += formulation.edgeWeight(c.get(j), c.get(i));
-					else
-						mip.evaluation += formulation.edgeWeight(c.get(i), c.get(j));
 					mip.setEdge(c.get(j), c.get(i), 1.0);
 				}
 		}

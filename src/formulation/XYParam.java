@@ -2,7 +2,7 @@ package formulation;
 
 import cplex.Cplex;
 
-public class XYParam extends Param{
+public class XYParam extends PartitionParam{
 	
 	public boolean isSecondXYFormulation;
 	

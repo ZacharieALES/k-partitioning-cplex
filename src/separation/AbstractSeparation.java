@@ -25,7 +25,7 @@ public abstract class AbstractSeparation<Formulation extends IFormulation>{
 	public AbstractSeparation(String name, Formulation formulation, VariableGetter vg){
 		this.name = name;
 		this.vg = vg;
-		
+		this.formulation = formulation;
 	}
 	
 	public void setFormulation(Formulation formulation) {

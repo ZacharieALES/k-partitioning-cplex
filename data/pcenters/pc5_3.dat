@@ -1,0 +1,17 @@
+5 5 3
+0 30 76 77 105 
+30 0 46 47 75 
+76 46 0 1 29 
+77 47 1 0 28 
+105 75 29 28 0 
+
+z1: distance: 1.0
+z2: distance: 28.0
+z3: distance: 29.0
+z4: distance: 30.0
+z5: distance: 46.0
+z6: distance: 47.0
+z7: distance: 75.0
+z8: distance: 76.0
+z9: distance: 77.0
+z10: distance: 105.0

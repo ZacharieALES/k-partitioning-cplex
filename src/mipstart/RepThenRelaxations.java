@@ -70,9 +70,9 @@ public class RepThenRelaxations implements AbstractMIPStartGetter{
 	}
 
 	@Override
-	public SolutionManager getMIPStart() throws IloException {
+	public SolutionManagerRepresentative getMIPStart() throws IloException {
 
-		SolutionManager mip = new SolutionManager(s);
+		SolutionManagerRepresentative mip = new SolutionManagerRepresentative(s);
 
 		TreeSet<Integer> t = new TreeSet<Integer>(new Comparator<Integer>(){
 
@@ -174,17 +174,13 @@ public class RepThenRelaxations implements AbstractMIPStartGetter{
 
 		}
 
-		mip.evaluation = 0.0;
+		mip.evaluate();
 
 		for(ArrayList<Integer> c : clusters){
 
 			//System.out.println(c.toString());
 			for(int i = 0 ; i < c.size() ; ++i)
 				for(int j = 0 ; j < i ; ++j){
-					if(c.get(j) > c.get(i))
-						mip.evaluation += s.edgeWeight(c.get(j), c.get(i));
-					else
-						mip.evaluation += s.edgeWeight(c.get(i), c.get(j));
 					mip.setEdge(c.get(j), c.get(i), 1.0);
 				}
 		}

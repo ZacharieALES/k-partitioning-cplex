@@ -6,7 +6,7 @@ import java.util.Iterator;
 import java.util.Random;
 import java.util.TreeSet;
 
-import formulation.interfaces.IFEdgeVNodeVClusterNb;
+import formulation.interfaces.IFEdgeVNodeVClusterNbEdgeW;
 import ilog.concert.IloException;
 
 /**
@@ -20,15 +20,15 @@ import ilog.concert.IloException;
 public class NMinusKFusion implements AbstractMIPStartGetter{
 
 	int mergedNodes = 0;
-	IFEdgeVNodeVClusterNb  s;
+	IFEdgeVNodeVClusterNbEdgeW  s;
 	
-	public NMinusKFusion(IFEdgeVNodeVClusterNb s){
+	public NMinusKFusion(IFEdgeVNodeVClusterNbEdgeW s){
 		this.s = s;
 	}
 
-	public SolutionManager getMIPStart() throws IloException{
+	public SolutionManagerRepresentative getMIPStart() throws IloException{
 
-		SolutionManager mip = new SolutionManager(s);
+		SolutionManagerRepresentative mip = new SolutionManagerRepresentative(s);
 
 		TreeSet<Edge> t = new TreeSet<Edge>(new Comparator<Edge>(){
 

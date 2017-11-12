@@ -3,6 +3,7 @@ package main;
 import cplex.Cplex;
 import formulation.Param;
 import formulation.Partition;
+import formulation.PartitionParam;
 import formulation.PartitionWithRepresentative;
 import formulation.RepParam;
 import ilog.concert.IloException;
@@ -56,14 +57,14 @@ public abstract class Execution {
 		}
 	}
 	
-	public Partition createPartition(Param param) throws IloException{
+	public Partition createPartition(PartitionParam param) throws IloException{
 		param.maxNumberOfNodes = c_n;
 		param.inputFile = getInputFile(c_n, c_i);
 		param.KMax = c_k;
 		return Partition.createPartition(param);
 	}
 	
-	public void updateParam(Param p){
+	public void updateParam(PartitionParam p){
 		p.maxNumberOfNodes = c_n;
 		p.KMax = c_k;
 	}

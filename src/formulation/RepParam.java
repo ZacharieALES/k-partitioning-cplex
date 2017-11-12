@@ -2,7 +2,7 @@ package formulation;
 
 import cplex.Cplex;
 
-public class RepParam extends Param{
+public class RepParam extends PartitionParam{
 	
 	public boolean useLower = true;
 	public boolean useUpper = true;

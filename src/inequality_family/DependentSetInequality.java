@@ -13,7 +13,6 @@ public class DependentSetInequality extends AbstractInequality<IFEdgeVClusterNb>
 	public final ArrayList<Integer> Z;
 	public boolean[] inZ;
 	public Double lowerBound = null; 
-	public IFEdgeVClusterNb formulation;
 
 	public DependentSetInequality(IFEdgeVClusterNb formulation) {
 		super(formulation, IFEdgeVClusterNb.class);
@@ -51,7 +50,6 @@ public class DependentSetInequality extends AbstractInequality<IFEdgeVClusterNb>
 	public Range createRange() {
 		
 		try {
-			
 			IloLinearNumExpr expr = formulation.getCplex().linearNumExpr();
 		
 			for(int s = 0 ; s < Z.size() ; ++s)

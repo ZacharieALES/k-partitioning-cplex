@@ -9,21 +9,21 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SRListWrapper {
+public class SRListWrapper<Result extends StandardResult> {
 
 	@XmlElementWrapper
 	@XmlElement (name = "StandardResult")
-	ArrayList<StandardResult> list = new ArrayList<>();	
+	ArrayList<Result> list = new ArrayList<>();	
 	
 	public SRListWrapper(){}
 	
-	public void add(StandardResult sr){
+	public void add(Result sr){
 		list.add(sr);
 	}
 	
 	public boolean containsInstance(int i) {
 		
-		Iterator<StandardResult> it = list.iterator();
+		Iterator<Result> it = list.iterator();
 		boolean isContained = false;
 		
 		while(!isContained && it.hasNext()) 

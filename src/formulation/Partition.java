@@ -22,12 +22,16 @@ import variable.CplexVariableGetter;
 public abstract class Partition implements IFEdgeVClusterNb, IFEdgeW{
 
 
-	public Param p;
+	public PartitionParam p;
 
 	/* Number of points to cluster */
 	public int n;
 
 	public double[][] d;
+	
+	public Partition(PartitionParam p) {
+		this.p = p;
+	}
 
 	/**
 	 * Edges variables Array of n elements. v_edge[0] is empty v_edge[i]
@@ -35,9 +39,7 @@ public abstract class Partition implements IFEdgeVClusterNb, IFEdgeW{
 	 * for i=1..n-1
 	 */
 	public IloNumVar[][] v_edge;
-	
-	public abstract void displaySolution() throws UnknownObjectException, IloException;
-
+		
 	/**
 	 * Read a txt file which contains a low triangular matrix. This matrix
 	 * represent the dissimilarity between the elements to partition:
@@ -50,7 +52,7 @@ public abstract class Partition implements IFEdgeVClusterNb, IFEdgeW{
 	 * @param max_number_of_nodes Maximum number of line read in the file (i.e. maximum number of nodes considered in the problem) ; -1 if there is no limit
 	 * @throws InvalidInputFileException
 	 */
-	static double[][] readDissimilarityInputFile(Param param)
+	static double[][] readDissimilarityInputFile(PartitionParam param)
 			{
 
 		double[][] d = null;
@@ -262,10 +264,6 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 	}
 	
 	CplexVariableGetter cvg;
-	
-	public CplexVariableGetter intValueGetter() {
-		return cvg;
-	}
 
 	public static Partition createPartition(Param param) throws IloException{
 
@@ -282,10 +280,10 @@ System.out.print("x" + i + "-" + j + "(" + value + ")\t\t");
 		else{
 			XYParam xyp = (XYParam) param;
 			if(xyp.isSecondXYFormulation){
-				p = new Partition_x_y_2(xyp);
+				p = new PartitionXY2(xyp);
 			}
 			else
-				p = new Partition_x_y(xyp);
+				p = new PartitionXY(xyp);
 		}
 		p.cvg = new CplexVariableGetter(p.getCplex());
 		

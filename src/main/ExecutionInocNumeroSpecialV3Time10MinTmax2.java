@@ -6,13 +6,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import callback.cut_callback.FastCutCallback;
+import callback.heuristic_callback.KClosestRepresentatives;
+import callback.heuristic_callback.KClosestRepresentativesTildes;
+import callback.heuristic_callback.KClosestRepresentativesXY;
+import callback.heuristic_callback.KClosestRepresentativesXY2;
 import cplex.Cplex;
 import cutting_plane.CP_Rep;
-import formulation.Param;
 import formulation.Partition;
+import formulation.PartitionParam;
 import formulation.PartitionWithRepresentative;
-import formulation.Partition_x_y;
-import formulation.Partition_x_y_2;
+import formulation.PartitionXY;
+import formulation.PartitionXY2;
 import formulation.RepParam;
 import formulation.RepParam.Triangle;
 import formulation.TildeParam;
@@ -58,7 +63,7 @@ import results.StandardResult.FormulationType;
 
 public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 
-	public StandardExperimentResults ser;
+	public StandardExperimentResults<StandardResult> ser;
 
 	//	TildeParam tp  = new TildeParam(null, cplex, -1, true, Triangle.USE_LAZY_IN_BC_ONLY, true, true, true);
 	TildeParam tpBc;
@@ -67,9 +72,7 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 	XYParam xy1p;
 	XYParam xy2p;
 
-	public static boolean doXY1 = false;
-
-	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats_big_pc.ser";
+	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats_dell_ensta.ser";
 	int tilim;
 	ArrayList<Double> gapValues;
 
@@ -77,19 +80,19 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 			int im, int iM2, int tilim) {
 		super(cplex, nm, nM2, km, kM2, im, iM2);
 
-		TildeParam tpBc  = new TildeParam(null, cplex, c_k, true, Triangle.USE_IN_BC_ONLY, true, false, false);
-		TildeParam tp  = new TildeParam(null, cplex, c_k, true, Triangle.USE, true, true, true);
-		RepParam rp = new RepParam(null, cplex, c_k, Triangle.USE, true, true, true);
-		XYParam xy1p = new XYParam(null, cplex, c_k, false, false);
-		XYParam xy2p = new XYParam(null, cplex, c_k, true, false);
+		tpBc  = new TildeParam(null, cplex, c_k, true, Triangle.USE_IN_BC_ONLY, true, false, false);
+		tp  = new TildeParam(null, cplex, c_k, true, Triangle.USE, true, true, true);
+		rp = new RepParam(null, cplex, c_k, Triangle.USE, true, true, true);
+		xy1p = new XYParam(null, cplex, c_k, false, false);
+		xy2p = new XYParam(null, cplex, c_k, true, false);
 
 		this.tilim = tilim;
 		File saveFile = new File(saveFilePath);
 
 		if(saveFile.exists())
-			ser = StandardExperimentResults.getResults(saveFilePath);
+			ser = new StandardExperimentResults<StandardResult>(saveFilePath);
 		else
-			ser = new StandardExperimentResults();
+			ser = new StandardExperimentResults<StandardResult>();
 
 		tp.tilim = tilim;
 		rp.tilim = tilim;
@@ -131,30 +134,28 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 				xy1p.gapDiss = gapValues.get(gap);
 				xy2p.gapDiss = gapValues.get(gap);
 
-				try {
 					/* Representative formulation */
 					performFormulation(FormulationType.REPRESENTATIVE, "rep", rp);
+//
+//					/* XY1 formulation */
+//					if(doXY1)
+//						performFormulation(FormulationType.XY1, "xy1", xy1p);
+//
+//					/* XY2 formulation */
+//					performFormulation(FormulationType.XY2, "xy2", xy2p);
+//
+//					/* Tilde formulation with cp */
+//					performFormulation(FormulationType.BC, "cp", tpBc);
 
-					/* XY1 formulation */
-					if(doXY1)
-						performFormulation(FormulationType.XY1, "xy1", xy1p);
-
-					/* XY2 formulation */
-					performFormulation(FormulationType.XY2, "xy2", xy2p);
-
-					/* Tilde formulation */
-					performFormulation(FormulationType.TILDE, "tilde", tp);
-
-					/* Tilde formulation with cp */
-					performFormulation(FormulationType.BC, "cp", tpBc);
-				}catch(Exception e) {e.printStackTrace();}
+//					/* Tilde formulation */
+//					performFormulation(FormulationType.TILDE, "tilde", tp);
 
 			}
 		}
 
 	}
 
-	public void performFormulation(FormulationType formulation, String formulation_name, Param param){
+	public void performFormulation(FormulationType formulation, String formulation_name, PartitionParam param){
 
 		StandardResult result = new StandardResult(c_n, c_i, formulation, param);
 		//		int code = result.hashCode();
@@ -169,15 +170,23 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 					switch(formulation){
 					case REPRESENTATIVE:
 						p = ((PartitionWithRepresentative)createPartition(rp));
+						KClosestRepresentatives.onlyRoot = false;
+						p.getCplex().use(new KClosestRepresentatives((PartitionWithRepresentative)p));
+						p.getCplex().use(new FastCutCallback((PartitionWithRepresentative)p, 100));
 						break;
 					case XY1:
-						p = ((Partition_x_y)createPartition(xy1p));
+						p = ((PartitionXY)createPartition(xy1p));
+						p.getCplex().use(new KClosestRepresentativesXY((PartitionXY)p));
 						break;
 					case XY2:
-						p = ((Partition_x_y_2)createPartition(xy2p));
+						p = ((PartitionXY2)createPartition(xy2p));
+						p.getCplex().use(new KClosestRepresentativesXY2((PartitionXY2)p));
 						break;
 					default:
 						p = ((PartitionWithRepresentative)createPartition(tp));
+						KClosestRepresentativesTildes.onlyRoot = false;
+//						p.getCplex().use(new KClosestRepresentativesTildes((PartitionWithTildes)p));
+//						p.getCplex().use(new FastCutCallback((PartitionWithTildes)p, 100));
 						break;
 					}
 
@@ -198,14 +207,8 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 				}
 
 				ser.add(result);
-				System.out.print("\tsave.");
-				StandardExperimentResults.saveResults(ser, saveFilePath);
-				System.out.print(".");
-
-				System.out.print("check.");
+				ser.saveResults(saveFilePath);
 				ser.check();
-				System.out.println(".");
-
 
 			}
 			else{
@@ -993,7 +996,7 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 		double i = base/4.55;
 		return "\\fill[color=" + color + "] (" + centerX + "," + centerY + ") circle(" + i + ");\n";
 	}
-
+		
 	private String drawCross(double centerX, double centerY, String color, double base){
 		double i = base/5;
 		double j = base/0.417;
@@ -1005,39 +1008,30 @@ public class ExecutionInocNumeroSpecialV3Time10MinTmax2 extends Execution{
 
 	public static void main(String[] args){
 
-		//		StandardExperimentResults ser = new StandardExperimentResults();
-		//		
-		//		StandardResult sr = new StandardResult(10, 10, FormulationType.REPRESENTATIVE, new TildeParam("pouet", 3));
-		//		
-		//		ser.add(sr);
-		//		
-		//		StandardExperimentResults.saveResults(ser, "test.xml");
-		//		
-		//		ser = StandardExperimentResults.getResults("test.xml");
-		//		
-		//		if(ser.check())
-		//			System.out.println("ok");
-		//		else
-		//			System.out.println("pas ok");
-
-		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 600).execute();
-		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 3600).execute();
-		//		doXY1 = true;
-		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 600).execute();
-		//		new Execution_inoc_numero_special_v3_10_min_tmax2(30, 40, 4, 4, 0, 6, 3600).execute();
-
 		Cplex cplex = new Cplex();
-		ExecutionInocNumeroSpecialV3Time10MinTmax2 expe = new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 3600);
+			
+//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 0, 40, 4, 4, 0, 6, 600).execute();
+//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 3600).execute();
 
-		List<Integer> listN = new ArrayList<>();
-		List<Integer> listK = new ArrayList<>();
+//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 600).execute();
+//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 3600).execute();
 
-		listN.add(30);
-		listN.add(40);
+			int i = 4;
+			int n = 20;
+			int K = 6;
+				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, n, n, K, K, i, i, 3600).execute();
 
-		listK.add(4);
-
-		expe.printComparisonTimesOnRandomInstances("output.tex", listN, listK);
+//		ExecutionInocNumeroSpecialV3Time10MinTmax2 expe = new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 3600);
+//
+//		List<Integer> listN = new ArrayList<>();
+//		List<Integer> listK = new ArrayList<>();
+//
+//		listN.add(30);
+//		listN.add(40);
+//
+//		listK.add(4);
+//
+//		expe.printComparisonTimesOnRandomInstances("output.tex", listN, listK);
 
 		cplex.end();
 	}
