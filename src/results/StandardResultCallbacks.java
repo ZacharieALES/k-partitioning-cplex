@@ -20,11 +20,15 @@ public class StandardResultCallbacks extends StandardResult{
 	@XmlAttribute
 	boolean useHRCB;
 	
-	public StandardResultCallbacks(int n, int i, FormulationType formulation, PartitionParam param, boolean useFastCB, boolean useHCB, boolean useHRCB) {
+	@XmlAttribute
+	boolean useEmptyCB;
+	
+	public StandardResultCallbacks(int n, int i, FormulationType formulation, PartitionParam param, boolean useFastCB, boolean useHCB, boolean useHRCB, boolean useEmptyCB) {
 		super(n, i, formulation, param);
 		this.useFastCB = useFastCB;
 		this.useHCB = useHCB;
 		this.useHRCB = useHRCB;
+		this.useEmptyCB = useEmptyCB;
 	}
 
 	@Override
@@ -50,8 +54,10 @@ public class StandardResultCallbacks extends StandardResult{
 				return 3;
 			else if(useHRCB)
 				return 4;
-			else
+			else if(useEmptyCB)
 				return 5;
+			else
+				return 6;
 	}
 	
 	private int formulationId(){

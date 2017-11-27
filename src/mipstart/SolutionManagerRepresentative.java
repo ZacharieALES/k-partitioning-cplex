@@ -31,17 +31,17 @@ public class SolutionManagerRepresentative {
 	}
 	
 	private int arraySize() {
-		return formulation.n() - 3 + formulation.n() * (formulation.n() - 1) / 2;
+		return formulation.n() + formulation.n() * (formulation.n() - 1) / 2;
 	}
 
 	public void setValToZeroAndCreateID(int n){
 
 		/* Set all the representative variables to zero */
-		for(int i = 3 ; i < n ; ++i)
-			val[i-3] = 0;
+		for(int i = 0 ; i < n ; ++i)
+			val[i] = 0;
 
 		/* Set the edge variables */
-		int v = n-3;
+		int v = n;
 
 		for(int i = 0 ; i < n ; ++i)
 			for(int j = 0 ; j < i ; ++j){
@@ -57,10 +57,10 @@ public class SolutionManagerRepresentative {
 
 		var = new IloNumVar[arraySize()];
 
-		for(int i = 3 ; i < formulation.n() ; ++i)
-			var[i-3] = formulation.nodeVar(i);
+		for(int i = 0 ; i < formulation.n() ; ++i)
+			var[i] = formulation.nodeVar(i);
 
-		int v = formulation.n()-3;
+		int v = formulation.n();
 
 		for(int i = 0 ; i < formulation.n() ; ++i){
 			for(int j = 0 ; j < i ; ++j){
@@ -78,8 +78,7 @@ public class SolutionManagerRepresentative {
 	 * @param value Value of the representative variable (between 0 and 1)
 	 */
 	public void setRep(int rep, double value){
-		if(rep > 3)
-			this.val[rep-3] = value;
+			this.val[rep] = value;
 	}
 
 	public void setEdge(int i, int j, double value){
@@ -134,7 +133,7 @@ public class SolutionManagerRepresentative {
 		if(evaluation == -1.0){
 			double result = 0.0;
 
-			int v = formulation.n()-3;
+			int v = formulation.n();
 
 			for(int i = 0 ; i < formulation.n() ; ++i){
 				for(int j = 0 ; j < i ; ++j){

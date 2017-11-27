@@ -13,7 +13,6 @@ public class PawInequality extends AbstractInequality<IFEdgeVNodeV>{
 	public PawInequality(IFEdgeVNodeV formulation, int a, int b, int c, int d) {
 		super(formulation, IFEdgeVNodeV.class);
 
-
 		this.a = a;
 		this.b = b;
 		this.c = c;

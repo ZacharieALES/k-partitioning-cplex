@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import cplex.Cplex;
-import formulation.PCRadiusIndex;
 import formulation.interfaces.IFNodeVNodeBV;
 import formulation.pcenters.PCenterIndexedDistancesParam.PCenterReturnType;
 import ilog.concert.IloException;
@@ -15,7 +14,7 @@ import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex.UnknownObjectException;
 import inequality_family.YZLinkInequality;
 
-public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
+public class PCSC extends PCDistanceOrdered<PCenterIndexedDistancesParam> implements IFNodeVNodeBV{
 
 	protected IloNumVar z[];
 
@@ -40,14 +39,20 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 
 	protected void createYZLinkConstraints() throws IloException {
 
+//		int counter = 0;
+		
 		/* For each client */
 		for(int i = 0 ; i < N ; i++) {
 
+			if(!isClientDominated(i))
 			/* For each possible distance */
 			for(int k = 1 ; k <= K ; ++k) {
+//				counter++;
 				getCplex().addRange(new YZLinkInequality(this, i, k, D[k], d).createRange());
 			}
 		}
+		
+//		System.out.println("\nPCSC: added " + counter + " yz inequalities");
 
 	}
 
@@ -89,7 +94,8 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 
 			/* If cplex returns the radius index in <D> */
 			else if(param.returnType == PCenterReturnType.RADIUS_INDEX)
-				obj.addTerm(K - k, z[k]);
+				obj.addTerm(1, z[k]);
+			//TODO : see how to find the best coefficients in the objective (e.g., obj.addTerm(K - k, z[k]);)
 			else
 				obj.addTerm(k, z[k]);
 
@@ -100,7 +106,7 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 	}
 
 	@Override
-	protected void createNoneClientVariables() throws IloException {
+	protected void createNoneFactoryVariables() throws IloException {
 
 		if(param.isInt)
 			z = new IloIntVar[K+1];
@@ -133,15 +139,17 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 	 */
 	public void displayZVariables(int numberByLine) throws UnknownObjectException, IloException {
 
+		NumberFormat nf = new DecimalFormat("#0.00");
+		
 		System.out.print("(D0=" + Math.round(D[0]) + ")\t");
 
 		for(int i = 1 ; i <= K ; i++) {
-			System.out.print("(D" + i + "=" + Math.round(D[i]) + ") z" + i + "=" + cvg.getValue(z[i]) + "\t");
+			System.out.print("(D" + i + "=" + Math.round(D[i]) + ") z" + i + "=" + nf.format(cvg.getValue(z[i])) + "\t");
 			if(i % numberByLine == numberByLine - 1)
 				System.out.println();
 		}
 	}
-	
+
 	public double getRadius() throws IloException {
 
 		double value = getCplex().getObjValue();
@@ -152,9 +160,9 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 
 		/* If cplex returns the index of the radius */
 		else {
-			
+
 			double radiusIndex = 0.0;
-			
+
 			for(int i = 1 ; i <= K() ; ++i)
 				radiusIndex += this.cvg.getValue(z[i]);
 
@@ -162,7 +170,7 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 			if(param.isInt)
 				return D[(int)Math.round(radiusIndex)];
 
-		/* If the index is not an int */
+			/* If the index is not an int */
 			else {
 
 				/* Get the two distances of the two integer index around <value> */
@@ -181,137 +189,54 @@ public class PCSC extends PCDistanceOrdered implements IFNodeVNodeBV{
 
 	public static void main(String[] args) {
 
-
 		Cplex cplex = new Cplex();
 		try {
 
+			boolean doRandomInstances = true;
+			boolean doSourourInstances = false;
 
-			for(int i = 5 ; i < 60 ; i+= 5) {
+			if(doSourourInstances) {
+				
+				int iMin = 1;
+				int iMax = 10;
+				for(int i = iMin ; i <= iMax; i++) {
+					String instanceName = "pcentre" + i;
+					String filePath = "data/pcenters/sourour/" + instanceName + ".dat";
 
-				System.out.print("\ni = "+ i);
-
-				for(int p = 2 ; p < Math.min(10, i+1) ; p++) {
-					PCenterIndexedDistancesParam param = new PCenterIndexedDistancesParam("data/pcenters/random/pc_n" + i + "_p" + p + "_i_1.dat", cplex);
-
-					param.returnType = PCenterReturnType.RADIUS_DECREASING_INDEX;
-					param.isInt = false;
-					PCSC pcsc = new PCSC(param);
-					pcsc.createFormulation();
-					cplex.solve();
-					double pcscRelax = pcsc.getRadius();	
-
-					pcsc.displayZVariables(5);								
-
-					param.isInt = true;
-					PCSC pcscInt = new PCSC(param);
-					pcscInt.createFormulation();
-					double timePCSC = cplex.getCplexTime();
-					cplex.solve();
-					timePCSC = cplex.getCplexTime() - timePCSC;
-					double pcscOpt = pcscInt.getRadius();
-
-//System.out.println("\n\n!int");
-//					pcscInt.displayZVariables(5);	
-
-
-					param.isInt = false;
-					PCSCOrdered pcsco = new PCSCOrdered(param);
-					pcsco.createFormulation();
-					cplex.solve();
-					double pcscoRelax = pcsco.getRadius();	
-
-//					pcsc.displayZVariables(5);								
-
-					param.isInt = true;
-					PCSCOrdered pcscoInt = new PCSCOrdered(param);
-					pcscoInt.createFormulation();
-					double timePCSCO = cplex.getCplexTime();
-					cplex.solve();
-					timePCSCO = cplex.getCplexTime() - timePCSCO;
-					double pcscoOpt = pcscoInt.getRadius();
-
-//System.out.println("\n\n!int");
-//					pcscInt.displayZVariables(5);
+					System.out.println(instanceName + " (p = " + new PCSC(new PCenterIndexedDistancesParam(filePath, cplex)).p + ")");
+					PCenter.batchSolve(filePath, cplex);
 					
-					param.returnType = PCenterReturnType.RADIUS_INDEX;
-					param.isInt = false;
-					pcsc = new PCSC(param);
-					pcsc.createFormulation();
-					cplex.solve();
-					double pcsc2Relax = pcsc.getRadius();
-					double pcsc2RelaxIndex = cplex.getObjValue();
-					
-					System.out.println("\n\n!coef (K-k):");
-					pcsc.displayZVariables(5);						
-
-					param.isInt = true;
-					pcscInt = new PCSC(param);
-					pcscInt.createFormulation();
-					double timePCSC2 = cplex.getCplexTime();
-					cplex.solve();
-					timePCSC2 = cplex.getCplexTime() - timePCSC2;
-					double pcsc2Opt = pcscInt.getRadius();
-					double pcsc2OptIndex = cplex.getObjValue();
-//System.out.println("\n\n!index int");
-//					pcscInt.displayZVariables(5);	
-
-//					pcscInt.displayZVariables(5);
-					
-
-
-					param.isInt = false;
-					PCRadiusIndex pcRad = new PCRadiusIndex(param);
-					pcRad.createFormulation();
-					cplex.solve();
-					double pcRadRelax = pcRad.getRadius();
-					double pcRadRelaxIndex = cplex.getObjValue();
-//					System.out.println("relax: " + pcRadRelaxIndex);
-//					System.out.println("kstar: " + pcRad.cvg.getValue(pcRad.kStarVar()));
-//					pcRad.displaySolution();
-					
-//					System.out.println("\n\n!index");
-//					pcsc.displayZVariables(5);						
-
-					param.isInt = true;
-					PCRadiusIndex pcRadInt = new PCRadiusIndex(param);
-					pcRadInt.createFormulation();
-					double timePCRad = cplex.getCplexTime();
-					cplex.solve();
-					timePCRad = cplex.getCplexTime() - timePCRad;
-					double pcRadOpt = pcRadInt.getRadius();
-					double pcRadOptIndex = cplex.getObjValue();
-
-					NumberFormat nf = new DecimalFormat("#0.0"); 
-//					System.out.println("opt: " + pcRadOptIndex);
-//					System.out.println("kstar: " + pcRadInt.cvg.getValue(pcRadInt.kStarVar()));
-//					pcRadInt.displaySolution();
-					
-//					/* If the relaxation or the optimal value are different */
-//					if(Math.abs(pcscRelax - pcsc2Relax) > 1E-4 || Math.abs(pcscOpt - pcsc2Opt) > 1E-4)
-					{
-						System.out.println("\n\tRelaxation pcsc/pcsc coef1/pcsc ordered/kstar: " + nf.format(pcscRelax) + "/" + nf.format(pcsc2Relax) + "/" + nf.format(pcscoRelax) + "/" + nf.format(pcRadRelax));
-//						System.out.println("\tOptimum pcsc/pcsc new/pcsc ordered/star: " + pcscOpt + "/" + pcsc2Opt + "/" + pcscoOpt + "/" + pcRadOpt );
-						System.out.println("\tTime pcsc/pcsc new/pcsc ordered/star: " + nf.format(timePCSC) + "/" + nf.format(timePCSC2) + "/" + nf.format(timePCSCO) + "/" + nf.format(timePCRad));
-					}
-					
-//					System.exit(0);
-
 				}
 			}
+
+			int nMin = 5;
+			int nMax = 300;
+			int pMin = 2;//7;
+			int pMax = 9;
+
+			if(doRandomInstances)
+				for(int i = nMin ; i <= nMax ; i+= 10) {
+
+					System.out.print("\ni = "+ i);
+
+					for(int p = pMin ; p <= Math.min(pMax, i) ; p++) {
+
+						System.out.println(" p = " + p);
+						String filePath = "data/pcenters/random/pc_n" + i + "_p" + p + "_i_1.dat";
+
+						PCenter.batchSolve(filePath, cplex);
+//						System.exit(0);
+					}
+				}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}	
 	}
-	
-	public class Result{
-		public double relaxation, objective, time, index;
-		
-		public Result(int relaxation, int objective, int time, int index) {
-			this.relaxation = relaxation;
-			this.objective = objective;
-			this.time = time;
-			this.index = index;
-		}
+
+	@Override
+	public String getMethodName() {
+		return "pcsc";
 	}
 
 }

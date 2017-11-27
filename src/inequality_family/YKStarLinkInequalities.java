@@ -3,8 +3,8 @@ package inequality_family;
 import java.util.ArrayList;
 import java.util.List;
 
-import formulation.PCRadiusIndex;
 import formulation.interfaces.IFNodeVNodeBV;
+import formulation.pcenters.PCRadiusIndex;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import variable.VariableGetter;
@@ -33,7 +33,7 @@ public class YKStarLinkInequalities extends AbstractInequality<PCRadiusIndex>{
 		
 		/* For each factory */
 		for(int m = 0 ; m < d[0].length; m++) 
-			if(d[i][m] < dk)
+			if(!formulation.isFactoryDominated(m) && d[i][m] < dk)
 				factories.add(m);
 		
 	}

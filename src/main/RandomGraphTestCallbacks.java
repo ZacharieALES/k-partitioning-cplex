@@ -4,6 +4,7 @@ package main;
 import java.io.File;
 import java.util.ArrayList;
 
+import callback.cut_callback.EmptyCutCallback;
 import callback.cut_callback.FastCutCallback;
 import callback.heuristic_callback.KClosestRepresentatives;
 import callback.heuristic_callback.KClosestRepresentativesTildes;
@@ -158,18 +159,19 @@ public class RandomGraphTestCallbacks extends Execution{
 
 	public void performFormulation(FormulationType formulation, String formulation_name, PartitionParam param){
 		
-		performFormulation(formulation, formulation_name, param, false, false, false);
-		performFormulation(formulation, formulation_name, param, false, true, false);
-		performFormulation(formulation, formulation_name, param, false, false, true);
-		performFormulation(formulation, formulation_name, param, true, false, false);
-		performFormulation(formulation, formulation_name, param, true, true, false);
-		performFormulation(formulation, formulation_name, param, true, false, true);
+		performFormulation(formulation, formulation_name, param, false, false, false, false);
+		performFormulation(formulation, formulation_name, param, false, true, false, false);
+		performFormulation(formulation, formulation_name, param, false, false, true, false);
+		performFormulation(formulation, formulation_name, param, true, false, false, false);
+		performFormulation(formulation, formulation_name, param, true, true, false, false);
+		performFormulation(formulation, formulation_name, param, true, false, true, false);
+		performFormulation(formulation, formulation_name, param, false, false, false, true);
 	}
 
 
-	public void performFormulation(FormulationType formulation, String formulation_name, PartitionParam param, boolean useFastCB, boolean useHCB, boolean useHRCB){
+	public void performFormulation(FormulationType formulation, String formulation_name, PartitionParam param, boolean useFastCB, boolean useHCB, boolean useHRCB, boolean useEmptyCB){
 
-		StandardResultCallbacks result = new StandardResultCallbacks(c_n, c_i, formulation, param, useFastCB, useHCB, useHRCB);
+		StandardResultCallbacks result = new StandardResultCallbacks(c_n, c_i, formulation, param, useFastCB, useHCB, useHRCB, useEmptyCB);
 		//		int code = result.hashCode();
 		StandardResultCallbacks previousResult = serCB.get(result);
 
@@ -239,6 +241,9 @@ public class RandomGraphTestCallbacks extends Execution{
 								p.getCplex().use(new FastCutCallback((PartitionWithTildes)p, 100));
 							break;
 						}
+						
+						if(useEmptyCB)
+							p.getCplex().use(new EmptyCutCallback(p));
 
 						result.resolutionTime = p.getCplex().solve();
 						result.nodes = (int) p.getCplex().getNnodes();
@@ -277,6 +282,9 @@ public class RandomGraphTestCallbacks extends Execution{
 				if(useHRCB)
 					log += "hrcb";
 				
+				if(useEmptyCB)
+					log += "empty";
+				
 				ComputeResults.log("\t" + ComputeResults.getDate() + " : " + formulation_name + ": \t[relaxation, int] : [" +  Math.round(result.bestRelaxation)+ ", " + Math.round(result.bestInteger) + "] (" + Math.round(result.nodes) + " nodes, " + Math.round(result.resolutionTime) + "s), " + log);
 				
 			}catch(IloException e) {e.printStackTrace();}
@@ -292,7 +300,7 @@ public class RandomGraphTestCallbacks extends Execution{
 		//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 3600).execute();
 
 		//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 600).execute();
-						new RandomGraphTestCallbacks(cplex, 20, 30, 2, 6, 0, 6, 3600).execute();
+						new RandomGraphTestCallbacks(cplex, 10, 30, 2, 6, 0, 6, 3600).execute();
 
 //		int i = 4;
 //		int n = 20;

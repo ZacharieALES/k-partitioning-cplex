@@ -17,8 +17,6 @@ public class BranchCB_CplexPlusRep extends BranchCallback{
 		BranchDirection[][] dirs = new BranchDirection[nb][];
 //		double [] est = new double[nb];
 		
-		this.getBranches(vars, bounds, dirs);
-		
 		for(int i = 0 ; i < nb ; i++)	
 			makeBranch(vars[i], bounds[i], dirs[i], this.getObjValue());
 		

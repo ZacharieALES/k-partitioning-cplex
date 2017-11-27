@@ -60,30 +60,7 @@ public class ClosestRep implements AbstractMIPStartGetter{
 			}
 
 			public double getRep(int i) throws IloException {
-
-				double result = 0;
-
-				if(i >= 3)
-					result = formulation.variableGetter().getValue(formulation.nodeVar(i));
-				else{
-					if(i == 0)
-						result = 2;
-					else
-						if(i == 1){
-							result = 1 - formulation.variableGetter().getValue(formulation.edgeVar(0,1));
-						}
-						else if(rep2 == -1 ){
-							result = formulation.maximalNumberOfClusters() - 2 + formulation.variableGetter().getValue(formulation.edgeVar(0,1));
-
-							for(int j = 3 ; j < formulation.n() ; ++j)
-								result -= formulation.variableGetter().getValue(formulation.nodeVar(j));
-						}
-						else
-							result = rep2;
-				}
-
-				return result;
-
+				return formulation.variableGetter().getValue(formulation.nodeVar(i));
 			}
 		});
 

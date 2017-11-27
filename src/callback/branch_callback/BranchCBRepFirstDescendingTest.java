@@ -91,6 +91,8 @@ public class BranchCBRepFirstDescendingTest extends BranchCallback{
 				int nextNode = ni.currentNode - 1;
 
 				IloLinearNumExpr expr = rep.getCplex().linearNumExpr();
+				
+				System.out.println("Warning: BranchCBRepFirstDescending: needs to adapt v_rep now contains n variables instead of n-3");
 				expr.addTerm(1.0, rep.v_rep[nextNode-4]);
 				
 //				logger.log(Level.FINER, "Branching on x" + nextNode);
@@ -163,6 +165,8 @@ public class BranchCBRepFirstDescendingTest extends BranchCallback{
 //						bounds[nextNode + i - 4] = 0.0;
 //						dirs[nextNode + i - 4] = BranchDirection.Down;
 						IloLinearNumExpr expr_i = rep.getCplex().linearNumExpr();
+						System.out.println("Warning: BranchCBRepFirstDescending: needs to adapt v_rep now contains n variables instead of n-3");
+
 						expr_i.addTerm(1.0,rep.v_rep[i - 4]);
 						c_range[nextNode + i - 4] = rep.getCplex().eq(0.0, expr_i);		
 						
@@ -282,6 +286,8 @@ public class BranchCBRepFirstDescendingTest extends BranchCallback{
 //							bounds[i - 4] = 1.0;
 //							dirs[i - 4] = BranchDirection.Up;
 							IloLinearNumExpr expr_i = rep.getCplex().linearNumExpr();
+							System.out.println("Warning: BranchCBRepFirstDescending: needs to adapt v_rep now contains n variables instead of n-3");
+
 							expr_i.addTerm(1.0,rep.v_rep[i - 4]);
 							c_range2[i - 4] = rep.getCplex().eq(1.0, expr_i);
 							
@@ -333,6 +339,8 @@ public class BranchCBRepFirstDescendingTest extends BranchCallback{
 				NodeInfo new_ni = new NodeInfo(rep.n, 2, true);
 				
 				IloLinearNumExpr expr = rep.getCplex().linearNumExpr();
+				System.out.println("Warning: BranchCBRepFirstDescending: needs to adapt v_rep now contains n variables instead of n-3");
+
 				expr.addTerm(1.0, rep.v_rep[rep.n - 4]);
 				
 //				this.makeBranch(rep.v_rep[rep.n - 4], 1.0, BranchDirection.Up, this.getObjValue(), (Object)new_ni);

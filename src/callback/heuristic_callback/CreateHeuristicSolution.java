@@ -99,11 +99,14 @@ public class CreateHeuristicSolution{
 			
 			if(isRoot){
 //			if(true){
+				
+				/* For each edge */
 				for(int i = 0 ; i < rep.n ; ++i)
 					for(int j = 0 ; j < i ; ++j)
 						
+						/* If x_ij is high enough */
 						if(this.getValue(rep.v_edge[i][j]) >= threshold){
-							
+						
 							/* If we already know that i is not a representative set x_ij to 1 */
 							if(repEqual0[i]){
 								this.add(rep.getCplex().eq(1.0, rep.v_edge[i][j]), CutManagement.UseCutFilter);
@@ -116,8 +119,7 @@ public class CreateHeuristicSolution{
 	
 								this.add(rep.getCplex().eq(1.0, rep.v_edge[i][j]), CutManagement.UseCutFilter);
 								
-								if(i > 2)
-									this.add(rep.getCplex().eq(0.0, rep.v_rep[i-3]), CutManagement.UseCutFilter);
+								this.add(rep.getCplex().eq(0.0, rep.v_rep[i]), CutManagement.UseCutFilter);
 								
 								
 								repEqual0[i] = true;

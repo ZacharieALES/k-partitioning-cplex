@@ -18,7 +18,7 @@ public class UpperRepInequality extends AbstractInequality<IFEdgeVNodeVClusterNb
 
 	public UpperRepInequality(IFEdgeVNodeVClusterNb formulation, int i, int j) {
 		super(formulation, IFEdgeVNodeVClusterNb.class);
-		
+
 		if(i < j){
 			this.i = i;
 			this.j = j;
@@ -28,7 +28,7 @@ public class UpperRepInequality extends AbstractInequality<IFEdgeVNodeVClusterNb
 			this.j = i;
 		}
 	}
-	
+
 	@Override
 	public Range createRange() {
 
@@ -37,27 +37,10 @@ public class UpperRepInequality extends AbstractInequality<IFEdgeVNodeVClusterNb
 
 		try {
 
-			if(j != 2){
-				expr.addTerm(1.0, formulation.nodeVar(j));
-				expr.addTerm(1.0, formulation.edgeVar(j,i));
+			expr.addTerm(1.0, formulation.nodeVar(j));
+			expr.addTerm(1.0, formulation.edgeVar(j,i));
 
-				result = new Range(expr, 1.0);
-			}
-			else{
-
-				/*
-				 * Constraints for j=2 : x0,1 + xi,2 - sum(i=3:n-1) <= 3 - k (same
-				 * expression by replacing x3 by its substitution value, x0,1 -
-				 * sum(i=3:n-1) xi + k - 2)
-				 */
-				expr.addTerm(1.0, formulation.edgeVar(1,0));
-				expr.addTerm(1.0, formulation.edgeVar(2,i));
-
-				for (int k = 3; k < formulation.n(); ++k)
-					expr.addTerm(-1.0, formulation.nodeVar(k));
-
-				result =  new Range(expr, 3.0 - formulation.maximalNumberOfClusters());
-			}
+			result = new Range(expr, 1.0);
 
 		} catch (IloException e) {
 			e.printStackTrace();
@@ -74,33 +57,17 @@ public class UpperRepInequality extends AbstractInequality<IFEdgeVNodeVClusterNb
 	@Override
 	protected double evaluate(VariableGetter vg) throws IloException  {
 
+		// TODO check this expression
 		double result = 0.0;
 
-		if(j != 2){
-			result += vg.getValue(formulation.nodeVar(j));
-			result += vg.getValue(formulation.edgeVar(j,i));
-		}
-		else{
-
-			result += vg.getValue(formulation.edgeVar(1,0));
-			result += vg.getValue(formulation.edgeVar(2,i));
-
-			for (int k = 3; k < formulation.n(); ++k)
-				result -= vg.getValue(formulation.nodeVar(k));
-		}
-
+		result += vg.getValue(formulation.nodeVar(j));
+		result += vg.getValue(formulation.edgeVar(j,i));
 		return result;
 	}
 
 	@Override
 	public double getSlack(VariableGetter vg) throws IloException   {
-
-		double bound = 1.0;
-
-		if(j == 2)
-			bound = 3.0 - formulation.maximalNumberOfClusters();
-
-		return bound - this.evaluate(vg);
+		return 1.0 - this.evaluate(vg);
 	}
 
 }

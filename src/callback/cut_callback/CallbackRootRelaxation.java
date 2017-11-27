@@ -54,8 +54,8 @@ public class CallbackRootRelaxation extends UserCutCallback{
 			}
 		System.out.println(" ");
 		
-		for(int i = 3 ; i < n ; ++i)
-			System.out.println(i+ ": " + this.getValue(rep.v_rep[i-3]));
+		for(int i = 0 ; i < n ; ++i)
+			System.out.println(i+ ": " + this.getValue(rep.v_rep[i]));
 		
 
 	}

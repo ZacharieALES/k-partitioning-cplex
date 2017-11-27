@@ -1,7 +1,6 @@
 package formulation.pcenters;
 
 import cplex.Cplex;
-import formulation.Param;
 
 public class PCenterIndexedDistancesParam extends PCenterParam{
 
@@ -14,11 +13,16 @@ public class PCenterIndexedDistancesParam extends PCenterParam{
 	 *
 	 */
 	public enum PCenterReturnType{RADIUS, RADIUS_INDEX, RADIUS_DECREASING_INDEX}
-	
+
 	public PCenterReturnType returnType = PCenterReturnType.RADIUS;
-	
-	public PCenterIndexedDistancesParam(Param p) {
+
+	public PCenterIndexedDistancesParam(PCenterParam p) {
 		super(p);
+
+		if(p instanceof PCenterIndexedDistancesParam) {
+			PCenterIndexedDistancesParam pcdidp =  ((PCenterIndexedDistancesParam)p);
+			returnType = pcdidp.returnType;
+		}
 	}
 
 	public PCenterIndexedDistancesParam(String inputFile, Cplex cplex){

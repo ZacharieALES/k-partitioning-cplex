@@ -80,7 +80,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 			 */
 			double max_time_for_relaxation_improvement = tilim/20.0;
 
-					System.out.println(max_time_for_relaxation_improvement + "s");
+//					System.out.println(max_time_for_relaxation_improvement + "s");
 
 			int max_iteration_for_relaxation_improvement = 5;
 			double last_relaxation_improvement_time = -formulation.getCplex().getCplexTime();
@@ -139,7 +139,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 
 				last_cp_relaxation = formulation.getCplex().getObjValue();
 				gap = ComputeResults.improvement(last_cp_relaxation,  bestInt);
-							System.out.print(Math.round(formulation.getCplex().getCplexTime() + cpresult.cp_time) + "s : [" + Math.round(last_cp_relaxation) + ", " + Math.round(bestInt) + "] " + (Math.round(100*gap)/100.0) + "%");
+//							System.out.print(Math.round(formulation.getCplex().getCplexTime() + cpresult.cp_time) + "s : [" + Math.round(last_cp_relaxation) + ", " + Math.round(bestInt) + "] " + (Math.round(100*gap)/100.0) + "%");
 
 				/* If the solution is Integer, first test if a separation method from the formulation find a violated inequality (if the optimum is not found) */
 				if(isInteger){
@@ -292,7 +292,7 @@ public abstract class AbstractCuttingPlane<Formulation extends IFormulation> {
 
 					}
 
-									System.out.print("lim: " + cptilim + " actuel: " + (formulation.getCplex().getCplexTime() + cpresult.cp_time));
+//									System.out.print("lim: " + cptilim + " actuel: " + (formulation.getCplex().getCplexTime() + cpresult.cp_time));
 
 									if(!cutFound)
 										System.out.println("\n--- No cut found ---");	

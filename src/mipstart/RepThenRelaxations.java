@@ -102,29 +102,8 @@ public class RepThenRelaxations implements AbstractMIPStartGetter{
 
 			public double getRep(int i) throws IloException{
 
-				double result = 0;
-
-				if(i >= 3)
-					result = s.variableGetter().getValue(s.nodeVar(i));
-				else{
-					if(i == 0)
-						result = 1;
-					else
-						if(i == 1){
-							result = 1 - s.variableGetter().getValue(s.edgeVar(0,1));
-						}
-						else if(rep2 == -1 ){
-							result = s.maximalNumberOfClusters() - 2 + s.variableGetter().getValue(s.edgeVar(0,1));
-
-							for(int j = 3 ; j < s.n() ; ++j)
-								result -= s.variableGetter().getValue(s.nodeVar(j));
-						}
-						else
-							result = rep2;
-				}
-
-				return result;
-
+				return s.variableGetter().getValue(s.nodeVar(i));
+			
 			}
 		});
 

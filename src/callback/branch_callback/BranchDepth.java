@@ -26,8 +26,19 @@ public class BranchDepth extends BranchCallback{
 			d = new Depth(d_parent.depth + 1);
 		}
 
-		for(int i = 0 ; i < nb ; i++)	
+		for(int i = 0 ; i < nb ; i++)	{
+//			System.out.println("var: " + (vars[i] == null));
+//			System.out.println("bounds: " + (bounds[i] == null));
+//			System.out.println("dirs: " + (dirs[i] == null));
+			
+			if(vars[i] != null && bounds[i] != null && dirs[i] != null) {
 			makeBranch(vars[i], bounds[i], dirs[i], this.getObjValue(), d);
+			
+			for(int j = 0; j < vars[i].length; j++) {
+				System.out.println(vars[i][j].getName() + ": " + bounds[i][j] + ": " + dirs[i][j]);
+			}
+			}
+		}
 		
 	}
 	

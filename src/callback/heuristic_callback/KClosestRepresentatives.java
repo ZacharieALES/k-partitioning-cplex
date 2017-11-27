@@ -73,30 +73,7 @@ public class KClosestRepresentatives extends HeuristicCallback implements IContr
 				}
 
 				public double getRep(int i) throws IloException {
-
-					double result = 0;
-
-					if(i >= 3)
-						result = rvg.getValue(formulation.nodeVar(i));
-					else{
-						if(i == 0)
-							result = 2;
-						else
-							if(i == 1){
-								result = 1 - rvg.getValue(formulation.edgeVar(0,1));
-							}
-							else if(rep2 == -1 ){
-								result = formulation.KMax() - 2 + rvg.getValue(formulation.edgeVar(0,1));
-
-								for(int j = 3 ; j < formulation.n() ; ++j)
-									result -= rvg.getValue(formulation.nodeVar(j));
-							}
-							else
-								result = rep2;
-					}
-
-					return result;
-
+					return rvg.getValue(formulation.nodeVar(i));
 				}
 			});
 

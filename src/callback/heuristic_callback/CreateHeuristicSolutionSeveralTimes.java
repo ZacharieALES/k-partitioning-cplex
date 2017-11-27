@@ -176,15 +176,15 @@ public class CreateHeuristicSolutionSeveralTimes{
 			/* If the proper number of non representative nodes have been found */
 			if(nbRepEqualTo0 == rep.n - rep.KMax()){
 				
-				mipStart = new IloNumVar[rep.n - 3 + rep.n * (rep.n - 1) / 2];
-				value = new double[rep.n - 3 + rep.n * (rep.n - 1) / 2];
+				mipStart = new IloNumVar[rep.n + rep.n * (rep.n - 1) / 2];
+				value = new double[rep.n + rep.n * (rep.n - 1) / 2];
 				
-				for(int i = 0 ; i < rep.n-3 ; ++i){
+				for(int i = 0 ; i < rep.n ; ++i){
 					mipStart[i] = output.v_rep[i];
 					value[i] = this.getValue(rep.v_rep[i]);  
 				}
 				
-				int v = rep.n-3;
+				int v = rep.n;
 				
 				for(int i = 0 ; i < rep.n ; ++i){
 					for(int j = 0 ; j < i ; ++j){

@@ -64,16 +64,17 @@ public class BranchCBRound extends BranchCallback{
 				
 				double v2 = -1.0;
 				double v3 = -1.0;
-				
-				if(ni.statuts[1] == -1)
-					v2 = this.getValue(rep.exprX2());
-				if(ni.statuts[2] == -1)
-					v3 = this.getValue(rep.exprX3());
-				
-				if(v2 > max && v2 > v3){			
-					branchOnX2(ni);
-				}
-				else
+				System.out.println("Warning: BranchCBRound: needs to adapt v_rep now contains n variables instead of n-3");
+
+//				if(ni.statuts[1] == -1)
+//					v2 = this.getValue(rep.exprX2());
+//				if(ni.statuts[2] == -1)
+//					v3 = this.getValue(rep.exprX3());
+//				
+//				if(v2 > max && v2 > v3){			
+//					branchOnX2(ni);
+//				}
+//				else
 					if(v3 > max){
 						branchOnX3(ni);
 					}
@@ -121,65 +122,68 @@ public class BranchCBRound extends BranchCallback{
 		
 		
 		/** Branch on x2 = 0 if possible **/
+		System.out.println("Warning: BranchCBRepFirstDescending: needs to adapt v_rep now contains n variables instead of n-3");
+
 		
-		/* If x2 can be set to 0
-		 * i.e.: if the number of node which are not set is greater than the number of nodes which still have to be set to 1
-		 * rep.n - ni.nbRepSet : number of nodes which are not set
-		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
-		 */
-		if(rep.n - ni.nbRepSet > rep.KMax() - ni.nbRepTo1){
-			makeBranch(rep.x2Eq0(), this.getObjValue(), new NodeInfoR(2, 0, ni));		
-		}
-		else{
-			//TODO set all the remaining nodes to 1 and their edge variables to 0
-			makeBranch(rep.x2Eq0(), this.getObjValue());
-		}
-		
-		
-		/** Branch on x2 = 1 **/
-		
-		/* If x2 is not the last representative that will be set to 1 */
-		if(ni.nbRepTo1 < rep.KMax()-1){
-			makeBranch(rep.x2Eq1(), this.getObjValue(), new NodeInfoR(2, 1, ni));
-		}
-		
-		/* If this is the last representative to be set to 1 */
-		else{
-			//TODO fixer les autres representants à 0
-			makeBranch(rep.x2Eq1(), this.getObjValue());
-		}
+//		/* If x2 can be set to 0
+//		 * i.e.: if the number of node which are not set is greater than the number of nodes which still have to be set to 1
+//		 * rep.n - ni.nbRepSet : number of nodes which are not set
+//		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
+//		 */
+//		if(rep.n - ni.nbRepSet > rep.KMax() - ni.nbRepTo1){
+//			makeBranch(rep.x2Eq0(), this.getObjValue(), new NodeInfoR(2, 0, ni));		
+//		}
+//		else{
+//			//TODO set all the remaining nodes to 1 and their edge variables to 0
+//			makeBranch(rep.x2Eq0(), this.getObjValue());
+//		}
+//		
+//		
+//		/** Branch on x2 = 1 **/
+//		
+//		/* If x2 is not the last representative that will be set to 1 */
+//		if(ni.nbRepTo1 < rep.KMax()-1){
+//			makeBranch(rep.x2Eq1(), this.getObjValue(), new NodeInfoR(2, 1, ni));
+//		}
+//		
+//		/* If this is the last representative to be set to 1 */
+//		else{
+//			//TODO fixer les autres representants à 0
+//			makeBranch(rep.x2Eq1(), this.getObjValue());
+//		}
 		
 	}
 	
 	public void branchOnX3(NodeInfoR ni) throws IloException{
 		
-		
-		/** Branch on x3 = 0 if possible **/
-		
-		/* If x3 can be set to 0
-		 * i.e.: if the number of node which are not set is greater than the number of nodes which still have to be set to 1
-		 * rep.n - ni.nbRepSet : number of nodes which are not set
-		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
-		 */
-		if(rep.n - ni.nbRepSet > rep.KMax() - ni.nbRepTo1)
-			makeBranch(rep.x3Eq0(), this.getObjValue(), new NodeInfoR(3, 0, ni));
-		else{
-			//TODO set all the remaining nodes to 1 and their edge variables to 0
-			makeBranch(rep.x3Eq0(), this.getObjValue());
-		}
-		
-		
-		/** Branch on x3 = 1 **/
-		
-		/* If x3 is not the last representative that will be set to 1 */
-		if(ni.nbRepTo1 < rep.KMax()-1)
-			makeBranch(rep.x3Eq1(), this.getObjValue(), new NodeInfoR(3, 1, ni));
-		
-		/* If this is the last representative to be set to 1 */
-		else{
-			//TODO fixer les autres representants à 0
-			makeBranch(rep.x3Eq1(), this.getObjValue());
-		}
+		System.out.println("Warning: BranchCBRepFirstDescending: needs to adapt v_rep now contains n variables instead of n-3");
+
+//		/** Branch on x3 = 0 if possible **/
+//		
+//		/* If x3 can be set to 0
+//		 * i.e.: if the number of node which are not set is greater than the number of nodes which still have to be set to 1
+//		 * rep.n - ni.nbRepSet : number of nodes which are not set
+//		 * rep.K - ni.nbRepTo1 : number of nodes which still have to be set to 1
+//		 */
+//		if(rep.n - ni.nbRepSet > rep.KMax() - ni.nbRepTo1)
+//			makeBranch(rep.x3Eq0(), this.getObjValue(), new NodeInfoR(3, 0, ni));
+//		else{
+//			//TODO set all the remaining nodes to 1 and their edge variables to 0
+//			makeBranch(rep.x3Eq0(), this.getObjValue());
+//		}
+//		
+//		
+//		/** Branch on x3 = 1 **/
+//		
+//		/* If x3 is not the last representative that will be set to 1 */
+//		if(ni.nbRepTo1 < rep.KMax()-1)
+//			makeBranch(rep.x3Eq1(), this.getObjValue(), new NodeInfoR(3, 1, ni));
+//		
+//		/* If this is the last representative to be set to 1 */
+//		else{
+//			//TODO fixer les autres representants à 0
+//			makeBranch(rep.x3Eq1(), this.getObjValue());
+//		}
 		
 	}
 	

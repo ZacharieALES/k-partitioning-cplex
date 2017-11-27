@@ -2,6 +2,7 @@ package formulation.pcenters;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cplex.Cplex;
@@ -19,15 +20,54 @@ public class PCSCOrdered extends PCSC{
 	@Override
 	protected void createYZLinkConstraints() throws IloException{
 
+		/* Undominated inequalites */
+//		List<YZLinkInequality> yzIneq = new ArrayList<>();
+		//		int counter = 0; 
+
 		/* For each client */
 		for(int i = 0 ; i < N ; i++)
+			if(!isClientDominated(i))
+				/* For each possible distance */
+				for(int k = 1 ; k <= K ; ++k)
 
-			/* For each possible distance */
-			for(int k = 1 ; k <= K ; ++k)
+					/* If the inequality is not dominated by the next one */
+					if(clientHasFactoryAtDk(i, k)) {
+						getCplex().addRange(new YZLinkInequality(this, i, k, D[k], d).createRange());
+						//					counter++;
+					}
 
-				/* If the inequality is not dominated by the next one */
-				if(clientHasFactoryAtDk(i, k))
-					getCplex().addRange(new YZLinkInequality(this, i, k, D[k], d).createRange());
+		//		System.out.println("\nPCSCO: added " + counter + " yz inequalities");
+
+		// Increase the computation time
+		//					addIfNotDominated(new YZLinkInequality(this, i, k, D[k], d), yzIneq);
+		//		
+		//		for(YZLinkInequality ineq: yzIneq)
+		//			getCplex().addRange(ineq.createRange());
+
+	}
+
+	/**
+	 * Add and inequality if it is not dominated by an inequality from the list. The inequalities from the list which are dominated by it are removed from the list.
+	 * @param ineq The inequality to test.
+	 * @param list The list of inequalities.
+	 */
+	protected void addIfNotDominated(YZLinkInequality ineq, List<YZLinkInequality> list) {
+
+		Iterator<YZLinkInequality> it = list.iterator();
+		boolean isDominated = false;
+
+		while(it.hasNext() && !isDominated) {
+
+			YZLinkInequality cIneq = it.next();
+
+			if(cIneq.dominates(ineq))
+				isDominated = true;
+			else if(ineq.dominates(cIneq))
+				it.remove();
+		}
+
+		if(!isDominated)
+			list.add(ineq);
 
 	}
 
@@ -38,8 +78,8 @@ public class PCSCOrdered extends PCSC{
 		createOrderedZ();
 		createYZLinkConstraints();
 
-		//		createReinforcementConstraints(); // Do not seem to reinforce
-//		createReinforcementConstraints2(); // Invalid for p > 1
+				createReinforcementConstraints(); // Do not seem to reinforce
+		//		createReinforcementConstraints2(); // Invalid for p > 1
 	}
 
 	/**
@@ -57,31 +97,34 @@ public class PCSCOrdered extends PCSC{
 
 		for(int m = 0 ; m < M ; ++m) {
 
-			double dMax = d[0][m];
+			if(isFactoryDominated(m)) {
+				double dMax = d[0][m];
 
-			for(int i = 1 ; i < N ; i++)
-				if(d[i][m] > dMax)
-					dMax = d[i][m];
+				for(int i = 1 ; i < N ; i++)
+					if(!isClientDominated(i))
+						if(d[i][m] > dMax)
+							dMax = d[i][m];
 
-			if(dMax <= minColMaxDist) {
+				if(dMax <= minColMaxDist) {
 
-				if(dMax < minColMaxDist) {
-					colId.clear();
-					minColMaxDist = dMax;
+					if(dMax < minColMaxDist) {
+						colId.clear();
+						minColMaxDist = dMax;
+					}
+
+					colId.add(m);
+
 				}
-
-				colId.add(m);
-
 			}
 		}
 
 		int kp1 = indexOfDistanceInD(minColMaxDist) + 1; 
 
-		for(Integer i: colId) {
+		for(Integer j: colId) {
 
 			IloLinearNumExpr expr = getCplex().linearNumExpr();
 
-			expr.addTerm(1.0, y[i]);
+			expr.addTerm(1.0, y[j]);
 			expr.addTerm(1.0, z[kp1]);
 
 			getCplex().addRange(new Range(1.0, expr));
@@ -101,26 +144,27 @@ public class PCSCOrdered extends PCSC{
 
 		for(int m = 0 ; m < M ; ++m) {
 
-			double dMax = d[0][m];
+			if(!isFactoryDominated(m)) {
 
-			for(int i = 1 ; i < N ; i++)
-				if(d[i][m] > dMax)
-					dMax = d[i][m];
+				double dMax = d[0][m];
 
-			int id = indexOfDistanceInD(dMax);
+				for(int i = 1 ; i < N ; i++)
+					if(!isClientDominated(i))
+						if(d[i][m] > dMax)
+							dMax = d[i][m];
 
-			if(id != -1 && id < z.length - 1) {
+				int id = indexOfDistanceInD(dMax);
 
-				IloLinearNumExpr expr = getCplex().linearNumExpr();
+				if(id != -1 && id < z.length - 1) {
 
-				expr.addTerm(1.0, y[m]);
-				expr.addTerm(1.0, z[id+1]);
+					IloLinearNumExpr expr = getCplex().linearNumExpr();
 
-				getCplex().addRange(new Range(expr, 1.0));
+					expr.addTerm(1.0, y[m]);
+					expr.addTerm(1.0, z[id+1]);
 
+					getCplex().addRange(new Range(expr, 1.0));
+				}
 			}
-
-
 		}
 	}
 
@@ -134,59 +178,6 @@ public class PCSCOrdered extends PCSC{
 		}
 	}
 
-	public static void main(String[] args) {
-
-		Cplex cplex = new Cplex();
-		try {
-
-
-			for(int i = 10 ; i < 60 ; i+= 5) {
-
-				System.out.print("\ni = "+ i);
-
-				for(int p = 2 ; p < 10 ; p++) {
-					PCenterIndexedDistancesParam param = new PCenterIndexedDistancesParam("data/pcenters/random/pc_n" + i + "_p" + p + "_i_1.dat", cplex);
-					param.isInt = false;
-
-					PCSC pcsc = new PCSC(param);
-					pcsc.createFormulation();
-					cplex.solve();
-					double pcscRelax = cplex.getObjValue(); 
-					
-
-					param.isInt = true;
-					PCSC pcscInt = new PCSC(param);
-					pcscInt.createFormulation();
-					cplex.solve();
-					double pcscOpt = cplex.getObjValue();
-
-					pcscInt.displayZVariables(5);
-
-					param.isInt = false;
-					PCSCOrdered pcsco = new PCSCOrdered(param);
-					pcsco.createFormulation();
-					cplex.solve();
-					double pcscoRelax =  cplex.getObjValue();
-
-					param.isInt = true;
-					PCSCOrdered pcscoInt = new PCSCOrdered(param);
-					pcscoInt.createFormulation();
-					cplex.solve();
-					double pcscoOpt = cplex.getObjValue();
-
-					pcscoInt.displayZVariables(5);
-					System.exit(0);
-					if(Math.abs(pcscOpt-pcscoOpt) < 1E-4)
-						if(Math.abs(pcscRelax-pcscoRelax) > 1E-4)
-							System.out.print("*");
-						else
-							System.out.print(".");
-					else
-						System.out.print("!");
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	@Override
+	public String getMethodName() { return "pcsco";}
 }
