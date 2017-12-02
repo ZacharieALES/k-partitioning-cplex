@@ -56,8 +56,8 @@ public class RemoteExecutionRootRelaxation extends Execution{
 			
 			rootRelaxation[c_n][c_k][c_i][i] = this.getRootRelaxation(param);
 			
-			param.cplexAutoCuts = false;
-			param.cplexPrimalDual = false;
+			param.useCplexAutoCuts = false;
+			param.useCplexPrimalDual = false;
 			
 			PartitionWithRepresentative rep;
 //			

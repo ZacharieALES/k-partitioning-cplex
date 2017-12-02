@@ -19,4 +19,9 @@ public class PCRadCreator extends PCenterCreator{
 		return "PCRad";
 	}
 
+	@Override
+	public PCenter<?> createFormulationObject(double[][] d, PCenterIndexedDistancesParam param, int p) throws Exception {
+		return new PCRadiusIndex(d, param, p);
+	}
+
 }

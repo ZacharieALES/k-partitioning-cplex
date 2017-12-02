@@ -4,11 +4,11 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-import callback.cut_callback.PCRadCutCallback;
 import ilog.concert.IloException;
 import ilog.concert.IloLinearNumExpr;
 import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex.UnknownObjectException;
+import inequality_family.Range;
 import inequality_family.YKStarLinkInequalities;
 import pcenters.PCResult;
 
@@ -18,6 +18,10 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 
 	public PCRadiusIndex(PCenterIndexedDistancesParam param) throws IOException, InvalidPCenterInputFile {
 		super(param);
+	}
+
+	public PCRadiusIndex(double[][] initialD, PCenterIndexedDistancesParam param, int p) throws Exception {
+		super(initialD, param, p);
 	}
 
 	@Override
@@ -38,8 +42,11 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 				for(int k = 1 ; k <= K ; ++k)
 
 					/* If the inequality is not dominated by the next one */
-					if(clientHasFactoryAtDk(i, k))
+					if(clientHasFactoryAtDk(i, k)) {
 						getCplex().addRange(new YKStarLinkInequalities(this, i, k, D[k], d).createRange());
+						Range r = new YKStarLinkInequalities(this, i, k, D[k], d).createRange();
+						//						System.out.println(r.expr);
+					}
 
 	}
 
@@ -49,6 +56,8 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 			kStar = getCplex().iloCplex.intVar(0, K);
 		else
 			kStar = getCplex().iloCplex.numVar(0, K);
+
+		kStar.setName("k*");
 	}
 
 	@Override
@@ -87,8 +96,8 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 
 	@Override
 	public void displaySolution() throws UnknownObjectException, IloException {
+		System.out.println(getMethodName() + " k* = " + cvg.getValue(kStar));
 		displayYVariables(5);
-		System.out.println(getMethodName() + cvg.getValue(kStar));
 	}
 
 	public IloNumVar kStarVar() {
@@ -100,44 +109,61 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 		return "pcrad";
 	}
 
-	public static PCResult solveLBStarFirst(PCenterIndexedDistancesParam param) throws IloException, IOException, InvalidPCenterInputFile {
+	public static PCResult solveLBStarFirst(PCenterIndexedDistancesParam param) throws Exception {
 
 		NumberFormat nf = new DecimalFormat("#0.0");
 		param = new PCenterIndexedDistancesParam(param); 
 
+		/* Solve PCSCO relaxation first */
 		param.isInt = false;
 		PCSCOrdered pcsco = new PCSCOrdered(param);
 		PCResult resLB = PCenter.solve(pcsco);	
 		System.out.print("\tPCRad lbStar: " + nf.format(resLB.radius) + " ");
 
+		double[][] currentD = pcsco.d;
+		int p = pcsco.p;
+
+		/* Solve successively PCRad with k* integer and y relaxed */
 		param.isInt = true;
 		param.isYInt = false;
 
 		PCResult resLBStar = null;
 		double time = resLB.time;
 
-
 		param.initialLB = Math.ceil(resLB.radius);
 		param.initialUB = pcsco.ub;
-		
-		PCRadiusIndex pcrad = new PCRadiusIndex(param);
-		resLBStar = PCenter.solve(pcrad);
-		System.out.print(resLBStar.radius + " ");
+		double previousLB = -Double.MAX_VALUE;
 
-		param.initialLB = (int)Math.ceil(resLBStar.radius);
-		param.initialUB = pcrad.ub;
-		time += resLBStar.time;
+		PCRadiusIndex pcrad;
+		
+		do{
+
+			pcrad = new PCRadiusIndex(currentD, param, p);
+			resLBStar = PCenter.solve(pcrad);
+			System.out.print(resLBStar.radius + " ");
+			time += resLBStar.time;
+			
+			currentD = pcrad.d;
+			
+					pcrad.displaySolution();
+			previousLB = param.initialLB;
+			param.initialLB = resLBStar.radius;
+
+		}while(Math.abs(previousLB - param.initialLB) > 1E-4);
 
 		System.out.println("(" + nf.format(resLB.time) + "/" + nf.format(time) + "s)");
 
+		/* Solve PCRad with both k* and y integers */
+		param.initialLB = (int)Math.ceil(resLBStar.radius);
+		param.initialUB = pcrad.ub;
 		param.isYInt = true;
-		PCResult res = PCenter.solve(new PCRadiusIndex(param));
-		res.time += resLBStar.time + resLB.time;
+		PCResult res = PCenter.solve(new PCRadiusIndex(currentD, param, p));
+		res.time += time;
 		res.methodName = "pcrad_lb*";
 
 
-//		System.out.println("\n\t" + nf.format(res.time) + "s\n");
-		
+		//		System.out.println("\n\t" + nf.format(res.time) + "s\n");
+
 		return res;
 
 	}

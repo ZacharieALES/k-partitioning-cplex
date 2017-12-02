@@ -53,8 +53,8 @@ public class ExecutionRootRelaxation extends Execution{
 		for(int i = 0 ; i < gapValues.size() ; ++i){
 		
 			param.gapDiss = gapValues.get(i);
-			param.cplexPrimalDual = false;
-			param.cplexAutoCuts = false;
+			param.useCplexPrimalDual = false;
+			param.useCplexAutoCuts = false;
 			
 			rootRelaxation[c_n][c_k][c_i][i] = this.getRootRelaxation(param);
 			

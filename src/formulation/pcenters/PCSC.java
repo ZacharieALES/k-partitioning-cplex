@@ -25,6 +25,10 @@ public class PCSC extends PCDistanceOrdered<PCenterIndexedDistancesParam> implem
 
 	}
 
+	public PCSC(double[][] currentD, PCenterIndexedDistancesParam param, int p) throws Exception {
+		super(currentD, param, p);
+	}
+
 	@Override
 	public IloNumVar nodeBVar(int i) throws IloException {
 		return z[i];
@@ -39,20 +43,20 @@ public class PCSC extends PCDistanceOrdered<PCenterIndexedDistancesParam> implem
 
 	protected void createYZLinkConstraints() throws IloException {
 
-//		int counter = 0;
-		
+		//		int counter = 0;
+
 		/* For each client */
 		for(int i = 0 ; i < N ; i++) {
 
 			if(!isClientDominated(i))
-			/* For each possible distance */
-			for(int k = 1 ; k <= K ; ++k) {
-//				counter++;
-				getCplex().addRange(new YZLinkInequality(this, i, k, D[k], d).createRange());
-			}
+				/* For each possible distance */
+				for(int k = 1 ; k <= K ; ++k) {
+					//				counter++;
+					getCplex().addRange(new YZLinkInequality(this, i, k, D[k], d).createRange());
+				}
 		}
-		
-//		System.out.println("\nPCSC: added " + counter + " yz inequalities");
+
+		//		System.out.println("\nPCSC: added " + counter + " yz inequalities");
 
 	}
 
@@ -140,7 +144,7 @@ public class PCSC extends PCDistanceOrdered<PCenterIndexedDistancesParam> implem
 	public void displayZVariables(int numberByLine) throws UnknownObjectException, IloException {
 
 		NumberFormat nf = new DecimalFormat("#0.00");
-		
+
 		System.out.print("(D0=" + Math.round(D[0]) + ")\t");
 
 		for(int i = 1 ; i <= K ; i++) {
@@ -192,11 +196,10 @@ public class PCSC extends PCDistanceOrdered<PCenterIndexedDistancesParam> implem
 		Cplex cplex = new Cplex();
 		try {
 
-			boolean doRandomInstances = true;
-			boolean doSourourInstances = false;
+			boolean doRandomInstancesRatherThanSourourInstances = true;
 
-			if(doSourourInstances) {
-				
+			if(!doRandomInstancesRatherThanSourourInstances) {
+
 				int iMin = 1;
 				int iMax = 10;
 				for(int i = iMin ; i <= iMax; i++) {
@@ -204,30 +207,48 @@ public class PCSC extends PCDistanceOrdered<PCenterIndexedDistancesParam> implem
 					String filePath = "data/pcenters/sourour/" + instanceName + ".dat";
 
 					System.out.println(instanceName + " (p = " + new PCSC(new PCenterIndexedDistancesParam(filePath, cplex)).p + ")");
-					PCenter.batchSolve(filePath, cplex);
-					
+
+					BatchParam bp = new BatchParam(filePath);
+					bp.doPCRad = false;
+					PCenter.batchSolve(bp, cplex);
+
 				}
 			}
 
-			int nMin = 5;
-			int nMax = 300;
-			int pMin = 2;//7;
-			int pMax = 9;
+			else {
 
-			if(doRandomInstances)
-				for(int i = nMin ; i <= nMax ; i+= 10) {
 
-					System.out.print("\ni = "+ i);
+				int nMin = 5;
+				int nMax = 5;
+				int pMin = 2;
+				int pMax = 9;
 
-					for(int p = pMin ; p <= Math.min(pMax, i) ; p++) {
+				for(int n = nMin ; n <= nMax ; n+= 10) {
 
-						System.out.println(" p = " + p);
-						String filePath = "data/pcenters/random/pc_n" + i + "_p" + p + "_i_1.dat";
+					for(int p = pMin ; p <= Math.min(pMax, n) ; p++) {
 
-						PCenter.batchSolve(filePath, cplex);
-//						System.exit(0);
+						for(int i = 0 ; i < 100; ++i) {
+
+							if(p == 2 && (i == 22)) {// || i == 44 || i == 61) {
+
+								System.out.println("\nn = "+ n + " p = " + p + " i = " + i);
+								String filePath = "data/pcenters/random/pc_n" + n + "_p" + p + "_i_" + i + ".dat";
+
+								BatchParam bp = new BatchParam(filePath);
+								bp.doPCRadIt = false;
+								bp.doPCRadLBInt = true;
+								bp.doPCSCIt = false;
+
+								bp.doPCSCO = false;
+								bp.doPCRad = false;
+
+								PCenter.batchSolve(bp, cplex);
+							}
+						}
+
 					}
 				}
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();

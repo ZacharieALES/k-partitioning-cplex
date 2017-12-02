@@ -19,4 +19,10 @@ public class PCSCOCreator extends PCenterCreator{
 		return "PCSCO";
 	}
 
+	@Override
+	public PCenter<?> createFormulationObject(double[][] currentD, PCenterIndexedDistancesParam param, int p)
+			throws Exception {
+		return new PCSCOrdered(currentD, param, p);
+	}
+
 }

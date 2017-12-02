@@ -12,7 +12,6 @@ import callback.heuristic_callback.KClosestRepresentativesXY;
 import callback.heuristic_callback.KClosestRepresentativesXY2;
 import cplex.Cplex;
 import cutting_plane.CP_Rep;
-import formulation.Param;
 import formulation.Partition;
 import formulation.PartitionParam;
 import formulation.PartitionWithRepresentative;
@@ -73,7 +72,13 @@ public class RandomGraphTestCallbacks extends Execution{
 	XYParam xy1p;
 	XYParam xy2p;
 
-	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats_cb_dell_ensta.ser";
+
+	public static double LAST_SAVE_TIME;
+	public static double DELAY_TO_SAVE_IN_MIN = 120;
+
+//	String saveFilePath= "./results/expe_num_special_inoc_v3/resultats_cb_dell_ensta.ser";
+	String saveFilePath= "/home/uma/ales/res/2017-11-29_CB_Partitioning/resultats_margaux.ser";
+	
 	int tilim;
 	ArrayList<Double> gapValues;
 
@@ -140,10 +145,10 @@ public class RandomGraphTestCallbacks extends Execution{
 				performFormulation(FormulationType.REPRESENTATIVE, "rep", rp);
 
 				/* XY1 formulation */
-//				performFormulation(FormulationType.XY1, "xy1", xy1p);
+				performFormulation(FormulationType.XY1, "xy1", xy1p);
 
 				/* XY2 formulation */
-//				performFormulation(FormulationType.XY2, "xy2", xy2p);
+				performFormulation(FormulationType.XY2, "xy2", xy2p);
 
 				/* Tilde formulation with cp */
 				performFormulation(FormulationType.BC, "cp", tpBc);
@@ -158,7 +163,7 @@ public class RandomGraphTestCallbacks extends Execution{
 
 
 	public void performFormulation(FormulationType formulation, String formulation_name, PartitionParam param){
-		
+
 		performFormulation(formulation, formulation_name, param, false, false, false, false);
 		performFormulation(formulation, formulation_name, param, false, true, false, false);
 		performFormulation(formulation, formulation_name, param, false, false, true, false);
@@ -177,12 +182,14 @@ public class RandomGraphTestCallbacks extends Execution{
 
 		boolean compute = true;
 
-		if(formulation == FormulationType.BC
-				&& (useFastCB || useHCB || useHRCB))
-			compute = false;
+		//		if(formulation == FormulationType.BC
+		//				&& (useFastCB || useHCB || useHRCB))
+		//			compute = false;
 
 		if(compute) {
 			try {
+
+				/* If the result has not already been computed */
 				if(previousResult == null){
 
 					if(formulation != FormulationType.BC){
@@ -241,7 +248,7 @@ public class RandomGraphTestCallbacks extends Execution{
 								p.getCplex().use(new FastCutCallback((PartitionWithTildes)p, 100));
 							break;
 						}
-						
+
 						if(useEmptyCB)
 							p.getCplex().use(new EmptyCutCallback(p));
 
@@ -262,7 +269,12 @@ public class RandomGraphTestCallbacks extends Execution{
 					}
 
 					serCB.add(result);
-					serCB.saveResults(saveFilePath);
+
+					if((System.currentTimeMillis() - LAST_SAVE_TIME) > DELAY_TO_SAVE_IN_MIN * 60000) {
+						System.out.println("Save...");
+						serCB.saveResults(saveFilePath);
+						LAST_SAVE_TIME = System.currentTimeMillis();
+					}
 					serCB.check();
 
 				}
@@ -272,21 +284,21 @@ public class RandomGraphTestCallbacks extends Execution{
 				}
 
 				String log = "";
-				
+
 				if(useFastCB)
 					log += "fast, ";
-				
+
 				if(useHCB)
 					log += "hcb, ";
-				
+
 				if(useHRCB)
 					log += "hrcb";
-				
+
 				if(useEmptyCB)
 					log += "empty";
-				
+
 				ComputeResults.log("\t" + ComputeResults.getDate() + " : " + formulation_name + ": \t[relaxation, int] : [" +  Math.round(result.bestRelaxation)+ ", " + Math.round(result.bestInteger) + "] (" + Math.round(result.nodes) + " nodes, " + Math.round(result.resolutionTime) + "s), " + log);
-				
+
 			}catch(IloException e) {e.printStackTrace();}
 		}
 	}
@@ -295,17 +307,18 @@ public class RandomGraphTestCallbacks extends Execution{
 	public static void main(String[] args){
 
 		Cplex cplex = new Cplex();
+		LAST_SAVE_TIME = System.currentTimeMillis();
 
 		//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 0, 40, 4, 4, 0, 6, 600).execute();
 		//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 3600).execute();
 
 		//				new ExecutionInocNumeroSpecialV3Time10MinTmax2(cplex, 30, 40, 4, 4, 0, 6, 600).execute();
-						new RandomGraphTestCallbacks(cplex, 10, 30, 2, 6, 0, 6, 3600).execute();
+		new RandomGraphTestCallbacks(cplex, 10, 30, 2, 6, 0, 6, 3600).execute();
 
-//		int i = 4;
-//		int n = 20;
-//		int K = 6;
-//		new RandomGraphTestCallbacks(cplex, n, n, K, K, i, i, 3600).execute();
+		//		int i = 4;
+		//		int n = 20;
+		//		int K = 6;
+		//		new RandomGraphTestCallbacks(cplex, n, n, K, K, i, i, 3600).execute();
 
 		cplex.end();
 	}

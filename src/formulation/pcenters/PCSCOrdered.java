@@ -17,6 +17,10 @@ public class PCSCOrdered extends PCSC{
 		super(param);
 	}
 
+	public PCSCOrdered(double[][] currentD, PCenterIndexedDistancesParam param, int p) throws Exception {
+		super(currentD, param, p);
+	}
+
 	@Override
 	protected void createYZLinkConstraints() throws IloException{
 

@@ -81,8 +81,8 @@ public class ExecutionSubRepAddedWhenBranching extends Execution{
 			for(int i = 0 ; i < gapValues.size() ; ++i){
 			
 				param.gapDiss = gapValues.get(i);
-				param.cplexPrimalDual = false;
-				param.cplexAutoCuts = false;
+				param.useCplexPrimalDual = false;
+				param.useCplexAutoCuts = false;
 				param.tilim = maximalTime;
 				
 				try {

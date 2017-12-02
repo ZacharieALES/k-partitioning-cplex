@@ -70,10 +70,10 @@ public class PartitionXY extends Partition implements IFEdgeVNodeClusterV{
 		if (!xyp.cplexOutput)
 			getCplex().turnOffCPOutput();
 
-		if (xyp.cplexAutoCuts)
+		if (!xyp.useCplexAutoCuts)
 			getCplex().removeAutomaticCuts();
 
-		if (xyp.cplexPrimalDual)
+		if (!xyp.useCplexPrimalDual)
 			getCplex().turnOffPrimalDualReduction();
 
 		try {

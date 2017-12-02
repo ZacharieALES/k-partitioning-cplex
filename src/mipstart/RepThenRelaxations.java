@@ -231,8 +231,8 @@ public class RepThenRelaxations implements AbstractMIPStartGetter{
 	public PartitionWithRepresentative createPartition() throws IloException{
 
 		PartitionWithRepresentative p = null;
-		param.cplexPrimalDual = false;
-		param.cplexAutoCuts = false;
+		param.useCplexPrimalDual = false;
+		param.useCplexAutoCuts = false;
 		param.tilim = 3600;
 		param.KMax = s.maximalNumberOfClusters();
 		param.KMin = s.minimalNumberOfClusters();

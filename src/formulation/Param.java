@@ -13,10 +13,10 @@ public class Param {
 	public boolean cplexOutput = false;
 	
 	/** Use cplex primal dual heuristic */
-	public boolean cplexPrimalDual = true;
+	public boolean useCplexPrimalDual = true;
 	
 	/** Use cplex automatic cuts */
-	public boolean cplexAutoCuts = true;
+	public boolean useCplexAutoCuts = true;
 	
 	/** Cplex time limit */
 	public double tilim = -1;
@@ -36,8 +36,8 @@ public class Param {
 	public Param(Param p){
 		gapDiss = p.gapDiss;
 		cplexOutput = p.cplexOutput;
-		cplexPrimalDual = p.cplexPrimalDual;
-		cplexAutoCuts = p.cplexAutoCuts;
+		useCplexPrimalDual = p.useCplexPrimalDual;
+		useCplexAutoCuts = p.useCplexAutoCuts;
 		tilim = p.tilim;
 		isInt = p.isInt;
 		inputFile = p.inputFile;

@@ -72,10 +72,10 @@ public class PartitionWithRepresentative extends Partition implements IFEdgeVNod
 		if(!rp.cplexOutput)
 			getCplex().turnOffCPOutput();
 
-		if(rp.cplexAutoCuts)
+		if(!rp.useCplexAutoCuts)
 			getCplex().removeAutomaticCuts();
 
-		if(rp.cplexPrimalDual)
+		if(!rp.useCplexPrimalDual)
 			getCplex().turnOffPrimalDualReduction();
 
 		try {

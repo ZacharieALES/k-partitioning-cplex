@@ -72,8 +72,8 @@ public class ExecutionRrSousRep extends Execution{
 			
 				PartitionWithTildes rep;
 
-				param.cplexPrimalDual = false;
-				param.cplexAutoCuts = false;
+				param.useCplexPrimalDual = false;
+				param.useCplexAutoCuts = false;
 				
 				rep = ((PartitionWithTildes)createPartition(param));
 				relaxationWithSubRep[c_n][c_k][c_i][i] = rr_improved(rep, new SeparationSubRepresentativeExhaustive(rep, rep.variableGetter()));
