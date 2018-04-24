@@ -53,8 +53,8 @@ public class SolutionManagerRepresentative {
 
 	}
 
-	public void setVar() throws IloException{
 
+	public void setVar() throws IloException{
 		var = new IloNumVar[arraySize()];
 
 		for(int i = 0 ; i < formulation.n() ; ++i)

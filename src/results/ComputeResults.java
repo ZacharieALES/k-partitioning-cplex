@@ -776,6 +776,11 @@ public class ComputeResults {
 		System.out.println(content);
 	}
 	
+	public static void logSSLn(String content){
+		writeInFile("log.txt", content, true);
+		System.out.print(content);
+	}
+	
 	public static String getDate(){
 		
 		DateFormat mediumDateFormat = DateFormat.getDateTimeInstance(

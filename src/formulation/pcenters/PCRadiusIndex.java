@@ -44,8 +44,6 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 					/* If the inequality is not dominated by the next one */
 					if(clientHasFactoryAtDk(i, k)) {
 						getCplex().addRange(new YKStarLinkInequalities(this, i, k, D[k], d).createRange());
-						Range r = new YKStarLinkInequalities(this, i, k, D[k], d).createRange();
-						//						System.out.println(r.expr);
 					}
 
 	}
@@ -71,8 +69,19 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 
 
 	public double getRadius() throws IloException {
+		return radiusAssociatedToIndex(getCplex().getObjValue());
+	}
 
-		double value = getCplex().getObjValue();
+	public double getRelaxationRadius() throws IloException {
+		double value = getCplex().getBestObjValue();
+		
+		if(Math.ceil(value) >= 0 && Math.floor(value) <= K)
+			return radiusAssociatedToIndex(value);
+		else
+			return -1;
+	}
+
+	public double radiusAssociatedToIndex(double value) throws UnknownObjectException, IloException {
 
 		/* If the index is an int */
 		if(param.isInt)
@@ -108,6 +117,8 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 	public String getMethodName() {
 		return "pcrad";
 	}
+	
+	public static double PCRad_LB =0;
 
 	public static PCResult solveLBStarFirst(PCenterIndexedDistancesParam param) throws Exception {
 
@@ -136,6 +147,8 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 
 		PCRadiusIndex pcrad;
 		
+		PCRad_LB = 0;
+		
 		do{
 
 			pcrad = new PCRadiusIndex(currentD, param, p);
@@ -143,9 +156,12 @@ public class PCRadiusIndex extends PCDistanceOrdered<PCenterParam>{
 			System.out.print(resLBStar.radius + " ");
 			time += resLBStar.time;
 			
+			if(PCRad_LB == 0)
+				PCRad_LB = resLBStar.radius;
+			
 			currentD = pcrad.d;
 			
-					pcrad.displaySolution();
+//					pcrad.displaySolution();
 			previousLB = param.initialLB;
 			param.initialLB = resLBStar.radius;
 

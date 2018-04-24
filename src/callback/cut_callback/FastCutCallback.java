@@ -16,17 +16,16 @@ import separation.SeparationSubRepresentativeSansDoublon;
 public class FastCutCallback extends AbstractCutCallback{
 	
 	public int MAX_CUT;
-	public ArrayList<AbstractSeparation<?>> sep_algo = new ArrayList<>();
 	
 	public FastCutCallback(IFEdgeVClusterNb formulation, int MAX_CUT) {
 		super(formulation);
 		this.MAX_CUT = MAX_CUT;
 		
 		/* Grotschell ST */
-//		sep_algo.add(new Separation_ST_Grotschell(this, /MAX_CUT));
+//		sep.add(new Separation_ST_Grotschell(this, /MAX_CUT));
 		
 		/* Labbe ST */
-		sep_algo.add(new SeparationSTLabbe(formulation, this.variableGetter()));
+		sep.add(new SeparationSTLabbe(formulation, this.variableGetter()));
 		
 		/* Dependent set heuristic */
 		sep.add(new SeparationKP1DenseHeuristicDiversification(formulation, this.variableGetter()));
@@ -46,7 +45,7 @@ public class FastCutCallback extends AbstractCutCallback{
 		
 		
 
-		for(AbstractSeparation<?> algo : sep_algo){
+		for(AbstractSeparation<?> algo : sep){
 			
 			ArrayList<AbstractInequality<?>> ineq = algo.separate();
 

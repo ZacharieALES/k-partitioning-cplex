@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -32,6 +31,7 @@ import ilog.cplex.IloCplex;
 import ilog.cplex.IloCplex.UnknownObjectException;
 import inequality_family.Range;
 import pcenters.PCResult;
+import results.ComputeResults;
 import variable.CplexVariableGetter;
 
 public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNodeV{
@@ -176,18 +176,19 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 
 		filterClientsAndFactories();
 
-		for(int i = 0; i < N; ++i) {
-			if(!isClientDominated(i)) {
-				for(int j = 0; j < M; ++j)
-					if(!isFactoryDominated(j))
-						System.out.print(d[i][j] + "\t||");
-				System.out.println();
-			}
-		}
+//				System.out.println();
+//				for(int i = 0; i < N; ++i) {
+//					if(!isClientDominated(i)) {
+//						for(int j = 0; j < M; ++j)
+//							if(!isFactoryDominated(j))
+//								System.out.print(d[i][j] + "\t||");
+//						System.out.println();
+//					}
+//				}
 
 
 
-		System.out.print(" (b1: " + lb + "/" + ub + ") ");
+		//		System.out.print(" (b1: " + lb + "/" + ub + ") ");
 		int iteration = 0;
 		boolean boundImproved = Math.abs(ub - lb) > 1E-4;
 
@@ -222,7 +223,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 								d[i][j] = Math.min(d[i][j], ub + 1);
 			}
 
-			System.out.println(" (b: " + lb + "/" + ub + ") ");
+//						System.out.println(" (b: " + lb + "/" + ub + ") ");
 
 			/* If a bound is improved and the two bounds are not equal */
 			boundImproved = (Math.abs(previousLB - lb) > 1E-4
@@ -236,22 +237,23 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 
 
 
-					for(int i = 0; i < N; ++i) {
-						if(!isClientDominated(i)) {
-							for(int j = 0; j < M; ++j)
-								if(!isFactoryDominated(j))
-									System.out.print(d[i][j] + "\t|");
-							System.out.println();
-						}
-					}
+					//					for(int i = 0; i < N; ++i) {
+					//						if(!isClientDominated(i)) {
+					//							for(int j = 0; j < M; ++j)
+					//								if(!isFactoryDominated(j))
+					//									System.out.print(d[i][j] + "\t|");
+					//							System.out.println();
+					//						}
+					//					}
 		}
-		//		System.out.println("");
+		//		System.out.println("\n--End of preprocessing");
 
 		//		System.out.println("bounds: [" + previousLB + ", " + lb + "] [" + previousUB + " " + ub + "]");
 
 		//		if(iteration > 2)
 		//			System.out.print("!");
 
+		ComputeResults.logSSLn("\tbounds: [" + lb + ", " + ub + "]");
 
 
 		this.cvg = new CplexVariableGetter(getCplex());
@@ -295,7 +297,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 								}
 
 								if(c1LowerThanC2) {
-									System.out.println("C" + c1 + " dominated by C" + c2);
+									//									System.out.println("C" + c1 + " dominated by C" + c2);
 									if(c1 > 0)
 										d[c1][0] = Double.MAX_VALUE;
 									else
@@ -305,7 +307,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 								}
 
 								else if(c2LowerThanC1) { 
-									System.out.println("C" + c2 + " dominated by C" + c1);
+									//									System.out.println("C" + c2 + " dominated by C" + c1);
 									if(c2 > 0)
 										d[c2][0] = Double.MAX_VALUE;
 									else
@@ -347,7 +349,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 
 									//																System.out.println("is not dom: " + (d[0][f1] == Double.MAX_VALUE) + "/" + (d[0][f2] == Double.MAX_VALUE));
 
-									System.out.println("F" + f1 + " dominated by F" + f2);
+									//									System.out.println("F" + f1 + " dominated by F" + f2);
 									//
 									//								System.out.println("F" + f1);
 									//								for(int t = 0; t < N; t++)
@@ -371,7 +373,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 
 									//								System.out.println("is not dom: " + (d[0][f1] == Double.MAX_VALUE) + "/" + (d[0][f2] == Double.MAX_VALUE));
 									//
-									System.out.println("F" + f2 + " dominated by F" + f1);
+									//									System.out.println("F" + f2 + " dominated by F" + f1);
 									//
 									//								System.out.println("F" + f1);
 									//								for(int t = 0; t < N; t++)
@@ -393,7 +395,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 						}
 
 
-				//						System.out.print(" (dom " + dominatedClients + "/" + dominatedFactories + ")" );
+//										System.out.print(" (dom " + dominatedClientsOnLastIteration + "/" + dominatedFactoriesOnLastIteration + ")" );
 			}while(dominatedClientsOnLastIteration > 0 || dominatedFactoriesOnLastIteration > 0);
 		}
 	}
@@ -401,6 +403,21 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 	public boolean isClientDominated(int idI) {return idI > 0 ? d[idI][0] == Double.MAX_VALUE: isFirstClientDominated;}
 	public boolean isFactoryDominated(int idJ) {return idJ > 0 ? d[0][idJ] == Double.MAX_VALUE: isFirstFactoryDominated;}
 
+	public int numberOfDominatedFactories() {
+		int result = 0;
+		for(int i = 0; i < M; i++)
+			if(isFactoryDominated(i))
+				result++;
+		return result;
+	}
+
+	public int numberOfDominatedClients() {
+		int result = 0;
+		for(int i = 0; i < N; i++)
+			if(isClientDominated(i))
+				result++;
+		return result;
+	}
 
 	/**
 	 * Compute the lower bounds:
@@ -416,7 +433,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 
 		double minDist = Double.MAX_VALUE;
 		double secondMinDist = Double.MAX_VALUE;
-		
+
 		for(int i = 0 ; i < N; ++i) {
 			TreeSet<PositionedDistance> tree = null;
 
@@ -437,11 +454,13 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 				for(int j = 0; j < M; ++j)
 					if(!isFactoryDominated(j)) {
 						tree.add(new PositionedDistance(j, d[i][j]));
-						
+
 						if(d[i][j] < minDist) {
 							secondMinDist = minDist;
 							minDist = d[i][j];
 						}
+						else if(d[i][j] > minDist && d[i][j] < secondMinDist)
+							secondMinDist = d[i][j];
 					}
 
 				if(nbOfUnDominatedFactories == -1)
@@ -544,48 +563,81 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 					lb1 = it.next();
 			}
 
-			System.out.println("\nLB1: " + lb1);
+			//			System.out.println("\nLB1: " + lb1);
 
-			
+
 			if(lb1 == lb) {
-				
+
 				/* Factories that must be built to have a solution equals to lb. 
 				 * More precisely: each factory is such that there is a client at distance lb whose 
 				 * only factory has 1 factory at distance lb */ 
 				Set<Integer> factoriesToBuild = new TreeSet<>();
 				List<Integer> clientsCovered = new ArrayList<>();
-				
+
 				int ci = 0;
-				
+
 				while(ci < N && factoriesToBuild.size() <= p) {
-					
-					int firstFactoryAtDistanceLb = -1;
-					int secondFactoryAtDistanceLb = -1;
-					int fj = 0;
-					
-					while(fj < M && secondFactoryAtDistanceLb == -1) {
-						
-						if(d[ci][fj] == lb)
-							if(firstFactoryAtDistanceLb == -1)
-								firstFactoryAtDistanceLb = fj;
-							else
-								secondFactoryAtDistanceLb = fj;
-						
-						fj++;
+
+					if(!isClientDominated(ci)) {
+						int firstFactoryAtDistanceLb = -1;
+						int secondFactoryAtDistanceLb = -1;
+						int fj = 0;
+
+						while(fj < M && secondFactoryAtDistanceLb == -1) {
+
+							if(!isFactoryDominated(fj))
+								if(d[ci][fj] == lb)
+									if(firstFactoryAtDistanceLb == -1)
+										firstFactoryAtDistanceLb = fj;
+									else
+										secondFactoryAtDistanceLb = fj;
+
+							fj++;
+						}
+
+						if(secondFactoryAtDistanceLb == -1 && firstFactoryAtDistanceLb != -1) {
+							factoriesToBuild.add(firstFactoryAtDistanceLb);
+							clientsCovered.add(ci);
+						}
 					}
-					
-					if(secondFactoryAtDistanceLb == -1 && firstFactoryAtDistanceLb != -1) {
-						factoriesToBuild.add(firstFactoryAtDistanceLb);
-						clientsCovered.add(ci);
-					}
-					
 					ci++;
-					
+
 				}
-				
-//				if(factoriesToBuild.size() >= p)
-//					if(factoriesToBuild.size() > p)
-//						lb1 = 
+
+				//				if(factoriesToBuild.size() >= p)
+				//					if(factoriesToBuild.size() > p) {
+				//						lb1 = secondMinDist;
+				//						System.out.println("\n>p factories to build (\" + factoriesToBuild + \"), lb = " + lb1);
+				//					}
+				//					else {
+				//						double radius = -Double.MAX_VALUE;
+				//
+				//						for(int i = 0 ; i < N; i++)
+				//							if(!isClientDominated(i)) {
+				//								Iterator<Integer> itFactories = factoriesToBuild.iterator();
+				//								double min = d[i][itFactories.next()];
+				//
+				//								while(itFactories.hasNext()) {
+				//									double dist = d[i][itFactories.next()];
+				//									if(dist < min)
+				//										min = dist;
+				//								}
+				//
+				//								if(radius < min)
+				//									radius = min;
+				//
+				//							}
+				//
+				//						if(radius > minDist)
+				//							lb1 = secondMinDist;
+				//
+				//						System.out.println("\np factories to build (" + factoriesToBuild + "), lb = " + lb1 + " (previous ub: " + ub + ")");
+				//						System.out.println("min/second dist: " + minDist + "/" + secondMinDist);
+				//						System.out.println("radius: " + radius);
+				//						ub = Math.min(ub, radius);
+				//					}
+				//				else
+				//					System.out.print(".");
 			}
 
 		}
@@ -674,7 +726,8 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 
 			if(!isOver) {
 				// Can bestCandidates be empty here ?
-				int id = r.nextInt(bestCandidates.size());
+				int id = 0;
+//				int id = r.nextInt(bestCandidates.size());
 
 				/* Update the distances to the factories */
 				for(int i = 0; i < N; ++i) 
@@ -699,6 +752,7 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 	}
 
 	public abstract double getRadius() throws IloException;
+	public abstract double getRelaxationRadius() throws IloException;
 
 	private class PositionedDistance{
 		int position;
@@ -914,19 +968,27 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 		formulation.getCplex().solve();
 		time = formulation.getCplex().getCplexTime() - time;
 
-		//		System.out.println("\n---\n" + formulation.getMethodName());
-		//		formulation.displaySolution();
+//		ComputeResults.logSSLn("\tRelaxation: " + formulation.getRelaxationRadius());
+//				System.out.println("\n---\n" + formulation.getMethodName() + "(relaxation: " + formulation.getRelaxationRadius() + ")");
+//				formulation.displaySolution();
+		
+//		ComputeResults.logSSLn("\n\tcstr/var: " + formulation.getCplex().iloCplex.getNrows() + "/" + formulation.getCplex().iloCplex.getNcols());
+		
+		
+		
+//		formulation.getCplex().iloCplex.exportModel("test" + truc + ".lp");
 
 		return new PCResult(formulation.getRadius(), time, formulation.getMethodName());
 	}
 
 
-	public static void batchSolve(BatchParam bParam, Cplex cplex) throws IloException, IOException, InvalidPCenterInputFile {
+	public static List<List<PCResult>> batchSolve(BatchParam bParam, Cplex cplex) throws IloException, IOException, InvalidPCenterInputFile {
 
-		NumberFormat nf = new DecimalFormat("#0.0"); 
+		NumberFormat nf = new DecimalFormat("#0.00"); 
 
 		/* List of parameters */
 		PCenterIndexedDistancesParam paramPCSCInt = new PCenterIndexedDistancesParam(bParam.filePath, cplex);
+		paramPCSCInt.tilim = bParam.timeMaxInSeconds;
 		paramPCSCInt.filterDominatedClientsAndFactories = true;
 		//				paramPCSCInt.computeBoundsSeveralTimes = false;
 
@@ -936,164 +998,261 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 		//				paramPCSCRelax.computeBou ndsSeveralTimes = false;
 
 		/* Resolution */
+		List<List<PCResult>> returnedResults = new ArrayList<>();
 		List<PCResult> resultsOpt = new ArrayList<>();
 		List<PCResult> resultsRelax = new ArrayList<>();
+		returnedResults.add(resultsOpt);
+		returnedResults.add(resultsRelax);
+		
 
-		/* PCSCO */
-		if(bParam.doPCSCO)
+
+		paramPCSCRelax.useLB0 = true;
+		paramPCSCRelax.useLB1 = true;
+		paramPCSCRelax.useUB0 = true;
+		paramPCSCRelax.useUB1 = true;
+		paramPCSCRelax.computeBoundsSeveralTimes = true;
+
+		paramPCSCInt.useLB0 = true;
+		paramPCSCInt.useLB1 = true;
+		paramPCSCInt.useUB0 = true;
+		paramPCSCInt.useUB1 = true;
+		paramPCSCInt.computeBoundsSeveralTimes = true;
+
+		/* Relaxations */
+
+		if(bParam.doPCRadRelax) {
+			ComputeResults.logSSLn("--- PCRr: ");
+			resultsRelax.add(solve(new PCRadiusIndex(paramPCSCRelax)));
+			ComputeResults.log("\t" + nf.format(resultsRelax.get(resultsRelax.size() - 1).radius));
+		}
+
+		if(bParam.doPCRelax) {
+			ComputeResults.logSSLn("--- PCr: "); 
+			resultsRelax.add(solve(new PC(paramPCSCRelax)));
+			ComputeResults.log("\t" + nf.format(resultsRelax.get(resultsRelax.size() - 1).radius));
+		}
+
+		if(bParam.doPCSCRelax) {
+			ComputeResults.logSSLn("--- PCSCr: ");
+			resultsRelax.add(solve(new PCSC(paramPCSCRelax)));
+			ComputeResults.log("\t" + nf.format(resultsRelax.get(resultsRelax.size() - 1).radius));
+		}
+
+		if(bParam.doPCSCORelax) {
+			ComputeResults.logSSLn("--- PCSCOr: ");
+			resultsRelax.add(solve(new PCSCOrdered(paramPCSCRelax)));
+			ComputeResults.log("\t" + nf.format(resultsRelax.get(resultsRelax.size() - 1).radius));
+		}
+
+		if(bParam.doPCORRelax) {
+			ComputeResults.logSSLn("--- PCORr: ");
+			resultsRelax.add(solve(new PCOR(paramPCSCRelax)));
+			ComputeResults.log("\t" + nf.format(resultsRelax.get(resultsRelax.size() - 1).radius));
+		}
+
+		if(bParam.doPCRadURelax) {
+			ComputeResults.logSSLn("--- PCRUr: ");
+			resultsRelax.add(solve(new PCRadiusCalik(paramPCSCRelax)));
+			ComputeResults.log("\t" + nf.format(resultsRelax.get(resultsRelax.size() - 1).radius));
+		}
+		
+		/* Optimal resolutions */
+		if(bParam.doPC) {
+			ComputeResults.logSSLn("--- PC:   ");
+			resultsOpt.add(PCenter.solve(new PC(paramPCSCInt)));
+			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
+
+		if(bParam.doPCSC) {
+			ComputeResults.logSSLn("--- PCSC: ");
+			resultsOpt.add(PCenter.solve(new PCSC(paramPCSCInt)));
+			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
+
+		if(bParam.doPCSCOM) {
+			ComputeResults.logSSLn("--- PCSCO-M");
+			PCDistanceOrdered.solveMultichotomie(new PCSCOCreator(), paramPCSCInt, 5);
+//			resultsOpt.add(PCenter.solve(new PCSCOrdered(paramPCSCInt)));
+//			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
+
+		if(bParam.doPCSCO) {
+			ComputeResults.logSSLn("--- PCSCO");
 			resultsOpt.add(PCenter.solve(new PCSCOrdered(paramPCSCInt)));
+			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
 
-		//						resultsRelax.add(solve(new PCSCOrdered(paramPCSCRelax)));
+		if(bParam.doPCRad) {
+			ComputeResults.logSSLn("--- PCR:   ");
+			resultsOpt.add(PCenter.solve(new PCRadiusIndex(paramPCSCInt)));
+			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
 
-		/* PCRad */
+		if(bParam.doPCOR) {
+			ComputeResults.logSSLn("--- PCOR:   ");
+			resultsOpt.add(PCenter.solve(new PCOR(paramPCSCInt)));
+			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
+
+		if(bParam.doPCRadU) {
+			ComputeResults.logSSLn("--- PCRU:   ");
+			resultsOpt.add(PCenter.solve(new PCRadiusCalik(paramPCSCInt)));
+			ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+		}
+
 		if(bParam.doPCRadLBInt)
 			try {
+				ComputeResults.logSSLn("--- PCRIt");
 				resultsOpt.add(PCRadiusIndex.solveLBStarFirst(paramPCSCInt));
+				ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
 
-		//		//		resultsRelax.add(solve(new PCRadiusIndex(paramPCSCRelax)));
 
-		if(bParam.doPCRad)
-			resultsOpt.add(PCenter.solve(new PCRadiusIndex(paramPCSCInt)));
-
-
-
-		//		/* PCSC */
-		//		resultsRelax.add(solve(new PCSC(paramPCSCRelax)));
-		//						resultsOpt.add(PCenter.solve(new PCSC(paramPCSCInt)));
-
-
-		//		/* With iterative relaxations */
+				/* With iterative relaxations */
 		//		//		paramPCSCInt.useLB0 = false;
 		//		//		paramPCSCInt.useLB1 = false;
 		//		//		paramPCSCInt.useBounds(false);
 
 		if(bParam.doPCSCIt)
 			try {
+				ComputeResults.logSSLn("--- PCSCIt");
 				resultsOpt.add(PCenter.solveIteratively(new PCSCCreator(), paramPCSCInt));
+				ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 		if(bParam.doPCSCOIt)
 			try {
+				ComputeResults.logSSLn("--- PCSCOIt");
 				resultsOpt.add(PCenter.solveIteratively(new PCSCOCreator(), paramPCSCInt));
+				ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 
 		if(bParam.doPCRadIt)
 			try {
+				ComputeResults.logSSLn("--- PCRadIt");
 				resultsOpt.add(PCenter.solveIteratively(new PCRadCreator(), paramPCSCInt));
+				ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
+		if(bParam.doPCRUIt)
+			try {
+				ComputeResults.logSSLn("--- PCRUIt");
+				resultsOpt.add(PCenter.solveIteratively(new PCRadCreator(), paramPCSCInt));
+				ComputeResults.log("\t" + nf.format(resultsOpt.get(resultsOpt.size() - 1).radius) + " " + nf.format(resultsOpt.get(resultsOpt.size() - 1).time) + "s");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		//		//		resultsOpt.add(PCenter.solveIteratively(new PCRadCreator(), new PCSCOCreator(), paramPCSCInt));
 
+		//		/* 1 - Display the relaxations */
+		//		if(resultsRelax.size() > 0) {
+		//			System.out.print("\n\tRelaxation ");
+		//
+		//			for(PCResult res: resultsRelax)
+		//				System.out.print(res.methodName + "/");
+		//			System.out.print(": ");
+		//
+		//			for(PCResult res: resultsRelax)
+		//				System.out.print(nf.format(res.radius) + "/");
+		//		}
+		//
+		//		/* 2 - Display the resolution times (and optionally the radiuses if there are differences) */
+		//		System.out.println("\n\tTime ");
+		//
+		//		//		Collections.sort(resultsOpt, new Comparator<PCResult>() {
+		//		//
+		//		//			@Override
+		//		//			public int compare(PCResult o1, PCResult o2) {
+		//		//				return (int)(1000 * (o1.time - o2.time));
+		//		//			}
+		//		//
+		//		//		});
+		//
+		//		for(PCResult res: resultsOpt)
+		//			System.out.println("\t\t" + res.methodName + ": " + nf.format(res.time) + "s");
+		//
+		//		String optRadiuses = "";
+		//		double optRadius = -Double.MAX_VALUE;
+		//
+		//		for(PCResult res: resultsOpt) {
+		//			//			System.out.print(nf.format(res.time) + "/");
+		//
+		//			optRadiuses += res.radius + "/";
+		//
+		//			/* If it is the first method */
+		//			if(optRadius == -Double.MAX_VALUE)
+		//				optRadius = res.radius;
+		//
+		//			/* If the results are not coherent with the previous methods */
+		//			else if(Math.abs(optRadius - res.radius) > 1E-4)
+		//				optRadius = Double.MAX_VALUE;
+		//
+		//		}
+		//
+		//
+		//		if(optRadius == Double.MAX_VALUE) {
+		//			System.out.println("\n!!! Different optimum solutions obtained: " + optRadiuses);
+		//			System.exit(0);
+		//		}
+		//		else		
+		//			System.out.println("\n\tOptimal radius: " + nf.format(optRadius) + "\n");
 
 
+		//		if(Math.abs(PCenter.LBStar - PCRadiusIndex.PCRad_LB) > 1E-4) {
+		//			System.out.println("LB* = " + PCenter.LBStar + ", PCRad LB = " + PCRadiusIndex.PCRad_LB);
+		//			System.exit(0);
+		//		}
 
-		/* 1 - Display the relaxations */
-		if(resultsRelax.size() > 0) {
-			System.out.print("\n\tRelaxation ");
-
-			for(PCResult res: resultsRelax)
-				System.out.print(res.methodName + "/");
-			System.out.print(": ");
-
-			for(PCResult res: resultsRelax)
-				System.out.print(nf.format(res.radius) + "/");
-		}
-
-		/* 2 - Display the resolution times (and optionally the radiuses if there are differences) */
-		System.out.println("\n\tTime ");
-
-		Collections.sort(resultsOpt, new Comparator<PCResult>() {
-
-			@Override
-			public int compare(PCResult o1, PCResult o2) {
-				return (int)(1000 * (o1.time - o2.time));
-			}
-
-		});
-
-		for(PCResult res: resultsOpt)
-			System.out.println("\t\t" + res.methodName + ": " + nf.format(res.time) + "s");
-
-		String optRadiuses = "";
-		double optRadius = -Double.MAX_VALUE;
-
-		for(PCResult res: resultsOpt) {
-			//			System.out.print(nf.format(res.time) + "/");
-
-			optRadiuses += res.radius + "/";
-
-			/* If it is the first method */
-			if(optRadius == -Double.MAX_VALUE)
-				optRadius = res.radius;
-
-			/* If the results are not coherent with the previous methods */
-			else if(Math.abs(optRadius - res.radius) > 1E-4)
-				optRadius = Double.MAX_VALUE;
-
-		}
-
-
-		if(optRadius == Double.MAX_VALUE) {
-			System.out.println("\n!!! Different optimum solutions obtained: " + optRadiuses);
-			System.exit(0);
-		}
-		else		
-			System.out.println("\n\tOptimal radius: " + nf.format(optRadius) + "\n");
-
-
+		return returnedResults;
 
 	}
 
+	public static double LBStar = 0;
 
+	public static RelaxationResult computeRelaxationUntilEqualToADk(PCenterCreator creator, PCenterIndexedDistancesParam param) throws Exception {
+		return computeRelaxationUntilEqualToADk(creator, param, null, -1);
+	}
 
-	public static PCResult solveIteratively(PCenterCreator creatorRelaxation, PCenterCreator creatorIntegerResolution, PCenterIndexedDistancesParam param) throws Exception {
-
-		param = new PCenterIndexedDistancesParam(param);
-		param.isInt = false;
-
-		NumberFormat nf = new DecimalFormat("#0.0");
-
-		double time = param.cplex.getCplexTime();
-
-		double timeCreation = 0;
-
+		public static RelaxationResult computeRelaxationUntilEqualToADk(PCenterCreator creator, PCenterIndexedDistancesParam param, double[][] currentD, int p) throws Exception {
+			
 		double lastRelaxation = Double.MAX_VALUE;
 		double previousRelaxation = -Double.MAX_VALUE;
 
-		double[][] currentD = null;
-		int p = -1;
+		param.isInt = false;
+		
+		double initialTime = param.cplex.getCplexTime();
 
-		System.out.print("\tRelax " + creatorRelaxation.getMethodName() + ": ");
+		//		System.out.print("\tRelax " + creatorRelaxation.getMethodName() + ": ");
 		while(Math.abs(lastRelaxation - previousRelaxation) > 1E-4) {
 
-			timeCreation -= param.cplex.getCplexTime();
 			PCenter<?> relax;
-			if(currentD == null)
-				relax = creatorRelaxation.createFormulationObject(param);
+			if(currentD == null || p == -1)
+				relax = creator.createFormulationObject(param);
 			else
-				relax = creatorRelaxation.createFormulationObject(currentD, param, p);
+				relax = creator.createFormulationObject(currentD, param, p);
 
 			currentD = relax.d;
 			p = relax.p;
 
 			relax.createFormulation();
-			timeCreation += param.cplex.getCplexTime();
 			relax.getCplex().solve();
 			double radius = relax.getRadius();
 
-			System.out.print(nf.format(radius) + " ");
+			//			System.out.print(nf.format(radius) + " ");
 
 			previousRelaxation = lastRelaxation;
 			lastRelaxation = radius;
 
+			LBStar = radius;
+			
 			param.initialLB = (int)Math.ceil(radius);
 			param.initialUB = relax.ub;
 
@@ -1102,23 +1261,39 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 			// Does not improve the results
 			//			param.initialLB = relax.lowestDistanceGreaterThan(radius);
 
+			System.out.println("lb/ub: " + param.initialLB + "/" + param.initialUB);
 		}
+		
+		RelaxationResult res = new RelaxationResult(param.cplex.getCplexTime() - initialTime, p, currentD);
+		res.lb = param.initialLB;
+		return res;
+	}
 
-		System.out.println( "(" + nf.format(timeCreation) + "/" + nf.format((param.cplex.getCplexTime() - time)) + " s)");
 
+	public static PCResult solveIteratively(PCenterCreator creatorRelaxation, PCenterCreator creatorIntegerResolution, PCenterIndexedDistancesParam param) throws Exception {
 
+		NumberFormat nf = new DecimalFormat("#0.0");
 
+		double time = param.cplex.getCplexTime();
+
+		/* Step 1 - solve the relaxation until it is a Dk */
+		RelaxationResult relaxationRes = computeRelaxationUntilEqualToADk(creatorRelaxation, param);
+		
+		ComputeResults.logSSLn("\tFirst step: " + nf.format((relaxationRes.time)) + " s");
+
+		/* Step 2 - solve the remaining problem */
 		param.isInt = true;
 
-		timeCreation -= param.cplex.getCplexTime();
-		PCenter<?> pcsc = creatorIntegerResolution.createFormulationObject(currentD, param, p);
+		PCenter<?> pcsc = creatorIntegerResolution.createFormulationObject(relaxationRes.d, param, relaxationRes.p);
 		pcsc.createFormulation();
-		timeCreation += param.cplex.getCplexTime();
 
 		//		System.out.println("\tK: " + ((PCDistanceOrdered)pcsc).K);
 
 		pcsc.getCplex().solve();
 
+		ComputeResults.logSSLn("\tRelaxation: " + pcsc.getRelaxationRadius());
+
+		ComputeResults.logSSLn("\tdominated factories/clients: " + pcsc.numberOfDominatedFactories() + "/" + pcsc.numberOfDominatedClients()) ;
 
 		//		System.out.println("\n---\n" + pcsc.getMethodName());
 		//		pcsc.displaySolution();
@@ -1139,12 +1314,13 @@ public abstract class PCenter<CurrentParam extends PCenterParam> implements IFNo
 		return solveIteratively(creator, creator, param);	
 	}
 
-	//			public static void main(String[] args) {
-	//		
-	//				for(int n = 5 ; n < 6 ; n+= 10)
-	//					for(int p = 2 ; p < Math.min(10, n+1) ; p++)
-	//						for(int i = 0; i < 100; ++i)
-	//						PCenter.generateInstance("data/pcenters/random/pc_n"+n+"_p"+p+"_i_" + i + ".dat", i, p, n, n, 1000, true);
-	//		
-	//			}
+	//	public static void main(String[] args) {
+	//
+	//
+	//							for(int n = 10 ; n < 101 ; n+= 10)
+	//								for(int p = 2 ; p < Math.min(10, n+1) ; p++)
+	//									for(int i = 0; i < 10; ++i)
+	//									PCenter.generateInstance("data/pcenters/random/pc_n"+n+"_p"+p+"_i_" + i + ".dat", i, p, n, n, 1000, true);
+	//
+	//	}
 }

@@ -75,7 +75,7 @@ public class ResultOld implements Serializable{
 
 			if(ucc != null && ucc.sep != null){
 
-				ArrayList<AbstractSeparation> al_as = ucc.sep;				
+				ArrayList<AbstractSeparation<?>> al_as = ucc.sep;				
 				separationTime = ucc.time;
 				iterationNb = ucc.iterations;
 				firstRelaxation = ucc.root_relaxation;

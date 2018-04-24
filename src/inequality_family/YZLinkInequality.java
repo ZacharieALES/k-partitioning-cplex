@@ -36,6 +36,8 @@ public class YZLinkInequality extends AbstractInequality<PCSC>{
 			if(!formulation.isFactoryDominated(m) && d[i][m] < dk)
 				factories.add(m);
 		
+//		System.out.println("z" + k + " +  y " +  factories + " >= 1");
+		
 	}
 
 	public YZLinkInequality(PCSC formulation, int i2, int k2, List<Integer> factories2) {

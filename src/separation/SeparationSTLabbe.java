@@ -31,7 +31,6 @@ public class SeparationSTLabbe extends AbstractSeparation<IFEdgeV>{
 		rgen = new Random();
 		
 		/* Shuffle the n nodes */
-		
 		int[] nodes = new int[formulation.n()];
 		 
 		for (int i=0; i < nodes.length; i++) {

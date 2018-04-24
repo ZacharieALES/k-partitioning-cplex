@@ -20,7 +20,7 @@ public abstract class AbstractCutCallback extends UserCutCallback implements ICo
 	public IFormulation formulation = null;
 	public double root_relaxation = -1.0;
 	public int iterations = 0;
-	public ArrayList<AbstractSeparation> sep = new ArrayList<AbstractSeparation>();
+	public ArrayList<AbstractSeparation<?>> sep = new ArrayList<AbstractSeparation<?>>();
 
 	public double eps = 0.0000001;
 	private CallbackVariableGetter rvg;

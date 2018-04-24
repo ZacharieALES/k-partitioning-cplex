@@ -48,7 +48,7 @@ public class CP_Rep extends AbstractCuttingPlane<PartitionWithRepresentative>{
 	 * @param p
 	 * @param MAX_CUT
 	 * @param i
-	 * @param mod
+	 * @param mods
 	 * @param reordering
 	 * @param tilim -1 if there is no limit on the time ; a time in seconds otherwise
 	 * @throws IloException 
